@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 11/19/20 16:28:17 by Eclipse SUMO GUI Version 1.7.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="data/EVGrid.net.xml"/>
+        <route-files value="data/electricvehicles.rou.xml"/>
+    </input>
+
+    <output>
+        <emission-output value="emission-output.xml"/>
+        <battery-output value="data/battery.out.xml"/>
+        <battery-output.precision value="4"/>
+        <summary-output value="data/summary-overview.xml"/>
+        <tripinfo-output value="tripinfo.xml"/>
+    </output>
+
+    <processing>
+        <lateral-resolution value="1"/>
+    </processing>
+
+    <battery>
+        <device.battery.probability value="1"/>
+    </battery>
+
+    <traci_server>
+        <remote-port value="54391"/>
+    </traci_server>
+
+</configuration>
+-->
+
+<emission-export xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/emission_file.xsd">
+    <timestep time="0.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.03" noise="55.94" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="5.10" speed="0.00" angle="180.00" x="-4.80" y="244.90"/>
+    </timestep>
+    <timestep time="1.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.44" noise="57.96" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="5.52" speed="0.42" angle="180.00" x="-4.80" y="244.48"/>
+    </timestep>
+    <timestep time="2.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="2.34" noise="59.81" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="6.72" speed="1.20" angle="180.00" x="-4.80" y="243.28"/>
+    </timestep>
+    <timestep time="3.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="4.10" noise="59.87" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="8.64" speed="1.92" angle="180.00" x="-4.80" y="241.36"/>
+    </timestep>
+    <timestep time="4.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="5.58" noise="59.98" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="11.25" speed="2.60" angle="180.00" x="-4.80" y="238.75"/>
+    </timestep>
+    <timestep time="5.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="4.61" noise="59.04" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="14.27" speed="3.02" angle="180.00" x="-4.80" y="235.73"/>
+    </timestep>
+    <timestep time="6.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="8.69" noise="60.66" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="18.01" speed="3.74" angle="180.00" x="-4.80" y="231.99"/>
+    </timestep>
+    <timestep time="7.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="7.83" noise="60.09" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="22.27" speed="4.26" angle="180.00" x="-4.80" y="227.73"/>
+    </timestep>
+    <timestep time="8.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="10.26" noise="60.79" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="27.15" speed="4.88" angle="180.00" x="-4.80" y="222.85"/>
+    </timestep>
+    <timestep time="9.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="10.31" noise="60.76" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="32.57" speed="5.42" angle="180.00" x="-4.80" y="217.43"/>
+    </timestep>
+    <timestep time="10.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="16.08" noise="62.18" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="38.77" speed="6.20" angle="180.00" x="-4.80" y="211.23"/>
+    </timestep>
+    <timestep time="11.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="16.00" noise="62.13" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="45.65" speed="6.88" angle="180.00" x="-4.80" y="204.35"/>
+    </timestep>
+    <timestep time="12.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="15.47" noise="62.11" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="53.12" speed="7.46" angle="180.00" x="-4.80" y="196.88"/>
+    </timestep>
+    <timestep time="13.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="15.33" noise="62.21" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="61.11" speed="7.99" angle="180.00" x="-4.80" y="188.89"/>
+    </timestep>
+    <timestep time="14.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="21.63" noise="63.36" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="69.82" speed="8.71" angle="180.00" x="-4.80" y="180.18"/>
+    </timestep>
+    <timestep time="15.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="22.15" noise="63.59" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="79.21" speed="9.39" angle="180.00" x="-4.80" y="170.79"/>
+    </timestep>
+    <timestep time="16.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="24.04" noise="64.03" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="89.28" speed="10.07" angle="180.00" x="-4.80" y="160.72"/>
+    </timestep>
+    <timestep time="17.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="28.91" noise="64.82" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="100.11" speed="10.84" angle="180.00" x="-4.80" y="149.89"/>
+    </timestep>
+    <timestep time="18.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="18.14" noise="63.87" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="111.36" speed="11.25" angle="180.00" x="-4.80" y="138.64"/>
+    </timestep>
+    <timestep time="19.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="33.34" noise="65.64" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="123.41" speed="12.04" angle="180.00" x="-4.80" y="126.59"/>
+    </timestep>
+    <timestep time="20.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="20.76" noise="64.71" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="135.87" speed="12.46" angle="180.00" x="-4.80" y="114.13"/>
+    </timestep>
+    <timestep time="21.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="26.05" noise="65.38" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="148.86" speed="12.99" angle="180.00" x="-4.80" y="101.14"/>
+    </timestep>
+    <timestep time="22.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="31.38" noise="66.07" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="162.49" speed="13.62" angle="180.00" x="-4.80" y="87.51"/>
+    </timestep>
+    <timestep time="23.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="24.58" noise="65.80" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="176.55" speed="14.06" angle="180.00" x="-4.80" y="73.45"/>
+    </timestep>
+    <timestep time="24.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="24.37" noise="66.00" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="191.03" speed="14.48" angle="180.00" x="-4.80" y="58.97"/>
+    </timestep>
+    <timestep time="25.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="16.19" noise="65.64" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="205.72" speed="14.70" angle="180.00" x="-4.80" y="44.28"/>
+    </timestep>
+    <timestep time="26.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-5.24" noise="64.35" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="220.14" speed="14.42" angle="180.00" x="-4.80" y="29.86"/>
+    </timestep>
+    <timestep time="27.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="8.39" noise="65.09" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="234.61" speed="14.47" angle="180.00" x="-4.80" y="15.39"/>
+    </timestep>
+    <timestep time="28.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="13.69" noise="65.47" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE0_0" pos="249.25" speed="14.64" angle="180.00" x="-4.80" y="0.75"/>
+    </timestep>
+    <timestep time="29.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="3.71" noise="64.93" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE4_0" pos="13.73" speed="14.58" angle="180.00" x="-4.80" y="-13.73"/>
+    </timestep>
+    <timestep time="30.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="11.34" noise="65.38" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE4_0" pos="28.43" speed="14.69" angle="180.00" x="-4.80" y="-28.43"/>
+    </timestep>
+    <timestep time="31.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.76" noise="64.78" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE4_0" pos="43.00" speed="14.57" angle="180.00" x="-4.80" y="-43.00"/>
+    </timestep>
+    <timestep time="32.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-3.79" noise="64.37" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE4_0" pos="57.34" speed="14.33" angle="180.00" x="-4.80" y="-57.34"/>
+    </timestep>
+    <timestep time="33.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="10.01" noise="65.14" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE4_0" pos="71.76" speed="14.42" angle="180.00" x="-4.80" y="-71.76"/>
+    </timestep>
+    <timestep time="34.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="2.47" noise="64.71" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE4_0" pos="86.10" speed="14.34" angle="180.00" x="-4.80" y="-86.10"/>
+    </timestep>
+    <timestep time="35.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="16.30" noise="65.58" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE4_0" pos="100.67" speed="14.57" angle="180.00" x="-4.80" y="-100.67"/>
+    </timestep>
+    <timestep time="36.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="6.52" noise="65.06" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE4_0" pos="115.25" speed="14.58" angle="180.00" x="-4.80" y="-115.25"/>
+    </timestep>
+    <timestep time="37.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-3.92" noise="64.36" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE4_0" pos="129.59" speed="14.34" angle="180.00" x="-4.80" y="-129.59"/>
+    </timestep>
+    <timestep time="38.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="11.77" noise="65.26" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE4_0" pos="144.05" speed="14.46" angle="180.00" x="-4.80" y="-144.05"/>
+    </timestep>
+    <timestep time="39.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="11.34" noise="65.31" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE4_0" pos="158.63" speed="14.58" angle="180.00" x="-4.80" y="-158.63"/>
+    </timestep>
+    <timestep time="40.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-4.13" noise="64.35" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE4_0" pos="172.96" speed="14.33" angle="180.00" x="-4.80" y="-172.96"/>
+    </timestep>
+    <timestep time="41.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="9.16" noise="65.08" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE4_0" pos="187.36" speed="14.40" angle="180.00" x="-4.80" y="-187.36"/>
+    </timestep>
+    <timestep time="42.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="4.72" noise="64.84" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE4_0" pos="201.73" speed="14.37" angle="180.00" x="-4.80" y="-201.73"/>
+    </timestep>
+    <timestep time="43.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="10.30" noise="65.18" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE4_0" pos="216.19" speed="14.46" angle="180.00" x="-4.80" y="-216.19"/>
+    </timestep>
+    <timestep time="44.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="9.23" noise="65.17" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE4_0" pos="230.72" speed="14.53" angle="180.00" x="-4.80" y="-230.72"/>
+    </timestep>
+    <timestep time="45.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-83.77" noise="59.65" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE4_0" pos="242.61" speed="11.88" angle="180.00" x="-4.80" y="-242.61"/>
+    </timestep>
+    <timestep time="46.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-106.37" noise="53.21" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE4_0" pos="249.99" speed="7.38" angle="180.00" x="-4.80" y="-249.99"/>
+    </timestep>
+    <timestep time="47.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-10.54" noise="55.62" route="circuit" type="electricvehicle" waiting="0.00" lane=":p8_0_0" pos="6.31" speed="6.32" angle="135.94" x="-1.42" y="-254.60"/>
+    </timestep>
+    <timestep time="48.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="8.42" noise="58.88" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_0" pos="4.81" speed="6.25" angle="84.92" x="4.81" y="-253.80"/>
+    </timestep>
+    <timestep time="49.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="18.30" noise="62.60" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_1" pos="11.84" speed="7.02" angle="85.25" x="11.84" y="-252.80"/>
+    </timestep>
+    <timestep time="50.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="18.11" noise="62.62" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_1" pos="19.54" speed="7.71" angle="85.50" x="19.54" y="-251.80"/>
+    </timestep>
+    <timestep time="51.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="22.26" noise="63.42" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_1" pos="28.02" speed="8.48" angle="89.15" x="28.02" y="-251.60"/>
+    </timestep>
+    <timestep time="52.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="22.89" noise="63.65" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_1" pos="37.22" speed="9.20" angle="90.00" x="37.22" y="-251.60"/>
+    </timestep>
+    <timestep time="53.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="24.31" noise="64.01" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_1" pos="47.12" speed="9.90" angle="90.00" x="47.12" y="-251.60"/>
+    </timestep>
+    <timestep time="54.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="26.64" noise="64.50" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_1" pos="57.74" speed="10.62" angle="93.66" x="57.74" y="-252.60"/>
+    </timestep>
+    <timestep time="55.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="22.98" noise="64.31" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_0" pos="68.92" speed="11.18" angle="93.54" x="68.92" y="-253.60"/>
+    </timestep>
+    <timestep time="56.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="22.13" noise="64.45" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_0" pos="80.60" speed="11.68" angle="93.43" x="80.60" y="-254.60"/>
+    </timestep>
+    <timestep time="57.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="22.25" noise="64.68" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_0" pos="92.76" speed="12.16" angle="90.67" x="92.76" y="-254.80"/>
+    </timestep>
+    <timestep time="58.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="35.26" noise="66.11" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_0" pos="105.69" speed="12.93" angle="90.00" x="105.69" y="-254.80"/>
+    </timestep>
+    <timestep time="59.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="25.62" noise="65.56" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_0" pos="119.12" speed="13.43" angle="90.00" x="119.12" y="-254.80"/>
+    </timestep>
+    <timestep time="60.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="30.28" noise="66.16" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_0" pos="133.13" speed="14.01" angle="90.00" x="133.13" y="-254.80"/>
+    </timestep>
+    <timestep time="61.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="27.66" noise="66.22" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_0" pos="147.63" speed="14.50" angle="90.00" x="147.63" y="-254.80"/>
+    </timestep>
+    <timestep time="62.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="15.61" noise="65.62" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_0" pos="162.33" speed="14.71" angle="90.00" x="162.33" y="-254.80"/>
+    </timestep>
+    <timestep time="63.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="3.71" noise="64.97" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_0" pos="176.98" speed="14.65" angle="90.00" x="176.98" y="-254.80"/>
+    </timestep>
+    <timestep time="64.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-1.91" noise="64.56" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_0" pos="191.44" speed="14.46" angle="90.00" x="191.44" y="-254.80"/>
+    </timestep>
+    <timestep time="65.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="12.02" noise="65.35" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_0" pos="206.04" speed="14.59" angle="90.00" x="206.04" y="-254.80"/>
+    </timestep>
+    <timestep time="66.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.25" noise="64.68" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_0" pos="220.50" speed="14.46" angle="90.00" x="220.50" y="-254.80"/>
+    </timestep>
+    <timestep time="67.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="7.64" noise="65.07" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_0" pos="234.99" speed="14.50" angle="90.00" x="234.99" y="-254.80"/>
+    </timestep>
+    <timestep time="68.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="2.22" noise="64.74" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE5_0" pos="249.40" speed="14.41" angle="90.00" x="249.40" y="-254.80"/>
+    </timestep>
+    <timestep time="69.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="12.57" noise="65.36" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE6_0" pos="13.85" speed="14.55" angle="90.00" x="263.85" y="-254.80"/>
+    </timestep>
+    <timestep time="70.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="2.55" noise="64.80" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE6_0" pos="28.33" speed="14.47" angle="90.00" x="278.33" y="-254.80"/>
+    </timestep>
+    <timestep time="71.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="8.65" noise="65.14" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE6_0" pos="42.86" speed="14.53" angle="90.00" x="292.86" y="-254.80"/>
+    </timestep>
+    <timestep time="72.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="2.69" noise="64.79" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE6_0" pos="57.31" speed="14.45" angle="90.00" x="307.31" y="-254.80"/>
+    </timestep>
+    <timestep time="73.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="8.44" noise="65.11" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE6_0" pos="71.82" speed="14.51" angle="90.00" x="321.82" y="-254.80"/>
+    </timestep>
+    <timestep time="74.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="10.16" noise="65.26" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE6_0" pos="86.41" speed="14.59" angle="90.00" x="336.41" y="-254.80"/>
+    </timestep>
+    <timestep time="75.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="9.93" noise="65.30" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE6_0" pos="101.09" speed="14.68" angle="90.00" x="351.09" y="-254.80"/>
+    </timestep>
+    <timestep time="76.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-4.76" noise="64.37" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE6_0" pos="115.50" speed="14.41" angle="90.00" x="365.50" y="-254.80"/>
+    </timestep>
+    <timestep time="77.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="20.09" noise="65.87" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE6_0" pos="130.21" speed="14.72" angle="90.00" x="380.21" y="-254.80"/>
+    </timestep>
+    <timestep time="78.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.96" noise="64.81" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE6_0" pos="144.82" speed="14.60" angle="90.00" x="394.82" y="-254.80"/>
+    </timestep>
+    <timestep time="79.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-4.63" noise="64.33" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE6_0" pos="159.16" speed="14.34" angle="90.00" x="409.16" y="-254.80"/>
+    </timestep>
+    <timestep time="80.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="12.96" noise="65.34" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE6_0" pos="173.65" speed="14.49" angle="90.00" x="423.65" y="-254.80"/>
+    </timestep>
+    <timestep time="81.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="12.04" noise="65.37" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE6_0" pos="188.27" speed="14.62" angle="90.00" x="438.27" y="-254.80"/>
+    </timestep>
+    <timestep time="82.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="9.19" noise="65.27" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE6_0" pos="202.96" speed="14.69" angle="90.00" x="452.96" y="-254.80"/>
+    </timestep>
+    <timestep time="83.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="1.98" noise="64.86" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE6_0" pos="217.55" speed="14.59" angle="90.00" x="467.55" y="-254.80"/>
+    </timestep>
+    <timestep time="84.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="6.98" noise="65.11" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE6_0" pos="232.17" speed="14.61" angle="90.00" x="482.17" y="-254.80"/>
+    </timestep>
+    <timestep time="85.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-113.10" noise="58.36" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE6_0" pos="243.14" speed="10.97" angle="90.00" x="493.14" y="-254.80"/>
+    </timestep>
+    <timestep time="86.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-93.58" noise="51.96" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE6_0" pos="249.78" speed="6.64" angle="90.00" x="499.78" y="-254.80"/>
+    </timestep>
+    <timestep time="87.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-2.75" noise="56.91" route="circuit" type="electricvehicle" waiting="0.00" lane=":p6_0_0" pos="5.84" speed="6.06" angle="52.90" x="504.53" y="-251.88"/>
+    </timestep>
+    <timestep time="88.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="10.76" noise="59.09" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_0" pos="4.17" speed="6.08" angle="354.84" x="503.80" y="-245.83"/>
+    </timestep>
+    <timestep time="89.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="13.06" noise="61.45" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_1" pos="10.79" speed="6.62" angle="355.08" x="502.80" y="-239.21"/>
+    </timestep>
+    <timestep time="90.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="15.54" noise="62.08" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_1" pos="18.02" speed="7.23" angle="355.33" x="501.80" y="-231.98"/>
+    </timestep>
+    <timestep time="91.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="12.76" noise="61.69" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_1" pos="25.70" speed="7.67" angle="359.10" x="501.60" y="-224.30"/>
+    </timestep>
+    <timestep time="92.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="21.49" noise="63.29" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_1" pos="34.12" speed="8.42" angle="3.41" x="502.40" y="-215.88"/>
+    </timestep>
+    <timestep time="93.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="19.79" noise="63.17" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_0" pos="43.15" speed="9.04" angle="4.07" x="503.40" y="-206.85"/>
+    </timestep>
+    <timestep time="94.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="25.68" noise="64.16" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_0" pos="52.95" speed="9.80" angle="3.87" x="504.40" y="-197.05"/>
+    </timestep>
+    <timestep time="95.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="22.57" noise="63.97" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_0" pos="63.35" speed="10.40" angle="1.49" x="504.80" y="-186.65"/>
+    </timestep>
+    <timestep time="96.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="29.07" noise="64.93" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_0" pos="74.50" speed="11.15" angle="0.00" x="504.80" y="-175.50"/>
+    </timestep>
+    <timestep time="97.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="19.73" noise="64.19" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_0" pos="86.09" speed="11.59" angle="0.00" x="504.80" y="-163.91"/>
+    </timestep>
+    <timestep time="98.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="20.50" noise="64.47" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_0" pos="98.11" speed="12.02" angle="0.00" x="504.80" y="-151.89"/>
+    </timestep>
+    <timestep time="99.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="22.34" noise="64.84" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_0" pos="110.60" speed="12.48" angle="0.00" x="504.80" y="-139.40"/>
+    </timestep>
+    <timestep time="100.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="35.48" noise="66.24" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_0" pos="123.84" speed="13.24" angle="0.00" x="504.80" y="-126.16"/>
+    </timestep>
+    <timestep time="101.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="29.26" noise="66.00" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_0" pos="137.65" speed="13.81" angle="0.00" x="504.80" y="-112.35"/>
+    </timestep>
+    <timestep time="102.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="41.23" noise="67.19" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_0" pos="152.25" speed="14.61" angle="0.00" x="504.80" y="-97.75"/>
+    </timestep>
+    <timestep time="103.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="5.77" noise="65.04" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_0" pos="166.85" speed="14.60" angle="0.00" x="504.80" y="-83.15"/>
+    </timestep>
+    <timestep time="104.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-1.72" noise="64.54" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_0" pos="181.26" speed="14.41" angle="0.00" x="504.80" y="-68.74"/>
+    </timestep>
+    <timestep time="105.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="6.37" noise="64.95" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_0" pos="195.69" speed="14.42" angle="0.00" x="504.80" y="-54.31"/>
+    </timestep>
+    <timestep time="106.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="7.30" noise="65.02" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_0" pos="210.13" speed="14.45" angle="0.00" x="504.80" y="-39.87"/>
+    </timestep>
+    <timestep time="107.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="13.76" noise="65.46" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_0" pos="224.75" speed="14.62" angle="0.00" x="504.80" y="-25.25"/>
+    </timestep>
+    <timestep time="108.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-5.02" noise="64.31" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE7_0" pos="239.09" speed="14.34" angle="0.00" x="504.80" y="-10.91"/>
+    </timestep>
+    <timestep time="109.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="13.26" noise="65.37" route="circuit" type="electricvehicle" waiting="0.00" lane=":p5_0_1" pos="7.60" speed="14.50" angle="0.00" x="504.80" y="3.35"/>
+    </timestep>
+    <timestep time="110.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="14.85" noise="65.57" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE8_1" pos="14.02" speed="14.69" angle="0.00" x="504.80" y="18.02"/>
+    </timestep>
+    <timestep time="111.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-4.91" noise="64.37" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE8_1" pos="28.45" speed="14.42" angle="0.00" x="504.80" y="32.45"/>
+    </timestep>
+    <timestep time="112.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="6.20" noise="64.95" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE8_1" pos="42.88" speed="14.43" angle="0.00" x="504.80" y="46.88"/>
+    </timestep>
+    <timestep time="113.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="7.33" noise="65.02" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE8_1" pos="57.33" speed="14.46" angle="0.00" x="504.80" y="61.33"/>
+    </timestep>
+    <timestep time="114.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="6.66" noise="65.00" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE8_1" pos="71.80" speed="14.47" angle="0.00" x="504.80" y="75.80"/>
+    </timestep>
+    <timestep time="115.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="9.01" noise="65.16" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE8_1" pos="86.33" speed="14.53" angle="0.00" x="504.80" y="90.33"/>
+    </timestep>
+    <timestep time="116.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="6.34" noise="65.03" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE8_1" pos="100.87" speed="14.54" angle="0.00" x="504.80" y="104.87"/>
+    </timestep>
+    <timestep time="117.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="2.71" noise="64.80" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE8_1" pos="115.33" speed="14.46" angle="0.00" x="504.80" y="119.33"/>
+    </timestep>
+    <timestep time="118.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.26" noise="64.59" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE8_1" pos="129.66" speed="14.33" angle="0.00" x="504.80" y="133.66"/>
+    </timestep>
+    <timestep time="119.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="20.22" noise="65.84" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE8_1" pos="144.30" speed="14.64" angle="0.00" x="504.80" y="148.30"/>
+    </timestep>
+    <timestep time="120.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="7.39" noise="65.17" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE8_1" pos="158.97" speed="14.67" angle="0.00" x="504.80" y="162.97"/>
+    </timestep>
+    <timestep time="121.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-7.16" noise="64.19" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE8_1" pos="173.31" speed="14.34" angle="0.00" x="504.80" y="177.31"/>
+    </timestep>
+    <timestep time="122.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="15.24" noise="65.50" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE8_1" pos="187.85" speed="14.54" angle="0.00" x="504.80" y="191.85"/>
+    </timestep>
+    <timestep time="123.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="7.93" noise="65.14" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE8_1" pos="202.43" speed="14.58" angle="0.00" x="504.80" y="206.43"/>
+    </timestep>
+    <timestep time="124.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="1.42" noise="64.75" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE8_1" pos="216.91" speed="14.48" angle="0.00" x="504.80" y="220.91"/>
+    </timestep>
+    <timestep time="125.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="1.39" noise="64.67" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE8_1" pos="231.28" speed="14.37" angle="0.00" x="504.80" y="235.28"/>
+    </timestep>
+    <timestep time="126.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-111.75" noise="58.04" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE8_1" pos="241.99" speed="10.70" angle="0.00" x="504.80" y="245.99"/>
+    </timestep>
+    <timestep time="127.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-52.20" noise="55.20" route="circuit" type="electricvehicle" waiting="0.00" lane=":p4_0_0" pos="8.13" speed="8.14" angle="326.77" x="501.71" y="253.13"/>
+    </timestep>
+    <timestep time="128.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="18.59" noise="61.09" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_0" pos="2.24" speed="8.30" angle="265.70" x="493.76" y="253.80"/>
+    </timestep>
+    <timestep time="129.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="16.40" noise="62.46" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_1" pos="11.01" speed="8.77" angle="265.85" x="484.99" y="252.80"/>
+    </timestep>
+    <timestep time="130.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="22.22" noise="63.61" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_1" pos="20.45" speed="9.44" angle="266.04" x="475.55" y="251.80"/>
+    </timestep>
+    <timestep time="131.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="26.45" noise="64.35" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_1" pos="30.64" speed="10.19" angle="269.25" x="465.36" y="251.60"/>
+    </timestep>
+    <timestep time="132.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="25.77" noise="64.48" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_1" pos="41.49" speed="10.86" angle="272.89" x="454.51" y="252.40"/>
+    </timestep>
+    <timestep time="133.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="18.92" noise="63.97" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_0" pos="52.78" speed="11.29" angle="273.51" x="443.22" y="253.40"/>
+    </timestep>
+    <timestep time="134.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="28.68" noise="65.17" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_0" pos="64.74" speed="11.96" angle="273.37" x="431.26" y="254.40"/>
+    </timestep>
+    <timestep time="135.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="33.74" noise="65.90" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_0" pos="77.45" speed="12.71" angle="271.29" x="418.55" y="254.80"/>
+    </timestep>
+    <timestep time="136.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="29.74" noise="65.81" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_0" pos="90.77" speed="13.32" angle="270.00" x="405.23" y="254.80"/>
+    </timestep>
+    <timestep time="137.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="28.03" noise="65.93" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_0" pos="104.63" speed="13.85" angle="270.00" x="391.37" y="254.80"/>
+    </timestep>
+    <timestep time="138.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="25.25" noise="65.96" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_0" pos="118.92" speed="14.30" angle="270.00" x="377.08" y="254.80"/>
+    </timestep>
+    <timestep time="139.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="16.89" noise="65.59" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_0" pos="133.46" speed="14.54" angle="270.00" x="362.54" y="254.80"/>
+    </timestep>
+    <timestep time="140.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="9.47" noise="65.23" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_0" pos="148.07" speed="14.61" angle="270.00" x="347.93" y="254.80"/>
+    </timestep>
+    <timestep time="141.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.39" noise="64.70" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_0" pos="162.55" speed="14.48" angle="270.00" x="333.45" y="254.80"/>
+    </timestep>
+    <timestep time="142.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="12.01" noise="65.37" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_0" pos="177.16" speed="14.61" angle="270.00" x="318.84" y="254.80"/>
+    </timestep>
+    <timestep time="143.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="0.53" noise="64.71" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_0" pos="191.65" speed="14.49" angle="270.00" x="304.35" y="254.80"/>
+    </timestep>
+    <timestep time="144.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="15.55" noise="65.61" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_0" pos="206.34" speed="14.69" angle="270.00" x="289.66" y="254.80"/>
+    </timestep>
+    <timestep time="145.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="1.73" noise="64.84" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_0" pos="220.94" speed="14.60" angle="270.00" x="275.06" y="254.80"/>
+    </timestep>
+    <timestep time="146.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="7.41" noise="65.14" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE9_0" pos="235.56" speed="14.62" angle="270.00" x="260.44" y="254.80"/>
+    </timestep>
+    <timestep time="147.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="7.05" noise="65.13" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE10_0" pos="4.10" speed="14.64" angle="270.00" x="245.90" y="254.80"/>
+    </timestep>
+    <timestep time="148.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-6.03" noise="64.25" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE10_0" pos="18.44" speed="14.34" angle="270.00" x="231.56" y="254.80"/>
+    </timestep>
+    <timestep time="149.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="8.10" noise="65.02" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE10_0" pos="32.83" speed="14.39" angle="270.00" x="217.17" y="254.80"/>
+    </timestep>
+    <timestep time="150.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="5.38" noise="64.87" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE10_0" pos="47.20" speed="14.37" angle="270.00" x="202.80" y="254.80"/>
+    </timestep>
+    <timestep time="151.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="21.35" noise="65.94" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE10_0" pos="61.91" speed="14.71" angle="270.00" x="188.09" y="254.80"/>
+    </timestep>
+    <timestep time="152.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-0.57" noise="64.70" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE10_0" pos="76.46" speed="14.56" angle="270.00" x="173.54" y="254.80"/>
+    </timestep>
+    <timestep time="153.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="11.20" noise="65.36" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE10_0" pos="91.13" speed="14.67" angle="270.00" x="158.87" y="254.80"/>
+    </timestep>
+    <timestep time="154.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="7.27" noise="65.17" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE10_0" pos="105.82" speed="14.69" angle="270.00" x="144.18" y="254.80"/>
+    </timestep>
+    <timestep time="155.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="5.38" noise="65.07" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE10_0" pos="120.49" speed="14.67" angle="270.00" x="129.51" y="254.80"/>
+    </timestep>
+    <timestep time="156.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-5.44" noise="64.32" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE10_0" pos="134.88" speed="14.39" angle="270.00" x="115.12" y="254.80"/>
+    </timestep>
+    <timestep time="157.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="13.78" noise="65.43" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE10_0" pos="149.43" speed="14.56" angle="270.00" x="100.57" y="254.80"/>
+    </timestep>
+    <timestep time="158.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="7.74" noise="65.13" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE10_0" pos="164.02" speed="14.59" angle="270.00" x="85.98" y="254.80"/>
+    </timestep>
+    <timestep time="159.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="11.70" noise="65.41" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE10_0" pos="178.73" speed="14.71" angle="270.00" x="71.27" y="254.80"/>
+    </timestep>
+    <timestep time="160.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-3.96" noise="64.46" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE10_0" pos="193.20" speed="14.47" angle="270.00" x="56.80" y="254.80"/>
+    </timestep>
+    <timestep time="161.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="13.16" noise="65.43" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE10_0" pos="207.82" speed="14.62" angle="270.00" x="42.18" y="254.80"/>
+    </timestep>
+    <timestep time="162.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="3.50" noise="64.91" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE10_0" pos="222.39" speed="14.56" angle="270.00" x="27.61" y="254.80"/>
+    </timestep>
+    <timestep time="163.00">
+        <vehicle id="EV1" eclass="Energy/default" CO2="0.00" CO="0.00" HC="0.00" NOx="0.00" PMx="0.00" fuel="0.00" electricity="-2.31" noise="64.47" route="circuit" type="electricvehicle" waiting="0.00" lane="gneE10_0" pos="236.75" speed="14.36" angle="270.00" x="13.25" y="254.80"/>
+    </timestep>
+    <timestep time="164.00"/>
+</emission-export>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 11/19/20 16:28:17 by Eclipse SUMO GUI Version 1.7.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="data/EVGrid.net.xml"/>
+        <route-files value="data/electricvehicles.rou.xml"/>
+    </input>
+
+    <output>
+        <emission-output value="emission-output.xml"/>
+        <battery-output value="data/battery.out.xml"/>
+        <battery-output.precision value="4"/>
+        <summary-output value="data/summary-overview.xml"/>
+        <tripinfo-output value="tripinfo.xml"/>
+    </output>
+
+    <processing>
+        <lateral-resolution value="1"/>
+    </processing>
+
+    <battery>
+        <device.battery.probability value="1"/>
+    </battery>
+
+    <traci_server>
+        <remote-port value="54391"/>
+    </traci_server>
+
+</configuration>
+-->
+
+<tripinfos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/tripinfo_file.xsd">
+    <tripinfo id="EV1" depart="0.00" departLane="gneE0_0" departPos="5.10" departPosLat="0.00" departSpeed="0.00" departDelay="0.00" arrival="164.00" arrivalLane="gneE10_0" arrivalPos="250.00" arrivalPosLat="0.00" arrivalSpeed="14.44" duration="164.00" routeLength="2017.14" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="25.43" rerouteNo="0" devices="tripinfo_EV1 emissions_EV1 battery_EV1" vType="electricvehicle" speedFactor="1.06" vaporized="">
+        <emissions CO_abs="0" CO2_abs="0" HC_abs="0" PMx_abs="0" NOx_abs="0" fuel_abs="0" electricity_abs="1348.548358"/>
+    </tripinfo>
+</tripinfos>
