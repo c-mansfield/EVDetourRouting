@@ -50,7 +50,7 @@ def get_options():
 # Generates optimal route for electric vehicle
 def get_optimal_route_ev():
     #Placeholder route for now
-    return ["gneE0", "gneE4", "gneE5", "gneE6", "gneE7", "gneE8", "gneE9", "gneE10"]
+    return ["gneE0", "gneE14", "gneE12", "gneE7"]
 
 # Adds vehicle type electric vehicle
 def add_ev_vtype():
