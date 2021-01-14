@@ -1,5 +1,5 @@
 <routes>
-            <vType id="electricvehicle" accel="0.8" decel="4.5" sigma="0.5" minGap="2.5" maxSpeed="40" guiShape="passenger" emissionClass="Energy/unknown">
+            <vType id="electricvehicle" accel="0.8" decel="4.5" sigma="0.5" minGap="2.5" maxSpeed="40" emissionClass="Energy/unknown" guiShape="evehicle">
                      <param key="has.battery.device" value="true"/>
                      <param key="maximumBatteryCapacity" value="200"/>
                      <param key="maximumPower" value="1000"/>

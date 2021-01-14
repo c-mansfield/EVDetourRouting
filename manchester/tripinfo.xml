@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 01/14/21 17:35:35 by Eclipse SUMO GUI Version 1.7.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="data/osm.net.xml"/>
+        <route-files value="data/osm.passenger.trips.xml,data/osm.bicycle.trips.xml,data/osm.truck.trips.xml,data/osm.motorcycle.trips.xml,data/osm.bus.trips.xml"/>
+        <additional-files value="data/osm.poly.xml"/>
+    </input>
+
+    <output>
+        <chargingstations-output value="data/Manchester_chargingstations.xml"/>
+        <tripinfo-output value="tripinfo.xml"/>
+    </output>
+
+    <processing>
+        <ignore-route-errors value="true"/>
+    </processing>
+
+    <routing>
+        <device.rerouting.adaptation-steps value="180"/>
+    </routing>
+
+    <report>
+        <verbose value="true"/>
+        <duration-log.statistics value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="51812"/>
+    </traci_server>
+
+    <gui_only>
+        <gui-settings-file value="data/osm.view.xml"/>
+    </gui_only>
+
+</configuration>
+-->
+
+<tripinfos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/tripinfo_file.xsd">
+    <tripinfo id="truck1" depart="2.00" departLane="-28039904#0_0" departPos="7.20" departSpeed="0.00" departDelay="0.57" arrival="70.00" arrivalLane="-28011532#3_0" arrivalPos="84.90" arrivalSpeed="19.73" duration="68.00" routeLength="919.91" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="19.00" rerouteNo="1" devices="tripinfo_truck1 routing_truck1" vType="truck_truck" speedFactor="0.92" vaporized=""/>
+    <tripinfo id="moto0" depart="0.00" departLane="-28039428_0" departPos="2.30" departSpeed="0.00" departDelay="0.00" arrival="82.00" arrivalLane="-28011515#4_0" arrivalPos="51.77" arrivalSpeed="10.34" duration="82.00" routeLength="983.24" waitingTime="8.00" waitingCount="1" stopTime="0.00" timeLoss="31.06" rerouteNo="1" devices="tripinfo_moto0 routing_moto0" vType="moto_motorcycle" speedFactor="1.05" vaporized=""/>
+</tripinfos>

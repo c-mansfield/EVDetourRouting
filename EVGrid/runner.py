@@ -45,5 +45,6 @@ if __name__ == "__main__":
     # this is the normal way of using traci. sumo is started as a
     # subprocess and then the python script connects and runs
     traci.start([sumoBinary, "-c", "data/EVGrid.sumocfg",
-                             "--tripinfo-output", "tripinfo.xml", "--emission-output", "emission-output.xml"])
+                             "--tripinfo-output", "tripinfo.xml", "--additional-files", "data/EVGrid_additionals.add.xml",
+                             "--chargingstations-output", "data/EVGrid_chargingstations.xml"])
     main.run(options)

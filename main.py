@@ -15,20 +15,23 @@ import traci  # noqa
 def run(options=None):
     """execute the TraCI control loop"""
     step = 0
-    route = get_optimal_route_ev()
 
-    traci.route.add('trip', route)
-    traci.vehicle.add('EV1', 'trip', typeID='electricvehicle')
-    traci.vehicle.setParameter('EV1', 'device.battery.actualBatteryCapacity', '200')
+    # traci.route.add('placeholder_trip', ["gneE53", "gneE46"])
+    # traci.vehicle.add('EV1', 'placeholder_trip', typeID='electricvehicle')
+    # traci.vehicle.setParameter('EV1', 'device.battery.actualBatteryCapacity', '200')
+    #
+    # route = get_optimal_route_ev('EV1')
+    # traci.route.add('trip', route)
+    # traci.vehicle.setRoute('EV1', 'trip')
 
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
 
         # Checks EV battery capacity
-        print(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))
-        if traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity') == "0.00":
-            print('Vehicle battery empty')
-            #break
+        # print(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))
+        # if traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity') == "0.00":
+        #     print('Vehicle battery empty')
+        #     #break
 
         step += 1
 
@@ -36,8 +39,7 @@ def run(options=None):
     sys.stdout.flush()
 
 
-
-# Adds additional info to end of
+# Get run parameters
 def get_options():
     optParser = optparse.OptionParser()
     optParser.add_option("--nogui", action="store_true",
@@ -48,9 +50,10 @@ def get_options():
     return options
 
 # Generates optimal route for electric vehicle
-def get_optimal_route_ev():
-    #Placeholder route for now
-    return ["gneE0", "gneE14", "gneE12", "gneE7"]
+def get_optimal_route_ev(vehicleID):
+    #Hardcoded route for now
+    # traci.vehicle.setStop(vehicleID, "chargingStation_gneE46_0_0")
+    return ["gneE53", "gneE46"]
 
 # Adds vehicle type electric vehicle
 def add_ev_vtype():
@@ -62,7 +65,7 @@ def add_ev_vtype():
     with open("data/electricvehicles.rou.xml", "w") as routes:
          sys.stdout = routes
          print("""<routes>
-            <vType id="electricvehicle" accel="0.8" decel="4.5" sigma="0.5" minGap="2.5" maxSpeed="40" guiShape="passenger" emissionClass="Energy/unknown">
+            <vType id="electricvehicle" accel="0.8" decel="4.5" sigma="0.5" minGap="2.5" maxSpeed="40" emissionClass="Energy/unknown" guiShape="evehicle">
                      <param key="has.battery.device" value="true"/>
                      <param key="maximumBatteryCapacity" value="200"/>
                      <param key="maximumPower" value="1000"/>

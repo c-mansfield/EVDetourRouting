@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 01/14/21 16:14:27 by Eclipse SUMO GUI Version 1.7.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="data/EVGrid.net.xml"/>
+        <route-files value="data/electricvehicles.rou.xml"/>
+        <additional-files value="data/EVGrid_additionals.add.xml"/>
+    </input>
+
+    <output>
+        <emission-output value="emission-output.xml"/>
+        <battery-output value="data/battery.out.xml"/>
+        <battery-output.precision value="4"/>
+        <chargingstations-output value="data/EVGrid_chargingstations.xml"/>
+        <summary-output value="data/summary-overview.xml"/>
+        <tripinfo-output value="tripinfo.xml"/>
+    </output>
+
+    <processing>
+        <lateral-resolution value="1"/>
+    </processing>
+
+    <battery>
+        <device.battery.probability value="1"/>
+    </battery>
+
+    <traci_server>
+        <remote-port value="51432"/>
+    </traci_server>
+
+    <gui_only>
+        <gui-settings-file value="data/gui-settings.cfg"/>
+    </gui_only>
+
+</configuration>
+-->
+
+<chargingstations-export>
+    <chargingStation id="chargingStation_gneE46_0_0" totalEnergyCharged="0.00" chargingSteps="0"/>
+    <chargingStation id="chargingStation_gneE46_0_1" totalEnergyCharged="0.00" chargingSteps="0"/>
+</chargingstations-export>
