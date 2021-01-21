@@ -21,8 +21,7 @@ def generate_trips():
     randomTrips.main(randomTrips.get_options([
         '-n', 'data/EVGrid.net.xml',
         '--route-file', 'data/electricvehicles.rou.xml',
-        '-t', 'data/electricvehicles.trip.xml',
-        '--prefix', 'EV',
+        '--prefix', 'V',
         '-e', '10',
         '-p', '1.93',
         '--flows', '100',
@@ -39,8 +38,8 @@ if __name__ == "__main__":
         sumoBinary = checkBinary('sumo-gui')
 
     # Generates electric vehicle route and random trips
+    generate_trips()
     main.add_ev_vtype()
-    #generate_trips()
 
     # this is the normal way of using traci. sumo is started as a
     # subprocess and then the python script connects and runs

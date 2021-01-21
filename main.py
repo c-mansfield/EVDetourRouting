@@ -16,28 +16,21 @@ def run(options=None):
     """execute the TraCI control loop"""
     step = 0
 
-    # traci.route.add('placeholder_trip', ["gneE53", "gneE46"])
-    # traci.vehicle.add('EV1', 'placeholder_trip', typeID='electricvehicle')
-    # traci.vehicle.setParameter('EV1', 'device.battery.actualBatteryCapacity', '200')
-    #
-    # route = get_optimal_route_ev('EV1')
-    # traci.route.add('trip', route)
-    # traci.vehicle.setRoute('EV1', 'trip')
+    add_ev()
 
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
 
         # Checks EV battery capacity
-        # print(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))
-        # if traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity') == "0.00":
-        #     print('Vehicle battery empty')
-        #     #break
+        print(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))
+        if traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity') == "0.00":
+            print('Vehicle battery empty')
+            #break
 
         step += 1
 
     traci.close()
     sys.stdout.flush()
-
 
 # Get run parameters
 def get_options():
@@ -49,23 +42,35 @@ def get_options():
     options, args = optParser.parse_args()
     return options
 
+# Adds electric vehicle wish to route
+def add_ev():
+    # Generate vehicle
+    traci.route.add('placeholder_trip', ['gneE53', 'gneE46'])
+    traci.vehicle.add('EV1', 'placeholder_trip', typeID='electricvehicle')
+    traci.vehicle.setParameter('EV1', 'device.battery.actualBatteryCapacity', '200')        # Set vehicles fuel at start
+
+    route = get_optimal_route_ev('EV1', 'gneE53', 'gneE46')
+
 # Generates optimal route for electric vehicle
-def get_optimal_route_ev(vehicleID):
+def get_optimal_route_ev(vehicleID, start, to):
     #Hardcoded route for now
-    # traci.vehicle.setStop(vehicleID, "chargingStation_gneE46_0_0")
-    return ["gneE53", "gneE46"]
+    traci.vehicle.setRoute(vehicleID, [start, to])
+    traci.vehicle.setChargingStationStop(vehicleID, "chargingStation_gneE46_0_0", duration=10)
 
 # Adds vehicle type electric vehicle
 def add_ev_vtype():
-    random.seed(42)  # make tests reproducible
-    # N = 3600  # nmber of time steps
-
     original_stdout = sys.stdout
 
+    # Get all lines in routing file apart from </route> so can append more to file
+    f = open("data/electricvehicles.rou.xml", "r")
+    lines = f.read()
+    lines = lines.replace("</routes>", "")
+
     with open("data/electricvehicles.rou.xml", "w") as routes:
-         sys.stdout = routes
-         print("""<routes>
-            <vType id="electricvehicle" accel="0.8" decel="4.5" sigma="0.5" minGap="2.5" maxSpeed="40" emissionClass="Energy/unknown" guiShape="evehicle">
+
+        sys.stdout = routes
+        print(lines)
+        print("""  <vType id="electricvehicle" accel="0.8" decel="4.5" sigma="0.5" minGap="2.5" maxSpeed="40" emissionClass="Energy/unknown" guiShape="evehicle">
                      <param key="has.battery.device" value="true"/>
                      <param key="maximumBatteryCapacity" value="200"/>
                      <param key="maximumPower" value="1000"/>
@@ -81,5 +86,5 @@ def add_ev_vtype():
                      <param key="stoppingTreshold" value="0.1"/>
              </vType>""")
          #print('     <vehicle id="EV1" type="electricvehicle" depart="0" route="circuit" ><param key="actualBatteryCapacity" value="5"/></vehicle>')
-         print("</routes>")
-         sys.stdout = original_stdout
+        print("</routes>")
+        sys.stdout = original_stdout

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 11/12/20 16:29:25 by Eclipse SUMO duarouter Version 1.7.0
+<!-- generated on 01/21/21 12:23:09 by Eclipse SUMO duarouter Version 1.7.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
 
     <input>
@@ -28,504 +28,504 @@
 -->
 
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
-    <vehicle id="EV0.0" depart="0.00">
+    <vehicle id="V0.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="110.50" probability="1.00000000" edges="gneE5 gneE6 gneE7 gneE8 gneE9 gneE10"/>
+            <route cost="109.36" probability="1.00000000" edges="gneE71 gneE62 gneE63 gneE64 gneE65 -gneE68"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV1.0" depart="0.00">
+    <vehicle id="V1.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="55.28" probability="1.00000000" edges="gneE4 gneE5 gneE6"/>
+            <route cost="111.21" probability="1.00000000" edges="gneE65 -gneE68 gneE49 gneE70 gneE63 gneE64"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV10.0" depart="0.00">
+    <vehicle id="V10.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="149.04" probability="1.00000000" edges="gneE4 gneE5 gneE6 gneE7 gneE8 gneE9 gneE10 gneE0"/>
+            <route cost="98.06" probability="1.00000000" edges="gneE47 gneE48 -gneE59 -gneE54 -gneE52"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV11.0" depart="0.00">
+    <vehicle id="V11.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="17.71" probability="1.00000000" edges="gneE7"/>
+            <route cost="134.48" probability="1.00000000" edges="-gneE62 -gneE71 -gneE57 gneE59 gneE68 gneE66 gneE67"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV12.0" depart="0.00">
+    <vehicle id="V12.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="55.21" probability="1.00000000" edges="gneE7 gneE8 gneE9"/>
+            <route cost="37.49" probability="1.00000000" edges="gneE69 -gneE64"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV13.0" depart="0.00">
+    <vehicle id="V13.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="73.28" probability="1.00000000" edges="gneE0 gneE4 gneE5 gneE6"/>
+            <route cost="78.74" probability="1.00000000" edges="-gneE60 gneE52 gneE53 gneE46 gneE78"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV14.0" depart="0.00">
+    <vehicle id="V14.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="54.99" probability="1.00000000" edges="gneE9 gneE10 gneE0"/>
+            <route cost="115.90" probability="1.00000000" edges="-gneE67 -gneE66 -gneE68 -gneE48 -gneE47 gneE78 gneE79"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV15.0" depart="0.00">
+    <vehicle id="V15.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="73.01" probability="1.00000000" edges="gneE5 gneE6 gneE7 gneE8"/>
+            <route cost="112.71" probability="1.00000000" edges="gneE70 gneE63 gneE64 -gneE69 gneE50 gneE71"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV16.0" depart="0.00">
+    <vehicle id="V16.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="36.98" probability="1.00000000" edges="gneE6 gneE7"/>
+            <route cost="97.17" probability="1.00000000" edges="gneE50 -gneE57 gneE59 gneE68 -gneE65"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV17.0" depart="0.00">
+    <vehicle id="V17.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="36.98" probability="1.00000000" edges="gneE6 gneE7"/>
+            <route cost="113.48" probability="1.00000000" edges="gneE66 gneE67 gneE48 gneE49 gneE50 -gneE57"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV18.0" depart="0.00">
+    <vehicle id="V18.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="111.46" probability="1.00000000" edges="gneE8 gneE9 gneE10 gneE0 gneE4 gneE5"/>
+            <route cost="118.96" probability="1.00000000" edges="gneE53 gneE46 gneE78 gneE79 gneE57 gneE51 gneE52"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV19.0" depart="0.00">
+    <vehicle id="V19.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="73.01" probability="1.00000000" edges="gneE5 gneE6 gneE7 gneE8"/>
+            <route cost="147.20" probability="1.00000000" edges="gneE63 gneE64 gneE65 -gneE68 -gneE59 -gneE54 -gneE52 -gneE51"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV2.0" depart="0.00">
+    <vehicle id="V2.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="72.99" probability="1.00000000" edges="gneE9 gneE10 gneE0 gneE4"/>
+            <route cost="127.56" probability="1.00000000" edges="gneE51 gneE60 gneE61 gneE62 gneE63 gneE64 -gneE69"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV20.0" depart="0.00">
+    <vehicle id="V20.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="73.28" probability="1.00000000" edges="gneE0 gneE4 gneE5 gneE6"/>
+            <route cost="112.15" probability="1.00000000" edges="gneE78 gneE79 gneE57 -gneE50 -gneE49 -gneE59 -gneE79"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV21.0" depart="0.00">
+    <vehicle id="V21.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="92.27" probability="1.00000000" edges="gneE0 gneE4 gneE5 gneE6 gneE7"/>
+            <route cost="36.37" probability="1.00000000" edges="gneE78 gneE79 gneE57"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV22.0" depart="0.00">
+    <vehicle id="V22.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="54.91" probability="1.00000000" edges="gneE8 gneE9 gneE10"/>
+            <route cost="61.81" probability="1.00000000" edges="-gneE78 gneE47 gneE48 gneE49"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV23.0" depart="0.00">
+    <vehicle id="V23.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="54.99" probability="1.00000000" edges="gneE5 gneE6 gneE7"/>
+            <route cost="110.24" probability="1.00000000" edges="gneE63 gneE64 gneE65 -gneE68 -gneE59 -gneE79"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV24.0" depart="0.00">
+    <vehicle id="V24.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="149.04" probability="1.00000000" edges="gneE4 gneE5 gneE6 gneE7 gneE8 gneE9 gneE10 gneE0"/>
+            <route cost="127.55" probability="1.00000000" edges="-gneE79 -gneE78 -gneE46 -gneE53 -gneE52 gneE60 gneE61 -gneE71"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV25.0" depart="0.00">
+    <vehicle id="V25.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="74.26" probability="1.00000000" edges="gneE4 gneE5 gneE6 gneE7"/>
+            <route cost="38.96" probability="1.00000000" edges="gneE46 gneE78 gneE79"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV26.0" depart="0.00">
+    <vehicle id="V26.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="36.91" probability="1.00000000" edges="gneE8 gneE9"/>
+            <route cost="95.13" probability="1.00000000" edges="gneE84 gneE85 gneE79 -gneE54 -gneE52 gneE60 gneE61"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV27.0" depart="0.00">
+    <vehicle id="V27.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="147.27" probability="1.00000000" edges="gneE9 gneE10 gneE0 gneE4 gneE5 gneE6 gneE7 gneE8"/>
+            <route cost="112.20" probability="1.00000000" edges="gneE57 -gneE50 -gneE49 -gneE48 -gneE67 -gneE66"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV28.0" depart="0.00">
+    <vehicle id="V28.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="55.00" probability="1.00000000" edges="gneE6 gneE7 gneE8"/>
+            <route cost="95.67" probability="1.00000000" edges="-gneE57 gneE59 gneE49 gneE70 -gneE62"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV29.0" depart="0.00">
+    <vehicle id="V29.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="18.00" probability="1.00000000" edges="gneE6"/>
+            <route cost="86.36" probability="1.00000000" edges="gneE59 -gneE48 -gneE47 gneE83 gneE84 gneE85 -gneE78 gneE47"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV3.0" depart="0.00">
+    <vehicle id="V3.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="111.76" probability="1.00000000" edges="gneE6 gneE7 gneE8 gneE9 gneE10 gneE0"/>
+            <route cost="7.78" probability="1.00000000" edges="-gneE78 gneE83 gneE84"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV30.0" depart="0.00">
+    <vehicle id="V30.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="129.25" probability="1.00000000" edges="gneE9 gneE10 gneE0 gneE4 gneE5 gneE6 gneE7"/>
+            <route cost="94.42" probability="1.00000000" edges="gneE69 gneE65 gneE66 gneE67 -gneE47 gneE83 gneE84"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV31.0" depart="0.00">
+    <vehicle id="V31.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="18.00" probability="1.00000000" edges="gneE4"/>
+            <route cost="89.86" probability="1.00000000" edges="gneE65 gneE66 gneE67 gneE48 gneE68"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV32.0" depart="0.00">
+    <vehicle id="V32.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="110.50" probability="1.00000000" edges="gneE7 gneE8 gneE9 gneE10 gneE0 gneE4"/>
+            <route cost="75.25" probability="1.00000000" edges="-gneE60 gneE52 gneE54 -gneE79 -gneE78"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV33.0" depart="0.00">
+    <vehicle id="V33.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="92.49" probability="1.00000000" edges="gneE6 gneE7 gneE8 gneE9 gneE10"/>
+            <route cost="113.35" probability="1.00000000" edges="-gneE52 -gneE51 -gneE50 gneE69 -gneE64 -gneE63"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV34.0" depart="0.00">
+    <vehicle id="V34.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="54.91" probability="1.00000000" edges="gneE8 gneE9 gneE10"/>
+            <route cost="93.51" probability="1.00000000" edges="-gneE64 -gneE63 -gneE62 -gneE71 -gneE57"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV35.0" depart="0.00">
+    <vehicle id="V35.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="111.54" probability="1.00000000" edges="gneE10 gneE0 gneE4 gneE5 gneE6 gneE7"/>
+            <route cost="110.20" probability="1.00000000" edges="gneE79 gneE59 gneE68 gneE66 gneE67 gneE48"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV36.0" depart="0.00">
+    <vehicle id="V36.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="35.73" probability="1.00000000" edges="gneE7 gneE8"/>
+            <route cost="76.20" probability="1.00000000" edges="gneE84 gneE85 gneE79 gneE57 -gneE50 gneE69"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV37.0" depart="0.00">
+    <vehicle id="V37.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="17.71" probability="1.00000000" edges="gneE7"/>
+            <route cost="74.98" probability="1.00000000" edges="gneE50 gneE51 gneE52 gneE53"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV38.0" depart="0.00">
+    <vehicle id="V38.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="18.00" probability="1.00000000" edges="gneE6"/>
+            <route cost="111.74" probability="1.00000000" edges="gneE48 gneE49 gneE69 gneE65 -gneE68 -gneE48"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV39.0" depart="0.00">
+    <vehicle id="V39.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="35.72" probability="1.00000000" edges="gneE9 gneE10"/>
+            <route cost="36.46" probability="1.00000000" edges="-gneE51 -gneE50"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV4.0" depart="0.00">
+    <vehicle id="V4.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="73.22" probability="1.00000000" edges="gneE7 gneE8 gneE9 gneE10"/>
+            <route cost="78.74" probability="1.00000000" edges="-gneE60 gneE52 gneE53 gneE46 gneE78"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV40.0" depart="0.00">
+    <vehicle id="V40.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="147.77" probability="1.00000000" edges="gneE5 gneE6 gneE7 gneE8 gneE9 gneE10 gneE0 gneE4"/>
+            <route cost="107.36" probability="1.00000000" edges="gneE66 gneE67 -gneE47 -gneE46 -gneE53 -gneE52"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV41.0" depart="0.00">
+    <vehicle id="V41.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="18.00" probability="1.00000000" edges="gneE4"/>
+            <route cost="127.35" probability="1.00000000" edges="gneE62 -gneE70 -gneE49 -gneE48 -gneE47 -gneE46 -gneE53"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV42.0" depart="0.00">
+    <vehicle id="V42.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="129.55" probability="1.00000000" edges="gneE10 gneE0 gneE4 gneE5 gneE6 gneE7 gneE8"/>
+            <route cost="77.56" probability="1.00000000" edges="gneE61 -gneE71 -gneE57 -gneE79 -gneE78 gneE83"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV43.0" depart="0.00">
+    <vehicle id="V43.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="54.99" probability="1.00000000" edges="gneE5 gneE6 gneE7"/>
+            <route cost="98.67" probability="1.00000000" edges="gneE68 -gneE65 -gneE69 gneE50 -gneE57"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV44.0" depart="0.00">
+    <vehicle id="V44.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="74.26" probability="1.00000000" edges="gneE4 gneE5 gneE6 gneE7"/>
+            <route cost="94.76" probability="1.00000000" edges="gneE85 gneE79 gneE59 gneE68 gneE66 gneE67"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV45.0" depart="0.00">
+    <vehicle id="V45.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="74.18" probability="1.00000000" edges="gneE8 gneE9 gneE10 gneE0"/>
+            <route cost="115.45" probability="1.00000000" edges="gneE50 -gneE57 gneE59 gneE68 -gneE65 -gneE64"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV46.0" depart="0.00">
+    <vehicle id="V46.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="35.72" probability="1.00000000" edges="gneE9 gneE10"/>
+            <route cost="53.60" probability="1.00000000" edges="gneE67 gneE48 gneE49"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV47.0" depart="0.00">
+    <vehicle id="V47.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="17.71" probability="1.00000000" edges="gneE7"/>
+            <route cost="80.67" probability="1.00000000" edges="gneE57 gneE51 gneE52 gneE54"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV48.0" depart="0.00">
+    <vehicle id="V48.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="110.50" probability="1.00000000" edges="gneE5 gneE6 gneE7 gneE8 gneE9 gneE10"/>
+            <route cost="98.48" probability="1.00000000" edges="gneE54 gneE57 gneE51 gneE60 gneE61"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV49.0" depart="0.00">
+    <vehicle id="V49.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="18.00" probability="1.00000000" edges="gneE5"/>
+            <route cost="95.16" probability="1.00000000" edges="gneE78 gneE79 -gneE54 -gneE52 -gneE51 -gneE57"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV5.0" depart="0.00">
+    <vehicle id="V5.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="92.27" probability="1.00000000" edges="gneE9 gneE10 gneE0 gneE4 gneE5"/>
+            <route cost="96.98" probability="1.00000000" edges="-gneE69 -gneE49 gneE68 gneE66 gneE67"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV50.0" depart="0.00">
+    <vehicle id="V50.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="129.77" probability="1.00000000" edges="gneE4 gneE5 gneE6 gneE7 gneE8 gneE9 gneE10"/>
+            <route cost="93.86" probability="1.00000000" edges="gneE57 -gneE50 gneE69 -gneE64 -gneE63"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV51.0" depart="0.00">
+    <vehicle id="V51.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="147.27" probability="1.00000000" edges="gneE9 gneE10 gneE0 gneE4 gneE5 gneE6 gneE7 gneE8"/>
+            <route cost="116.54" probability="1.00000000" edges="-gneE52 -gneE51 -gneE57 -gneE79 -gneE78 gneE47 gneE48"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV52.0" depart="0.00">
+    <vehicle id="V52.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="129.77" probability="1.00000000" edges="gneE5 gneE6 gneE7 gneE8 gneE9 gneE10 gneE0"/>
+            <route cost="112.47" probability="1.00000000" edges="-gneE47 gneE78 gneE79 gneE57 -gneE50 gneE69 gneE65"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV53.0" depart="0.00">
+    <vehicle id="V53.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="55.28" probability="1.00000000" edges="gneE10 gneE0 gneE4"/>
+            <route cost="77.28" probability="1.00000000" edges="gneE84 gneE85 gneE79 -gneE54 -gneE52 -gneE51"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV54.0" depart="0.00">
+    <vehicle id="V54.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="129.47" probability="1.00000000" edges="gneE8 gneE9 gneE10 gneE0 gneE4 gneE5 gneE6"/>
+            <route cost="116.41" probability="1.00000000" edges="gneE47 gneE48 -gneE59 -gneE54 -gneE52 -gneE51"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV55.0" depart="0.00">
+    <vehicle id="V55.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="54.91" probability="1.00000000" edges="gneE8 gneE9 gneE10"/>
+            <route cost="131.90" probability="1.00000000" edges="-gneE61 -gneE60 gneE52 gneE54 -gneE79 -gneE78 -gneE46 -gneE53"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV56.0" depart="0.00">
+    <vehicle id="V56.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="18.00" probability="1.00000000" edges="gneE5"/>
+            <route cost="56.01" probability="1.00000000" edges="gneE71 -gneE61 -gneE60"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV57.0" depart="0.00">
+    <vehicle id="V57.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="149.04" probability="1.00000000" edges="gneE10 gneE0 gneE4 gneE5 gneE6 gneE7 gneE8 gneE9"/>
+            <route cost="94.56" probability="1.00000000" edges="gneE85 gneE79 gneE57 -gneE50 gneE69 gneE65"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV58.0" depart="0.00">
+    <vehicle id="V58.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="147.77" probability="1.00000000" edges="gneE5 gneE6 gneE7 gneE8 gneE9 gneE10 gneE0 gneE4"/>
+            <route cost="58.48" probability="1.00000000" edges="-gneE60 -gneE51 -gneE50"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV59.0" depart="0.00">
+    <vehicle id="V59.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="149.04" probability="1.00000000" edges="gneE6 gneE7 gneE8 gneE9 gneE10 gneE0 gneE4 gneE5"/>
+            <route cost="133.62" probability="1.00000000" edges="-gneE60 -gneE51 gneE71 gneE62 gneE63 gneE64 -gneE69"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV6.0" depart="0.00">
+    <vehicle id="V6.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="55.28" probability="1.00000000" edges="gneE0 gneE4 gneE5"/>
+            <route cost="114.63" probability="1.00000000" edges="-gneE62 -gneE71 -gneE57 -gneE79 -gneE78 gneE47 -gneE67"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV60.0" depart="0.00">
+    <vehicle id="V60.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="129.47" probability="1.00000000" edges="gneE8 gneE9 gneE10 gneE0 gneE4 gneE5 gneE6"/>
+            <route cost="60.90" probability="1.00000000" edges="gneE83 gneE84 gneE85 gneE79 gneE57 gneE51"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV61.0" depart="0.00">
+    <vehicle id="V61.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="92.27" probability="1.00000000" edges="gneE9 gneE10 gneE0 gneE4 gneE5"/>
+            <route cost="79.31" probability="1.00000000" edges="-gneE69 -gneE49 -gneE48 -gneE47 gneE83 gneE84 gneE85"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV62.0" depart="0.00">
+    <vehicle id="V62.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="54.91" probability="1.00000000" edges="gneE8 gneE9 gneE10"/>
+            <route cost="93.74" probability="1.00000000" edges="-gneE51 gneE71 gneE62 -gneE70 gneE50"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV63.0" depart="0.00">
+    <vehicle id="V63.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="129.25" probability="1.00000000" edges="gneE9 gneE10 gneE0 gneE4 gneE5 gneE6 gneE7"/>
+            <route cost="1.95" probability="1.00000000" edges="gneE83 gneE84"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV64.0" depart="0.00">
+    <vehicle id="V64.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="129.77" probability="1.00000000" edges="gneE5 gneE6 gneE7 gneE8 gneE9 gneE10 gneE0"/>
+            <route cost="113.24" probability="1.00000000" edges="-gneE51 gneE71 gneE62 -gneE70 gneE50 gneE51"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV65.0" depart="0.00">
+    <vehicle id="V65.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="36.98" probability="1.00000000" edges="gneE6 gneE7"/>
+            <route cost="117.07" probability="1.00000000" edges="-gneE79 -gneE78 gneE83 gneE84 gneE85 gneE79 gneE57 gneE71 -gneE61 -gneE60"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV66.0" depart="0.00">
+    <vehicle id="V66.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="110.50" probability="1.00000000" edges="gneE7 gneE8 gneE9 gneE10 gneE0 gneE4"/>
+            <route cost="89.44" probability="1.00000000" edges="-gneE47 -gneE46 -gneE53 -gneE52 gneE60"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV67.0" depart="0.00">
+    <vehicle id="V67.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="74.18" probability="1.00000000" edges="gneE8 gneE9 gneE10 gneE0"/>
+            <route cost="134.05" probability="1.00000000" edges="-gneE67 -gneE66 -gneE68 -gneE59 -gneE54 gneE53 gneE46"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV68.0" depart="0.00">
+    <vehicle id="V68.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="72.99" probability="1.00000000" edges="gneE9 gneE10 gneE0 gneE4"/>
+            <route cost="90.97" probability="1.00000000" edges="gneE66 gneE67 -gneE47 gneE78 gneE79 gneE57"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV69.0" depart="0.00">
+    <vehicle id="V69.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="35.72" probability="1.00000000" edges="gneE9 gneE10"/>
+            <route cost="99.76" probability="1.00000000" edges="gneE50 -gneE57 -gneE79 -gneE78 gneE83 gneE84 gneE85 gneE79 gneE57"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV7.0" depart="0.00">
+    <vehicle id="V7.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="92.19" probability="1.00000000" edges="gneE8 gneE9 gneE10 gneE0 gneE4"/>
+            <route cost="58.23" probability="1.00000000" edges="-gneE49 -gneE48 -gneE47 gneE83 gneE84"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV70.0" depart="0.00">
+    <vehicle id="V70.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="111.46" probability="1.00000000" edges="gneE8 gneE9 gneE10 gneE0 gneE4 gneE5"/>
+            <route cost="113.24" probability="1.00000000" edges="-gneE51 gneE71 gneE62 -gneE70 gneE50 gneE51"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV71.0" depart="0.00">
+    <vehicle id="V71.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="92.19" probability="1.00000000" edges="gneE8 gneE9 gneE10 gneE0 gneE4"/>
+            <route cost="74.60" probability="1.00000000" edges="-gneE50 gneE69 gneE65 gneE66"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV72.0" depart="0.00">
+    <vehicle id="V72.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="92.49" probability="1.00000000" edges="gneE6 gneE7 gneE8 gneE9 gneE10"/>
+            <route cost="93.30" probability="1.00000000" edges="-gneE70 gneE50 gneE71 gneE62 gneE63"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV73.0" depart="0.00">
+    <vehicle id="V73.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="129.77" probability="1.00000000" edges="gneE6 gneE7 gneE8 gneE9 gneE10 gneE0 gneE4"/>
+            <route cost="131.03" probability="1.00000000" edges="-gneE63 -gneE70 -gneE49 -gneE48 -gneE47 -gneE46 -gneE53"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV74.0" depart="0.00">
+    <vehicle id="V74.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="36.00" probability="1.00000000" edges="gneE5 gneE6"/>
+            <route cost="17.25" probability="1.00000000" edges="-gneE67"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV75.0" depart="0.00">
+    <vehicle id="V75.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="129.77" probability="1.00000000" edges="gneE5 gneE6 gneE7 gneE8 gneE9 gneE10 gneE0"/>
+            <route cost="107.36" probability="1.00000000" edges="-gneE46 -gneE53 -gneE52 gneE60 gneE61 gneE62"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV76.0" depart="0.00">
+    <vehicle id="V76.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="111.46" probability="1.00000000" edges="gneE8 gneE9 gneE10 gneE0 gneE4 gneE5"/>
+            <route cost="95.71" probability="1.00000000" edges="-gneE64 -gneE63 -gneE70 gneE50 gneE71"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV77.0" depart="0.00">
+    <vehicle id="V77.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="111.76" probability="1.00000000" edges="gneE6 gneE7 gneE8 gneE9 gneE10 gneE0"/>
+            <route cost="37.20" probability="1.00000000" edges="-gneE51 gneE71"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV78.0" depart="0.00">
+    <vehicle id="V78.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="129.77" probability="1.00000000" edges="gneE6 gneE7 gneE8 gneE9 gneE10 gneE0 gneE4"/>
+            <route cost="55.55" probability="1.00000000" edges="-gneE69 -gneE49 -gneE59"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV79.0" depart="0.00">
+    <vehicle id="V79.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="18.00" probability="1.00000000" edges="gneE5"/>
+            <route cost="114.98" probability="1.00000000" edges="-gneE79 -gneE78 gneE47 gneE48 gneE49 gneE70 gneE63"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV8.0" depart="0.00">
+    <vehicle id="V8.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="149.04" probability="1.00000000" edges="gneE10 gneE0 gneE4 gneE5 gneE6 gneE7 gneE8 gneE9"/>
+            <route cost="75.04" probability="1.00000000" edges="-gneE68 gneE49 gneE70 -gneE62"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV80.0" depart="0.00">
+    <vehicle id="V80.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="149.04" probability="1.00000000" edges="gneE4 gneE5 gneE6 gneE7 gneE8 gneE9 gneE10 gneE0"/>
+            <route cost="111.21" probability="1.00000000" edges="gneE51 gneE60 gneE61 -gneE71 -gneE57 -gneE54"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV81.0" depart="0.00">
+    <vehicle id="V81.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="149.04" probability="1.00000000" edges="gneE4 gneE5 gneE6 gneE7 gneE8 gneE9 gneE10 gneE0"/>
+            <route cost="96.17" probability="1.00000000" edges="gneE52 gneE54 gneE59 -gneE48 -gneE47"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV82.0" depart="0.00">
+    <vehicle id="V82.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="55.28" probability="1.00000000" edges="gneE10 gneE0 gneE4"/>
+            <route cost="36.81" probability="1.00000000" edges="-gneE57 -gneE54"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV83.0" depart="0.00">
+    <vehicle id="V83.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="55.28" probability="1.00000000" edges="gneE4 gneE5 gneE6"/>
+            <route cost="37.20" probability="1.00000000" edges="gneE68 -gneE65"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV84.0" depart="0.00">
+    <vehicle id="V84.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="110.50" probability="1.00000000" edges="gneE5 gneE6 gneE7 gneE8 gneE9 gneE10"/>
+            <route cost="76.54" probability="1.00000000" edges="-gneE62 -gneE71 -gneE57 -gneE54"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV85.0" depart="0.00">
+    <vehicle id="V85.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="110.50" probability="1.00000000" edges="gneE5 gneE6 gneE7 gneE8 gneE9 gneE10"/>
+            <route cost="76.19" probability="1.00000000" edges="gneE52 gneE54 gneE59 gneE68"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV86.0" depart="0.00">
+    <vehicle id="V86.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="36.00" probability="1.00000000" edges="gneE5 gneE6"/>
+            <route cost="133.20" probability="1.00000000" edges="-gneE67 -gneE66 -gneE68 -gneE59 -gneE54 -gneE52 -gneE51"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV87.0" depart="0.00">
+    <vehicle id="V87.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="129.47" probability="1.00000000" edges="gneE8 gneE9 gneE10 gneE0 gneE4 gneE5 gneE6"/>
+            <route cost="97.13" probability="1.00000000" edges="gneE65 -gneE68 gneE49 gneE50 -gneE57"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV88.0" depart="0.00">
+    <vehicle id="V88.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="18.00" probability="1.00000000" edges="gneE5"/>
+            <route cost="55.12" probability="1.00000000" edges="-gneE47 gneE78 gneE79 gneE59"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV89.0" depart="0.00">
+    <vehicle id="V89.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="18.00" probability="1.00000000" edges="gneE4"/>
+            <route cost="35.25" probability="1.00000000" edges="gneE64 gneE65"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV9.0" depart="0.00">
+    <vehicle id="V9.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="110.27" probability="1.00000000" edges="gneE9 gneE10 gneE0 gneE4 gneE5 gneE6"/>
+            <route cost="117.26" probability="1.00000000" edges="gneE47 gneE48 -gneE59 -gneE54 gneE53 gneE46"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV90.0" depart="0.00">
+    <vehicle id="V90.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="129.77" probability="1.00000000" edges="gneE5 gneE6 gneE7 gneE8 gneE9 gneE10 gneE0"/>
+            <route cost="58.93" probability="1.00000000" edges="-gneE69 -gneE49 gneE68"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV91.0" depart="0.00">
+    <vehicle id="V91.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="74.26" probability="1.00000000" edges="gneE4 gneE5 gneE6 gneE7"/>
+            <route cost="89.51" probability="1.00000000" edges="-gneE52 gneE60 gneE61 gneE62 -gneE70"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV92.0" depart="0.00">
+    <vehicle id="V92.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="149.04" probability="1.00000000" edges="gneE6 gneE7 gneE8 gneE9 gneE10 gneE0 gneE4 gneE5"/>
+            <route cost="129.21" probability="1.00000000" edges="gneE57 -gneE50 gneE69 gneE65 gneE66 gneE67 gneE48"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV93.0" depart="0.00">
+    <vehicle id="V93.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="54.91" probability="1.00000000" edges="gneE8 gneE9 gneE10"/>
+            <route cost="90.74" probability="1.00000000" edges="gneE79 -gneE54 -gneE52 gneE60 gneE61"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV94.0" depart="0.00">
+    <vehicle id="V94.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="110.27" probability="1.00000000" edges="gneE9 gneE10 gneE0 gneE4 gneE5 gneE6"/>
+            <route cost="91.35" probability="1.00000000" edges="gneE54 -gneE79 -gneE78 -gneE46 -gneE53 -gneE52"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV95.0" depart="0.00">
+    <vehicle id="V95.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="129.77" probability="1.00000000" edges="gneE4 gneE5 gneE6 gneE7 gneE8 gneE9 gneE10"/>
+            <route cost="91.09" probability="1.00000000" edges="-gneE70 -gneE49 -gneE48 -gneE47 -gneE46"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV96.0" depart="0.00">
+    <vehicle id="V96.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="110.50" probability="1.00000000" edges="gneE7 gneE8 gneE9 gneE10 gneE0 gneE4"/>
+            <route cost="76.93" probability="1.00000000" edges="-gneE57 gneE59 gneE68 -gneE65"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV97.0" depart="0.00">
+    <vehicle id="V97.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="73.22" probability="1.00000000" edges="gneE7 gneE8 gneE9 gneE10"/>
+            <route cost="34.96" probability="1.00000000" edges="-gneE70 -gneE49"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV98.0" depart="0.00">
+    <vehicle id="V98.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="129.77" probability="1.00000000" edges="gneE6 gneE7 gneE8 gneE9 gneE10 gneE0 gneE4"/>
+            <route cost="95.72" probability="1.00000000" edges="gneE51 gneE52 gneE53 gneE46 gneE78 gneE79"/>
         </routeDistribution>
     </vehicle>
-    <vehicle id="EV99.0" depart="0.00">
+    <vehicle id="V99.0" depart="0.00">
         <routeDistribution last="0">
-            <route cost="110.50" probability="1.00000000" edges="gneE7 gneE8 gneE9 gneE10 gneE0 gneE4"/>
+            <route cost="74.95" probability="1.00000000" edges="-gneE70 gneE50 gneE51 gneE60"/>
         </routeDistribution>
     </vehicle>
 </routes>
