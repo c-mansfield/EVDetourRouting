@@ -2,6 +2,7 @@ import os
 import sys
 import optparse
 import random
+from algorithm.reroute import rerouter
 
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
@@ -11,6 +12,9 @@ else:
 
 #from sumolib import checkBinary  # noqa
 import traci  # noqa
+import sumolib
+
+net = sumolib.net.readNet('data/EVGrid.net.xml')
 
 def run(options=None):
     """execute the TraCI control loop"""
@@ -22,7 +26,7 @@ def run(options=None):
         traci.simulationStep()
 
         # Checks EV battery capacity
-        print(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))
+        # print(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))
         if traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity') == "0.00":
             print('Vehicle battery empty')
             #break
@@ -49,13 +53,8 @@ def add_ev():
     traci.vehicle.add('EV1', 'placeholder_trip', typeID='electricvehicle')
     traci.vehicle.setParameter('EV1', 'device.battery.actualBatteryCapacity', '200')        # Set vehicles fuel at start
 
-    route = get_optimal_route_ev('EV1', 'gneE53', 'gneE46')
-
-# Generates optimal route for electric vehicle
-def get_optimal_route_ev(vehicleID, start, to):
-    #Hardcoded route for now
-    traci.vehicle.setRoute(vehicleID, [start, to])
-    traci.vehicle.setChargingStationStop(vehicleID, "chargingStation_gneE46_0_0", duration=10)
+    # Generates optimal route for EV
+    route = rerouter('gneE53', 'gneE46')
 
 # Adds vehicle type electric vehicle
 def add_ev_vtype():
