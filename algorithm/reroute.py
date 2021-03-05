@@ -15,34 +15,51 @@ net = sumolib.net.readNet('data/EVGrid.net.xml')
 
 def rerouter(start, end):
     graph = Graph(net)
-    route = a_star_search(graph, net.getEdge(start).getFromNode().getID(), net.getEdge(end).getToNode().getID())
+    route = aStarSearch(graph, net.getEdge(start).getFromNode().getID(), net.getEdge(end).getToNode().getID())
 
-    print(route)
     return route
 
-def a_star_search(graph, start, end):
-    openQueue = PriorityQueue()
-    openQueue.put(start, 0)
-    route = []
+def aStarSearch(graph, start, end):
+    openList = set([start])
+    closedList = set([])
+
+    route = {}
+    route[start] = start
     routeCost = {}
-    route.append(start)
     routeCost[start] = 0
 
-    while not openQueue.empty():
-        current = openQueue.get()
+    while len(openList) > 0:
+        currentNode = None
 
-        if current == end:
-            return route
+        for node in openList:
+            if currentNode == None or routeCost[node] + heuristic(node, end) < routeCost[currentNode] + heuristic(currentNode, end):
+                currentNode = node;
 
-        for next in graph.neighbors(current):
-            newCost = routeCost[current] + graph.cost(current, next)
+        if currentNode == None:
+            return None
 
-            if next not in routeCost.keys() or newCost < routeCost[next]:
-                routeCost[next] = newCost
-                totalCost = newCost + heuristic(next, end)
-                openQueue.put(next, totalCost)
-                if current not in route:
-                    route.append(current)
+        if currentNode == end:
+            return reconstructRoutePath(graph, start, currentNode, route)
+
+        for next in graph.neighbors(currentNode):
+            neighbourNode = next['Neighbour']
+
+            if neighbourNode not in openList and neighbourNode not in closedList:
+                openList.add(neighbourNode)
+                route[neighbourNode] = currentNode
+                routeCost[neighbourNode] = routeCost[currentNode] + next['Length']
+
+            else:
+                if routeCost[neighbourNode] > routeCost[currentNode] + next['Length']:
+                    routeCost[neighbourNode] = routeCost[currentNode] + next['Length']
+                    route[neighbourNode] = currentNode
+
+                    if neighbourNode in closedList:
+                        closedList.remove(neighbourNode)
+                        openList.add(neighbourNode)
+
+        closedList.add(currentNode)
+        openList.remove(currentNode)
 
     return route
 
@@ -55,3 +72,17 @@ def heuristic(currentNode, endNode):
     y = endCoords[0] - endCoords[0]
 
     return ((x ** 2) + (y ** 2)) ** 0.5
+
+# Converts the route to be in edges not nodes for sumo vehicle to follow
+def reconstructRoutePath(graph, start, current, route):
+    newRoute = []
+
+    while route[current] != current:
+        newRoute.append(graph.getNodesConnectingEdge(route[current], current))
+        current = route[current]
+
+    # newRoute.append(start)
+
+    newRoute.reverse()
+
+    return newRoute

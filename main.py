@@ -54,7 +54,8 @@ def add_ev():
     traci.vehicle.setParameter('EV1', 'device.battery.actualBatteryCapacity', '200')        # Set vehicles fuel at start
 
     # Generates optimal route for EV
-    route = rerouter('gneE53', 'gneE46')
+    route = rerouter('gneE53', '-gneE64')
+    traci.vehicle.setRoute('EV1', route)
 
 # Adds vehicle type electric vehicle
 def add_ev_vtype():
