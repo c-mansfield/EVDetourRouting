@@ -1,4 +1,3 @@
-from algorithm.PriorityQueue import PriorityQueue
 from algorithm.Graph import Graph
 import os
 import sys
@@ -13,11 +12,17 @@ import sumolib
 
 net = sumolib.net.readNet('data/EVGrid.net.xml')
 
-def rerouter(start, end):
+def rerouter(start, end, batteryCapacity):
     graph = Graph(net)
-    route = aStarSearch(graph, net.getEdge(start).getFromNode().getID(), net.getEdge(end).getToNode().getID())
+    route, routeLength = aStarSearch(graph, net.getEdge(start).getFromNode().getID(), net.getEdge(end).getToNode().getID())
 
-    return route
+    print("routeLength ", routeLength)
+    print('Distance: ', calculateRange(batteryCapacity))
+
+    if calculateRange(batteryCapacity) > routeLength:
+        return route
+
+    return None
 
 def aStarSearch(graph, start, end):
     openList = set([start])
@@ -61,7 +66,7 @@ def aStarSearch(graph, start, end):
         closedList.add(currentNode)
         openList.remove(currentNode)
 
-    return route
+    return None, 0
 
 # Get distance from node to end node using euclidean distance
 def heuristic(currentNode, endNode):
@@ -76,13 +81,22 @@ def heuristic(currentNode, endNode):
 # Converts the route to be in edges not nodes for sumo vehicle to follow
 def reconstructRoutePath(graph, start, current, route):
     newRoute = []
+    routeLength = 0
 
     while route[current] != current:
-        newRoute.append(graph.getNodesConnectingEdge(route[current], current))
+        connectingEdge = graph.getNodeEdge(route[current], current)
+
+        routeLength += connectingEdge['Length']
+        newRoute.append(connectingEdge['ConnectingEdge'])
         current = route[current]
 
     # newRoute.append(start)
 
     newRoute.reverse()
 
-    return newRoute
+    return newRoute, routeLength
+
+# Estimates range for EV
+# http://www.ev-propulsion.com/EV-calculations.html
+def calculateRange(batteryCapacity):
+    return round((batteryCapacity / 330) * 1000, 2)

@@ -26,10 +26,12 @@ def run(options=None):
         traci.simulationStep()
 
         # Checks EV battery capacity
-        # print(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))
+        print('Battery Capacity: ', traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))
+        print('Range Left: ', round((float(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity')) / 330) * 1000, 2))
+        print('Energy Consumption: ', traci.vehicle.getElectricityConsumption('EV1'))
         if traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity') == "0.00":
             print('Vehicle battery empty')
-            #break
+            break
 
         step += 1
 
@@ -51,10 +53,10 @@ def add_ev():
     # Generate vehicle
     traci.route.add('placeholder_trip', ['gneE53', 'gneE46'])
     traci.vehicle.add('EV1', 'placeholder_trip', typeID='electricvehicle')
-    traci.vehicle.setParameter('EV1', 'device.battery.actualBatteryCapacity', '200')        # Set vehicles fuel at start
+    traci.vehicle.setParameter('EV1', 'device.battery.actualBatteryCapacity', '600')        # Set vehicles fuel at start
 
     # Generates optimal route for EV
-    route = rerouter('gneE53', '-gneE64')
+    route = rerouter('gneE53', '-gneE64', 600)
     traci.vehicle.setRoute('EV1', route)
 
 # Adds vehicle type electric vehicle
@@ -67,14 +69,13 @@ def add_ev_vtype():
     lines = lines.replace("</routes>", "")
 
     with open("data/electricvehicles.rou.xml", "w") as routes:
-
         sys.stdout = routes
         print(lines)
         print("""  <vType id="electricvehicle" accel="0.8" decel="4.5" sigma="0.5" minGap="2.5" maxSpeed="40" emissionClass="Energy/unknown" guiShape="evehicle">
                      <param key="has.battery.device" value="true"/>
-                     <param key="maximumBatteryCapacity" value="200"/>
+                     <param key="maximumBatteryCapacity" value="1000"/>
                      <param key="maximumPower" value="1000"/>
-                     <param key="vehicleMass" value="10000"/>
+                     <param key="vehicleMass" value="1000"/>
                      <param key="frontSurfaceArea" value="5"/>
                      <param key="airDragCoefficient" value="0.6"/>
                      <param key="internalMomentOfInertia" value="0.01"/>

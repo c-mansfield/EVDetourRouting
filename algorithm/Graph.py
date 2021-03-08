@@ -7,15 +7,10 @@ class Graph:
     def neighbors(self, id):
         return self.nodeNeighbours.get(id)
 
-    # Get the cost of going from # to node
-    def getNodesConnectingEdge(self, fromNode, toNode):
+    # Get the edge and length between two nodes
+    def getNodeEdge(self, fromNode, toNode):
         nodesNeighbours = self.nodeNeighbours.get(fromNode)
-        return next(props['ConnectingEdge'] for props in nodesNeighbours if props['Neighbour'] == toNode)
-
-    # Get the cost of going from # to node
-    def cost(self, fromNode, toNode):
-        nodesNeighbours = self.nodeNeighbours.get(fromNode)
-        return [props['Length'] for props in nodesNeighbours if props['Neighbour'] == toNode]
+        return next(edge for edge in nodesNeighbours if edge['Neighbour'] == toNode)
 
     def getNodeNeighbours(self, net):
         netNodes = net.getNodes()
