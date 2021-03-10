@@ -3,6 +3,7 @@ import sys
 import optparse
 import random
 from algorithm.reroute import rerouter
+from algorithm.Graph import Graph
 
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
@@ -14,24 +15,25 @@ else:
 import traci  # noqa
 import sumolib
 
-net = sumolib.net.readNet('data/EVGrid.net.xml')
-
-def run(options=None):
+def run(netFile, additionalFile, options=None):
     """execute the TraCI control loop"""
     step = 0
 
-    add_ev()
+    net = sumolib.net.readNet(netFile)
+    graph = Graph(net, additionalFile)
 
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
 
+        if step == 100:
+            add_ev(graph)
+
         # Checks EV battery capacity
-        print('Battery Capacity: ', traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))
-        print('Range Left: ', round((float(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity')) / 330) * 1000, 2))
-        print('Energy Consumption: ', traci.vehicle.getElectricityConsumption('EV1'))
-        if traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity') == "0.00":
-            print('Vehicle battery empty')
-            break
+        # print('Battery Capacity: ', traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))
+        # print('Range Left: ', round((float(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity')) / 330) * 1000, 2))
+        # print('Energy Consumption: ', traci.vehicle.getElectricityConsumption('EV1'))
+        # if traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity') == "0.00":
+        #     print('Vehicle battery empty')
 
         step += 1
 
@@ -49,14 +51,14 @@ def get_options():
     return options
 
 # Adds electric vehicle wish to route
-def add_ev():
+def add_ev(graph):
     # Generate vehicle
     traci.route.add('placeholder_trip', ['gneE53', 'gneE46'])
     traci.vehicle.add('EV1', 'placeholder_trip', typeID='electricvehicle')
     traci.vehicle.setParameter('EV1', 'device.battery.actualBatteryCapacity', '600')        # Set vehicles fuel at start
 
     # Generates optimal route for EV
-    route = rerouter('gneE53', '-gneE64', 600)
+    route = rerouter('gneE53', '-gneE64', 600, graph)
     traci.vehicle.setRoute('EV1', route)
 
 # Adds vehicle type electric vehicle
@@ -73,7 +75,7 @@ def add_ev_vtype():
         print(lines)
         print("""  <vType id="electricvehicle" accel="0.8" decel="4.5" sigma="0.5" minGap="2.5" maxSpeed="40" emissionClass="Energy/unknown" guiShape="evehicle">
                      <param key="has.battery.device" value="true"/>
-                     <param key="maximumBatteryCapacity" value="1000"/>
+                     <param key="maximumBatteryCapacity" value="2000"/>
                      <param key="maximumPower" value="1000"/>
                      <param key="vehicleMass" value="1000"/>
                      <param key="frontSurfaceArea" value="5"/>

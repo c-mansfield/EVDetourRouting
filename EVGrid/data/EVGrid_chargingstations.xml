@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 03/08/21 17:48:39 by Eclipse SUMO GUI Version 1.7.0
+<!-- generated on 03/10/21 17:02:09 by Eclipse SUMO GUI Version 1.7.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
@@ -26,7 +26,7 @@
     </battery>
 
     <traci_server>
-        <remote-port value="54578"/>
+        <remote-port value="60277"/>
     </traci_server>
 
     <gui_only>
@@ -37,27 +37,15 @@
 -->
 
 <chargingstations-export>
-    <chargingStation id="chargingStation_gneE46_0_0" totalEnergyCharged="0.00" chargingSteps="7">
-        <vehicle id="V84.0" type="DEFAULT_VEHTYPE" totalEnergyChargedIntoVehicle="0.00" chargingBegin="7.00" chargingEnd="7.00">
-            <step time="7.00" chargingStatus="chargingInTransit" energyCharged="0.00" partialCharge="0.00" power="0.00" efficiency="0.00" actualBatteryCapacity="17471.68" maximumBatteryCapacity="35000.00"/>
+    <chargingStation id="chargingStation_gneE46_0_0" totalEnergyCharged="0.00" chargingSteps="3">
+        <vehicle id="V56.0" type="DEFAULT_VEHTYPE" totalEnergyChargedIntoVehicle="0.00" chargingBegin="52.00" chargingEnd="52.00">
+            <step time="52.00" chargingStatus="chargingInTransit" energyCharged="0.00" partialCharge="0.00" power="0.00" efficiency="0.00" actualBatteryCapacity="17390.92" maximumBatteryCapacity="35000.00"/>
         </vehicle>
-        <vehicle id="V18.0" type="DEFAULT_VEHTYPE" totalEnergyChargedIntoVehicle="0.00" chargingBegin="27000" chargingEnd="27000">
-            <step time="27.00" chargingStatus="chargingInTransit" energyCharged="0.00" partialCharge="0.00" power="0.00" efficiency="0.00" actualBatteryCapacity="17423.69" maximumBatteryCapacity="35000.00"/>
+        <vehicle id="V21.0" type="DEFAULT_VEHTYPE" totalEnergyChargedIntoVehicle="0.00" chargingBegin="86000" chargingEnd="86000">
+            <step time="86.00" chargingStatus="chargingInTransit" energyCharged="0.00" partialCharge="0.00" power="0.00" efficiency="0.00" actualBatteryCapacity="17358.25" maximumBatteryCapacity="35000.00"/>
         </vehicle>
-        <vehicle id="V36.0" type="DEFAULT_VEHTYPE" totalEnergyChargedIntoVehicle="0.00" chargingBegin="29000" chargingEnd="29000">
-            <step time="29.00" chargingStatus="chargingInTransit" energyCharged="0.00" partialCharge="0.00" power="0.00" efficiency="0.00" actualBatteryCapacity="17420.88" maximumBatteryCapacity="35000.00"/>
-        </vehicle>
-        <vehicle id="V93.0" type="DEFAULT_VEHTYPE" totalEnergyChargedIntoVehicle="0.00" chargingBegin="78000" chargingEnd="78000">
-            <step time="78.00" chargingStatus="chargingInTransit" energyCharged="0.00" partialCharge="0.00" power="0.00" efficiency="0.00" actualBatteryCapacity="17377.31" maximumBatteryCapacity="35000.00"/>
-        </vehicle>
-        <vehicle id="V33.0" type="DEFAULT_VEHTYPE" totalEnergyChargedIntoVehicle="0.00" chargingBegin="96000" chargingEnd="96000">
-            <step time="96.00" chargingStatus="chargingInTransit" energyCharged="0.00" partialCharge="0.00" power="0.00" efficiency="0.00" actualBatteryCapacity="17338.07" maximumBatteryCapacity="35000.00"/>
-        </vehicle>
-        <vehicle id="V47.0" type="DEFAULT_VEHTYPE" totalEnergyChargedIntoVehicle="0.00" chargingBegin="98000" chargingEnd="98000">
-            <step time="98.00" chargingStatus="chargingInTransit" energyCharged="0.00" partialCharge="0.00" power="0.00" efficiency="0.00" actualBatteryCapacity="17323.38" maximumBatteryCapacity="35000.00"/>
-        </vehicle>
-        <vehicle id="V76.0" type="DEFAULT_VEHTYPE" totalEnergyChargedIntoVehicle="0.00" chargingBegin="123000" chargingEnd="123000">
-            <step time="123.00" chargingStatus="chargingInTransit" energyCharged="0.00" partialCharge="0.00" power="0.00" efficiency="0.00" actualBatteryCapacity="17304.15" maximumBatteryCapacity="35000.00"/>
+        <vehicle id="V16.0" type="DEFAULT_VEHTYPE" totalEnergyChargedIntoVehicle="0.00" chargingBegin="124000" chargingEnd="124000">
+            <step time="124.00" chargingStatus="chargingInTransit" energyCharged="0.00" partialCharge="0.00" power="0.00" efficiency="0.00" actualBatteryCapacity="17303.45" maximumBatteryCapacity="35000.00"/>
         </vehicle>
     </chargingStation>
     <chargingStation id="chargingStation_gneE46_0_1" totalEnergyCharged="0.00" chargingSteps="0"/>

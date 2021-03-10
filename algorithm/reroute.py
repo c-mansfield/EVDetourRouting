@@ -1,4 +1,3 @@
-from algorithm.Graph import Graph
 import os
 import sys
 
@@ -10,21 +9,22 @@ else:
 
 import sumolib
 
-net = sumolib.net.readNet('data/EVGrid.net.xml')
+def rerouter(start, end, batteryCapacity, graph):
+    startNode = graph.Net.getEdge(start).getFromNode().getID()
+    endNode = graph.Net.getEdge(end).getToNode().getID()
+    evRange = calculateRange(batteryCapacity)
 
-def rerouter(start, end, batteryCapacity):
-    graph = Graph(net)
-    route, routeLength = aStarSearch(graph, net.getEdge(start).getFromNode().getID(), net.getEdge(end).getToNode().getID())
+    route, routeLength = aStarSearch(graph, startNode, endNode, evRange)
 
     print("routeLength ", routeLength)
-    print('Distance: ', calculateRange(batteryCapacity))
+    print('EV Range: ', calculateRange(batteryCapacity))
 
-    if calculateRange(batteryCapacity) > routeLength:
+    if evRange > routeLength[len(routeLength)-1]:
         return route
 
     return None
 
-def aStarSearch(graph, start, end):
+def aStarSearch(graph, start, end, evRange):
     openList = set([start])
     closedList = set([])
 
@@ -37,14 +37,14 @@ def aStarSearch(graph, start, end):
         currentNode = None
 
         for node in openList:
-            if currentNode == None or routeCost[node] + heuristic(node, end) < routeCost[currentNode] + heuristic(currentNode, end):
+            if currentNode == None or routeCost[node] + heuristic(graph, node, end) < routeCost[currentNode] + heuristic(graph, currentNode, end):
                 currentNode = node;
 
         if currentNode == None:
             return None
 
         if currentNode == end:
-            return reconstructRoutePath(graph, start, currentNode, route)
+            return reconstructRoutePath(graph, start, currentNode, route, evRange)
 
         for next in graph.neighbors(currentNode):
             neighbourNode = next['Neighbour']
@@ -69,9 +69,9 @@ def aStarSearch(graph, start, end):
     return None, 0
 
 # Get distance from node to end node using euclidean distance
-def heuristic(currentNode, endNode):
-    currentCoords = net.getNode(currentNode).getCoord()
-    endCoords = net.getNode(endNode).getCoord()
+def heuristic(graph, currentNode, endNode):
+    currentCoords = graph.Net.getNode(currentNode).getCoord()
+    endCoords = graph.Net.getNode(endNode).getCoord()
 
     x = currentCoords[0] - endCoords[0]
     y = endCoords[0] - endCoords[0]
@@ -79,18 +79,19 @@ def heuristic(currentNode, endNode):
     return ((x ** 2) + (y ** 2)) ** 0.5
 
 # Converts the route to be in edges not nodes for sumo vehicle to follow
-def reconstructRoutePath(graph, start, current, route):
+def reconstructRoutePath(graph, start, current, route, evRange):
     newRoute = []
-    routeLength = 0
+    routeLength = []
+    length = 0
 
     while route[current] != current:
         connectingEdge = graph.getNodeEdge(route[current], current)
 
-        routeLength += connectingEdge['Length']
+        getNeighbouringCS(graph, current, 100)
+        length += connectingEdge['Length']
+        routeLength.append(length)
         newRoute.append(connectingEdge['ConnectingEdge'])
         current = route[current]
-
-    # newRoute.append(start)
 
     newRoute.reverse()
 
@@ -100,3 +101,12 @@ def reconstructRoutePath(graph, start, current, route):
 # http://www.ev-propulsion.com/EV-calculations.html
 def calculateRange(batteryCapacity):
     return round((batteryCapacity / 330) * 1000, 2)
+
+def getNeighbouringCS(graph, mainNode, radius):
+    nodeCoords = graph.Net.getNode(mainNode).getCoord().strip('()')
+    nodeX, nodeY = nodeCoords()
+
+    print(nodeCoords)
+    # return result = [cs
+    #                     for cs in graph.ChargingStations
+    #                         if cs.X > ]

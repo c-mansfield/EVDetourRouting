@@ -46,4 +46,7 @@ if __name__ == "__main__":
     traci.start([sumoBinary, "-c", "data/EVGrid.sumocfg",
                              "--tripinfo-output", "tripinfo.xml", "--additional-files", "data/EVGrid_additionals.add.xml",
                              "--chargingstations-output", "data/EVGrid_chargingstations.xml"])
-    main.run(options)
+
+    main.run(netFile='data/EVGrid.net.xml',
+             additionalFile='data/EVGrid_additionals.add.xml',
+             options=options)
