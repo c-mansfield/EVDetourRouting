@@ -9,6 +9,7 @@
         <battery-output.precision value="4"/>
         <device.battery.probability value="1"/>
         <summary-output value="summary-overview.xml"/>
+        <chargingstations-output value="chargingstations.xml"/>
     </output>
    <processing>
     <lateral-resolution value="1." />

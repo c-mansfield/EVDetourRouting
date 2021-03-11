@@ -13,18 +13,65 @@ def rerouter(start, end, batteryCapacity, graph):
     startNode = graph.Net.getEdge(start).getFromNode().getID()
     endNode = graph.Net.getEdge(end).getToNode().getID()
     evRange = calculateRange(batteryCapacity)
+    route = []
+    routeLength = []
+    csStops = []
 
-    route, routeLength = aStarSearch(graph, startNode, endNode, evRange)
+    while True:
+        tempRoute, tempLength = aStarSearch(graph, startNode, endNode)
+        evRange = calculateCSRefuel(evRange, csStops, tempLength)
 
-    print("routeLength ", routeLength)
-    print('EV Range: ', calculateRange(batteryCapacity))
+        if evRange > tempLength[-1]:
+            route += tempRoute
+            routeLength += tempLength
+            break
 
-    if evRange > routeLength[len(routeLength)-1]:
-        return route
+        tempRoute, tempLength, csStop = routeViaCS(startNode, graph, evRange)
+
+        if tempRoute == None:
+            break
+
+        route += tempRoute
+        routeLength += tempLength
+        startNode = graph.Net.getEdge(route[-1]).getToNode().getID()
+
+        # Get distance startNode to CS, to get current EV range
+        evRange = evRange - (routeLength[-2] - csStop.StartPos)
+        csStops.append(csStop)
+
+    print(route)
+    print(csStops)
+    return route, csStops
+
+def routeViaCS(startNode, graph, evRange):
+    closestCSs = getNeighbouringCS(graph, startNode, evRange)
+
+    if len(closestCSs) > 0:
+        chargingStation = closestCSs[0]
+        csStartNode = graph.Net.getEdge(chargingStation.Lane).getFromNode().getID()
+        csEndNode = graph.Net.getEdge(chargingStation.Lane).getToNode().getID()
+
+        route, routeLength = aStarSearch(graph, startNode, csStartNode)
+
+        routeLength.append(routeLength[-1] + graph.Net.getEdge(chargingStation.Lane).getLength())
+        route.append(chargingStation.Lane)
+
+        return route, routeLength, chargingStation
 
     return None
 
-def aStarSearch(graph, start, end, evRange):
+# Get the correct range and duration needed from and for EV
+def calculateCSRefuel(evRange, csStops, routeLength):
+    if len(csStops) > 0:
+        chargingStation = csStops[-1]
+
+        csChargePerStep = (chargingStation.Power * chargingStation.Efficiency) / 3600
+        print('csChargePerStep', csChargePerStep)
+        evRange = calculateRange(1000)
+
+    return evRange
+
+def aStarSearch(graph, start, end):
     openList = set([start])
     closedList = set([])
 
@@ -44,7 +91,7 @@ def aStarSearch(graph, start, end, evRange):
             return None
 
         if currentNode == end:
-            return reconstructRoutePath(graph, start, currentNode, route, evRange)
+            return reconstructRoutePath(graph, start, currentNode, route)
 
         for next in graph.neighbors(currentNode):
             neighbourNode = next['Neighbour']
@@ -79,7 +126,7 @@ def heuristic(graph, currentNode, endNode):
     return ((x ** 2) + (y ** 2)) ** 0.5
 
 # Converts the route to be in edges not nodes for sumo vehicle to follow
-def reconstructRoutePath(graph, start, current, route, evRange):
+def reconstructRoutePath(graph, start, current, route):
     newRoute = []
     routeLength = []
     length = 0
@@ -87,7 +134,6 @@ def reconstructRoutePath(graph, start, current, route, evRange):
     while route[current] != current:
         connectingEdge = graph.getNodeEdge(route[current], current)
 
-        getNeighbouringCS(graph, current, 100)
         length += connectingEdge['Length']
         routeLength.append(length)
         newRoute.append(connectingEdge['ConnectingEdge'])
@@ -103,10 +149,6 @@ def calculateRange(batteryCapacity):
     return round((batteryCapacity / 330) * 1000, 2)
 
 def getNeighbouringCS(graph, mainNode, radius):
-    nodeCoords = graph.Net.getNode(mainNode).getCoord().strip('()')
-    nodeX, nodeY = nodeCoords()
+    nodeCoords = graph.Net.getNode(mainNode).getCoord()
 
-    print(nodeCoords)
-    # return result = [cs
-    #                     for cs in graph.ChargingStations
-    #                         if cs.X > ]
+    return [cs for cs in graph.ChargingStations if (cs.X > nodeCoords[0] - radius) and (cs.X < nodeCoords[0] + radius) and (cs.Y > nodeCoords[1] - radius) and (cs.Y < nodeCoords[1] + radius)]

@@ -29,7 +29,8 @@ def run(netFile, additionalFile, options=None):
             add_ev(graph)
 
         # Checks EV battery capacity
-        # print('Battery Capacity: ', traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))
+        if step > 100:
+            print('Battery Capacity: ', traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))
         # print('Range Left: ', round((float(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity')) / 330) * 1000, 2))
         # print('Energy Consumption: ', traci.vehicle.getElectricityConsumption('EV1'))
         # if traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity') == "0.00":
@@ -52,14 +53,19 @@ def get_options():
 
 # Adds electric vehicle wish to route
 def add_ev(graph):
+    vehicleID = 'EV1'
+
     # Generate vehicle
     traci.route.add('placeholder_trip', ['gneE53', 'gneE46'])
-    traci.vehicle.add('EV1', 'placeholder_trip', typeID='electricvehicle')
-    traci.vehicle.setParameter('EV1', 'device.battery.actualBatteryCapacity', '600')        # Set vehicles fuel at start
+    traci.vehicle.add(vehicleID, 'placeholder_trip', typeID='electricvehicle')
+    traci.vehicle.setParameter(vehicleID, 'device.battery.actualBatteryCapacity', '600')        # Set vehicles fuel at start
 
     # Generates optimal route for EV
-    route = rerouter('gneE53', '-gneE64', 600, graph)
-    traci.vehicle.setRoute('EV1', route)
+    route, csStops = rerouter('gneE53', '-gneE64', 100, graph)
+    traci.vehicle.setRoute(vehicleID, route)
+
+    for chargingStation in csStops:
+        traci.vehicle.setChargingStationStop(vehicleID, chargingStation.id, duration=100)
 
 # Adds vehicle type electric vehicle
 def add_ev_vtype():
@@ -73,7 +79,7 @@ def add_ev_vtype():
     with open("data/electricvehicles.rou.xml", "w") as routes:
         sys.stdout = routes
         print(lines)
-        print("""  <vType id="electricvehicle" accel="0.8" decel="4.5" sigma="0.5" minGap="2.5" maxSpeed="40" emissionClass="Energy/unknown" guiShape="evehicle">
+        print("""  <vType id="electricvehicle" accel="0.8" decel="4.5" sigma="0.5" minGap="2.5" maxSpeed="40" guiShape="evehicle">
                      <param key="has.battery.device" value="true"/>
                      <param key="maximumBatteryCapacity" value="2000"/>
                      <param key="maximumPower" value="1000"/>
