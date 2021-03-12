@@ -33,6 +33,4 @@
 -->
 
 <additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
-    <chargingStation id="chargingStation_gneE46_0_0" lane="gneE46_0" startPos="52.40" endPos="62.40" chargeInTransit="1"/>
-    <chargingStation id="chargingStation_gneE46_0_1" lane="gneE46_0" startPos="227.91" endPos="237.91"/>
 </additional>

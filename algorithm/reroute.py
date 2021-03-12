@@ -12,14 +12,18 @@ import sumolib
 def rerouter(start, end, batteryCapacity, graph):
     startNode = graph.Net.getEdge(start).getFromNode().getID()
     endNode = graph.Net.getEdge(end).getToNode().getID()
-    evRange = calculateRange(batteryCapacity)
+    evRange = estimateRange(batteryCapacity)
     route = []
     routeLength = []
     csStops = []
 
+    print('evRange: ', evRange)
+
     while True:
         tempRoute, tempLength = aStarSearch(graph, startNode, endNode)
         evRange = calculateCSRefuel(evRange, csStops, tempLength)
+
+        print("tempLength: ", tempLength)
 
         if evRange > tempLength[-1]:
             route += tempRoute
@@ -67,7 +71,7 @@ def calculateCSRefuel(evRange, csStops, routeLength):
 
         csChargePerStep = (chargingStation.Power * chargingStation.Efficiency) / 3600
         print('csChargePerStep', csChargePerStep)
-        evRange = calculateRange(1000)
+        evRange = estimateRange(1000)
 
     return evRange
 
@@ -143,12 +147,22 @@ def reconstructRoutePath(graph, start, current, route):
 
     return newRoute, routeLength
 
-# Estimates range for EV
+# Estimates range for EV from current battery capacity
 # http://www.ev-propulsion.com/EV-calculations.html
-def calculateRange(batteryCapacity):
-    return round((batteryCapacity / 330) * 1000, 2)
+def estimateRange(batteryCapacity):
+    return round((batteryCapacity / 180) * 1000, 2)
 
 def getNeighbouringCS(graph, mainNode, radius):
     nodeCoords = graph.Net.getNode(mainNode).getCoord()
 
-    return [cs for cs in graph.ChargingStations if (cs.X > nodeCoords[0] - radius) and (cs.X < nodeCoords[0] + radius) and (cs.Y > nodeCoords[1] - radius) and (cs.Y < nodeCoords[1] + radius)]
+    return [cs for cs in graph.ChargingStations if checkCSInRadius(nodeCoords, cs.X, cs.Y, radius)]
+
+# Use pythagoras to get distance between point and see if lower than the radius
+def checkCSInRadius(nodeCoords, csX, csY, radius):
+    distance = (nodeCoords[0] - csX) ** 2 + (nodeCoords[1] - csY) ** 2
+    return distance <= radius ** 2
+
+def determineestCS(closestCSs):
+
+
+    return []

@@ -47,4 +47,6 @@ if __name__ == "__main__":
     traci.start([sumoBinary, "-c", "data/osm.sumocfg",
                              "--tripinfo-output", "tripinfo.xml",
                              "--chargingstations-output", "data/Manchester_chargingstations.xml"])
-    main.run(options)
+    main.run(netFile='data/osm.net.xml',
+             additionalFile='data/Manchester_additionals.add.xml',
+             options=options)

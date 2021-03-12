@@ -3,6 +3,7 @@ import sys
 import optparse
 import random
 from algorithm.reroute import rerouter
+from algorithm.reroute import estimateRange
 from algorithm.Graph import Graph
 
 if 'SUMO_HOME' in os.environ:
@@ -30,7 +31,8 @@ def run(netFile, additionalFile, options=None):
 
         # Checks EV battery capacity
         if step > 100:
-            print('Battery Capacity: ', traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))
+            # print('Battery Capacity: ', traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))
+            print('evRange2: ', estimateRange(float(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))))
         # print('Range Left: ', round((float(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity')) / 330) * 1000, 2))
         # print('Energy Consumption: ', traci.vehicle.getElectricityConsumption('EV1'))
         # if traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity') == "0.00":
@@ -54,14 +56,17 @@ def get_options():
 # Adds electric vehicle wish to route
 def add_ev(graph):
     vehicleID = 'EV1'
+    batteryCapacity = 600
 
     # Generate vehicle
-    traci.route.add('placeholder_trip', ['gneE53', 'gneE46'])
+    # traci.route.add('placeholder_trip', ['gneE53', 'gneE46'])
+    traci.route.add('placeholder_trip', ['27252673#2', '27252673#2'])
     traci.vehicle.add(vehicleID, 'placeholder_trip', typeID='electricvehicle')
-    traci.vehicle.setParameter(vehicleID, 'device.battery.actualBatteryCapacity', '600')        # Set vehicles fuel at start
+    traci.vehicle.setParameter(vehicleID, 'device.battery.actualBatteryCapacity', str(batteryCapacity))        # Set vehicles fuel at start
 
     # Generates optimal route for EV
-    route, csStops = rerouter('gneE53', '-gneE64', 100, graph)
+    # route, csStops = rerouter('gneE53', '-gneE64', batteryCapacity, graph)
+    route, csStops = rerouter('27252673#2', '167121167#2', batteryCapacity, graph)
     traci.vehicle.setRoute(vehicleID, route)
 
     for chargingStation in csStops:
