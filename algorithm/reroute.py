@@ -1,5 +1,6 @@
 import os
 import sys
+import math
 
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
@@ -8,6 +9,7 @@ else:
     sys.exit("please declare environment variable 'SUMO_HOME'")
 
 import sumolib
+import traci
 
 def rerouter(start, end, batteryCapacity, graph):
     startNode = graph.Net.getEdge(start).getFromNode().getID()
@@ -30,7 +32,7 @@ def rerouter(start, end, batteryCapacity, graph):
             routeLength += tempLength
             break
 
-        tempRoute, tempLength, csStop = routeViaCS(startNode, graph, evRange)
+        tempRoute, tempLength, csStop = routeViaCS(graph, startNode, endNode, evRange)
 
         if tempRoute == None:
             break
@@ -47,11 +49,11 @@ def rerouter(start, end, batteryCapacity, graph):
     print(csStops)
     return route, csStops
 
-def routeViaCS(startNode, graph, evRange):
-    closestCSs = getNeighbouringCS(graph, startNode, evRange)
+def routeViaCS(graph, startNode, endNode, evRange):
+    closestCSs = getNeighbouringCS(graph, startNode, endNode, evRange)
 
     if len(closestCSs) > 0:
-        chargingStation = closestCSs[0]
+        chargingStation = getBestCS(graph, closestCSs)
         csStartNode = graph.Net.getEdge(chargingStation.Lane).getFromNode().getID()
         csEndNode = graph.Net.getEdge(chargingStation.Lane).getToNode().getID()
 
@@ -63,6 +65,13 @@ def routeViaCS(startNode, graph, evRange):
         return route, routeLength, chargingStation
 
     return None
+
+def getBestCS(graph, closestCSs):
+    for cs in closestCSs:
+        cs.VehiclesCharging = traci.chargingstation.getVehicleCount(cs.id)
+        csChargePerStep = (cs.Power * cs.Efficiency) / 3600
+
+    return closestCSs[0]
 
 # Get the correct range and duration needed from and for EV
 def calculateCSRefuel(evRange, csStops, routeLength):
@@ -88,7 +97,7 @@ def aStarSearch(graph, start, end):
         currentNode = None
 
         for node in openList:
-            if currentNode == None or routeCost[node] + heuristic(graph, node, end) < routeCost[currentNode] + heuristic(graph, currentNode, end):
+            if currentNode == None or routeCost[node] + distanceBetweenNodes(graph, node, end) < routeCost[currentNode] + distanceBetweenNodes(graph, currentNode, end):
                 currentNode = node;
 
         if currentNode == None:
@@ -120,14 +129,19 @@ def aStarSearch(graph, start, end):
     return None, 0
 
 # Get distance from node to end node using euclidean distance
-def heuristic(graph, currentNode, endNode):
+# Used for heuristic in A*
+def distanceBetweenNodes(graph, currentNode, endNode):
     currentCoords = graph.Net.getNode(currentNode).getCoord()
     endCoords = graph.Net.getNode(endNode).getCoord()
 
-    x = currentCoords[0] - endCoords[0]
-    y = endCoords[0] - endCoords[0]
+    return euclideanDistance(currentCoords, endCoords)
 
-    return ((x ** 2) + (y ** 2)) ** 0.5
+# Calculates distance between to points from co-ords
+def euclideanDistance(aCoords, bCoords):
+    x = bCoords[0] - aCoords[0]
+    y = bCoords[1] - aCoords[1]
+
+    return math.sqrt((x ** 2) + (y ** 2))
 
 # Converts the route to be in edges not nodes for sumo vehicle to follow
 def reconstructRoutePath(graph, start, current, route):
@@ -152,17 +166,29 @@ def reconstructRoutePath(graph, start, current, route):
 def estimateRange(batteryCapacity):
     return round((batteryCapacity / 180) * 1000, 2)
 
-def getNeighbouringCS(graph, mainNode, radius):
+def getNeighbouringCS(graph, mainNode, endNode, radius):
     nodeCoords = graph.Net.getNode(mainNode).getCoord()
+    endCoords = graph.Net.getNode(endNode).getCoord()
+    lineDistance = euclideanDistance(nodeCoords, endCoords)
+    chargingStations = []
 
-    return [cs for cs in graph.ChargingStations if checkCSInRadius(nodeCoords, cs.X, cs.Y, radius)]
+    for cs in graph.ChargingStations:
+        if checkCSInRadius(nodeCoords, cs.X, cs.Y, radius):
+            cs.DistanceFromStart = euclideanDistance(nodeCoords, [cs.X, cs.Y])
+            cs.DistanceFromDivider = distanceFromLine(nodeCoords, endCoords, [cs.X, cs.Y], lineDistance)
+
+            chargingStations.append(cs)
+
+    return chargingStations
 
 # Use pythagoras to get distance between point and see if lower than the radius
 def checkCSInRadius(nodeCoords, csX, csY, radius):
     distance = (nodeCoords[0] - csX) ** 2 + (nodeCoords[1] - csY) ** 2
     return distance <= radius ** 2
 
-def determineestCS(closestCSs):
+# Distance calculation from point to a line
+# https://geomalgorithms.com/a02-_lines.html
+def distanceFromLine(lineA, lineB, csCoords, lineDistance):
+    eqTop = ((lineB[0] - lineA[0]) * (lineA[1] - csCoords[1])) - ((lineA[0] - csCoords[0]) * (lineB[1] - lineA[1]))
 
-
-    return []
+    return abs(eqTop / lineDistance)

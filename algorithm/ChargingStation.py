@@ -10,3 +10,5 @@ class ChargingStation:
         self.Power = power
         self.Efficiency = efficiency
         self.Duration = 0
+        self.DistanceFromStart = 0
+        self.DistanceFromDivider = 0
