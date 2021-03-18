@@ -53,7 +53,7 @@ class Graph:
 
         for element in root.findall('chargingStation'):
             x, y = sumolib.geomhelper.positionAtShapeOffset(self.Net.getEdge(element.get('lane').split('_')[0]).getShape(), float(element.get('startPos')))
-            cs = ChargingStation(element.get('id'), element.get('lane'), x, y, float(element.get('startPos')), float(element.get('power')), float(element.get('efficiency')))
+            cs = ChargingStation(element.get('id'), element.get('lane'), x, y, float(element.get('startPos')), float(element.get('endPos')), float(element.get('power')), float(element.get('efficiency')))
 
             chargingStations.append(cs)
 

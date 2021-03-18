@@ -28,11 +28,11 @@ def run(netFile, additionalFile, options=None):
             add_ev(graph)
 
         # Checks EV battery capacity
-        # if step > 100:
-            # print('Battery Capacity: ', traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))
-            # print('evRange2: ', estimateRange(float(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))))
-        # print('Range Left: ', round((float(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity')) / 330) * 1000, 2))
-        # print('Energy Consumption: ', traci.vehicle.getElectricityConsumption('EV1'))
+        # if step > 105:
+        #     mWh = float(traci.vehicle.getDistance('EV1')) / float(traci.vehicle.getParameter('EV1', 'device.battery.totalEnergyConsumed'))
+        #     print('MwH: ', mWh)
+            # print('Range: ', float(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity')) * mWh)
+            # print('actualBatteryCapacity: ', float(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity')))
         # if traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity') == "0.00":
         #     print('Vehicle battery empty')
 
@@ -57,18 +57,20 @@ def add_ev(graph):
     batteryCapacity = 90
 
     # Generate vehicle
-    traci.route.add('placeholder_trip', ['gneE53', 'gneE46'])
+    traci.route.add('placeholder_trip', ['gneE53'])
     # traci.route.add('placeholder_trip', ['27252673#2', '27252673#2'])
     traci.vehicle.add(vehicleID, 'placeholder_trip', typeID='electricvehicle')
-    traci.vehicle.setParameter(vehicleID, 'device.battery.actualBatteryCapacity', str(batteryCapacity))        # Set vehicles fuel at start
+    traci.vehicle.setParameter('EV1', 'device.battery.actualBatteryCapacity', batteryCapacity)
 
     # Generates optimal route for EV
-    route, csStops = rerouter('gneE53', '-gneE64', batteryCapacity, graph)
+    route, csStops = rerouter('gneE53', '-gneE64', vehicleID, graph)
     # route, csStops = reroute.rerouter('27252673#2', '167121167#2', batteryCapacity, graph)
-    traci.vehicle.setRoute(vehicleID, route)
 
-    for chargingStation in csStops:
-        traci.vehicle.setChargingStationStop(vehicleID, chargingStation.id, duration=100)
+    if len(route) > 0:
+        traci.vehicle.setRoute(vehicleID, route)
+
+        for chargingStation in csStops:
+            traci.vehicle.setChargingStationStop(vehicleID, chargingStation.id, duration=chargingStation.Duration)
 
 # Adds vehicle type electric vehicle
 def add_ev_vtype():
@@ -82,7 +84,7 @@ def add_ev_vtype():
     with open("data/electricvehicles.rou.xml", "w") as routes:
         sys.stdout = routes
         print(lines)
-        print("""  <vType id="electricvehicle" accel="0.8" decel="4.5" sigma="0.5" minGap="2.5" maxSpeed="40" guiShape="evehicle">
+        print("""  <vType id="electricvehicle" accel="0.8" decel="4.5" sigma="0.5" emissionClass="Energy/unknown" minGap="2.5" maxSpeed="40" guiShape="evehicle">
                      <param key="has.battery.device" value="true"/>
                      <param key="maximumBatteryCapacity" value="2000"/>
                      <param key="maximumPower" value="1000"/>

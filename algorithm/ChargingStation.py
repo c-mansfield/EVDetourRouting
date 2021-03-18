@@ -1,8 +1,9 @@
 class ChargingStation:
-    def __init__(self, id, lane, x, y, startPos, power, efficiency):
+    def __init__(self, id, lane, x, y, startPos, endPos, power, efficiency):
         self.id = id
         self.Lane = lane.split('_')[0]
         self.StartPos = startPos
+        self.EndPos = endPos
         self.X = x
         self.Y = y
         self.VehiclesCharging = 0
