@@ -1,6 +1,7 @@
 import os
 import sys
 import math
+from random import shuffle
 
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
@@ -10,8 +11,12 @@ else:
 
 import sumolib
 import traci
+from algorithm.Graph import Graph
 
-def rerouter(start, end, evID, graph):
+def rerouter(start, end, evID, netFile, additionalFile):
+    net = sumolib.net.readNet(netFile)
+    graph = Graph(net, additionalFile)
+
     startNode = graph.Net.getEdge(start).getFromNode().getID()
     endNode = graph.Net.getEdge(end).getToNode().getID()
     batteryCapacity = float(traci.vehicle.getParameter(evID, 'device.battery.actualBatteryCapacity'))
@@ -25,7 +30,6 @@ def rerouter(start, end, evID, graph):
 
     while True:
         tempRoute, tempLength = aStarSearch(graph, startNode, endNode)
-        evRange, csStops = calculateCSRefuel(evRange, csStops, tempLength, evID)
 
         if evRange > tempLength:
             route += tempRoute
@@ -42,9 +46,10 @@ def rerouter(start, end, evID, graph):
         routeLength += tempLength
         startNode = graph.Net.getEdge(route[-1]).getToNode().getID()
 
-        # Get distance startNode to CS, to get current EV range
+        # Get distance startNode to CS, to get current EV range that has just been travelled
         lastEdgeLength = graph.Net.getEdge(route[-1]).getLength()
         evRange -= (routeLength - lastEdgeLength) + csStop.EndPos
+        evRange, csStop = calculateCSRefuel(evRange, csStop, tempLength, evID)
         csStops.append(csStop)
 
     print('route: ', route)
@@ -70,6 +75,9 @@ def routeViaCS(graph, startNode, endNode, evRange):
     return None, None, None
 
 def getBestCS(graph, closestCSs):
+    closestCSs.sort(key=lambda x: (x.DistanceFromStart, x.DistanceFromDivider))
+    closestCSs = closestCSs[:10]
+
     for cs in closestCSs:
         cs.VehiclesCharging = traci.chargingstation.getVehicleCount(cs.id)
         csChargePerStep = (cs.Power * cs.Efficiency) / 3600
@@ -77,24 +85,25 @@ def getBestCS(graph, closestCSs):
     return closestCSs[0]
 
 # Get the correct range and duration needed from and for EV
-def calculateCSRefuel(evRange, csStops, routeLength, evID):
-    if len(csStops) > 0:
-        rangeNeeded = routeLength - evRange
-        capacityNeeded = estimateBatteryCapacity(evID, rangeNeeded) * 1.2
+def calculateCSRefuel(evRange, chargingStation, routeLength, evID):
+    # Get meters still needed to travel to complete journey
+    rangeNeeded = routeLength - evRange
+    capacityNeeded = estimateBatteryCapacity(evID, rangeNeeded) * 1.2
 
-        # Preference from user what percentage capacity they would like after charging
-        capacityGoal = float(traci.vehicle.getParameter(evID, 'device.battery.maximumBatteryCapacity')) * 0.5
+    # Preference from user what percentage capacity they would like after charging
+    capacityGoal = float(traci.vehicle.getParameter(evID, 'device.battery.maximumBatteryCapacity')) * 0.5
 
-        csChargePerStep = (csStops[-1].Power * csStops[-1].Efficiency) / 3600
-        durationToNeeded = math.ceil(capacityNeeded / csChargePerStep)
-        durationToGoal = math.ceil(capacityGoal / csChargePerStep)
+    csChargePerStep = (chargingStation.Power * chargingStation.Efficiency) / 3600
+    durationToNeeded = math.ceil(capacityNeeded / csChargePerStep)
+    durationToGoal = math.ceil(capacityGoal / csChargePerStep)
 
-        csStops[-1].Duration = max(durationToNeeded, durationToGoal)
-        newCapacity = evRange + (csStops[-1].Duration * csChargePerStep)
+    # Get higher duration of two for time spent charging at CS
+    chargingStation.Duration = max(durationToNeeded, durationToGoal)
+    newCapacity = evRange + (chargingStation.Duration * csChargePerStep)
 
-        evRange = estimateRange(evID, newCapacity)
+    evRange = estimateRange(evID, newCapacity)
 
-    return evRange, csStops
+    return evRange, chargingStation
 
 def aStarSearch(graph, start, end):
     openList = set([start])

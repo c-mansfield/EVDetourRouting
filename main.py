@@ -3,7 +3,6 @@ import sys
 import optparse
 import random
 from algorithm.reroute import rerouter, estimateRange
-from algorithm.Graph import Graph
 
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
@@ -18,14 +17,11 @@ def run(netFile, additionalFile, options=None):
     """execute the TraCI control loop"""
     step = 0
 
-    net = sumolib.net.readNet(netFile)
-    graph = Graph(net, additionalFile)
-
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
 
         if step == 100:
-            add_ev(graph)
+            add_ev(netFile, additionalFile)
 
         # Checks EV battery capacity
         # if step > 105:
@@ -41,18 +37,8 @@ def run(netFile, additionalFile, options=None):
     traci.close()
     sys.stdout.flush()
 
-# Get run parameters
-def get_options():
-    optParser = optparse.OptionParser()
-    optParser.add_option("--nogui", action="store_true",
-                         default=False, help="Run the commandline version of sumo")
-    optParser.add_option("--algorithm", action="store_true",
-                         default=False, help="Run algorithm on simulation")
-    options, args = optParser.parse_args()
-    return options
-
 # Adds electric vehicle wish to route
-def add_ev(graph):
+def add_ev(netFile, additionalFile):
     vehicleID = 'EV1'
     batteryCapacity = 90
 
@@ -63,7 +49,7 @@ def add_ev(graph):
     traci.vehicle.setParameter('EV1', 'device.battery.actualBatteryCapacity', batteryCapacity)
 
     # Generates optimal route for EV
-    route, csStops = rerouter('gneE53', '-gneE64', vehicleID, graph)
+    route, csStops = rerouter('gneE53', '-gneE64', vehicleID, netFile, additionalFile)
     # route, csStops = reroute.rerouter('27252673#2', '167121167#2', batteryCapacity, graph)
 
     if len(route) > 0:
@@ -102,3 +88,13 @@ def add_ev_vtype():
          #print('     <vehicle id="EV1" type="electricvehicle" depart="0" route="circuit" ><param key="actualBatteryCapacity" value="5"/></vehicle>')
         print("</routes>")
         sys.stdout = original_stdout
+
+# Get run parameters
+def get_options():
+    optParser = optparse.OptionParser()
+    optParser.add_option("--nogui", action="store_true",
+                         default=False, help="Run the commandline version of sumo")
+    optParser.add_option("--algorithm", action="store_true",
+                         default=False, help="Run algorithm on simulation")
+    options, args = optParser.parse_args()
+    return options

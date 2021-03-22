@@ -10,6 +10,7 @@ else:
     sys.exit("please declare environment variable 'SUMO_HOME'")
 
 import sumolib
+import traci
 
 class Graph:
     def __init__(self, net, additionalFile):
@@ -39,7 +40,8 @@ class Graph:
                     nodeConnections.append({
                         'Neighbour': j.getToNode().getID(),
                         'ConnectingEdge': j.getID(),
-                        'Length': j.getLength()
+                        'Length': j.getLength(),
+                        'TravelTime': traci.edge.getTraveltime(j.getID())
                     })
 
             nodes.update([(i.getID(), nodeConnections)])

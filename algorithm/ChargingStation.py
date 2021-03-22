@@ -13,3 +13,11 @@ class ChargingStation:
         self.Duration = 0
         self.DistanceFromStart = 0
         self.DistanceFromDivider = 0
+
+    def __str__(self):
+        return '[' + (str(self.id) + ", " + str(self.Lane)
+                + ", " + str(self.StartPos) + ", " + str(self.EndPos)
+                + ", " + str(self.VehiclesCharging) + ", " + str(self.Price)
+                + ", " + str(self.Power) + ", " + str(self.Efficiency)
+                + ", " + str(self.Duration) + ", " + str(self.DistanceFromStart)
+                + ", " + str(self.DistanceFromDivider)) + ']'
