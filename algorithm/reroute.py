@@ -29,9 +29,9 @@ def rerouter(start, end, evID, netFile, additionalFile):
     print('batteryCapacity: ', batteryCapacity)
 
     while True:
-        tempRoute, tempLength = aStarSearch(graph, startNode, endNode)
+        tempRoute, tempLength = aStarSearch(graph, startNode, endNode, evRange)
 
-        if evRange > tempLength:
+        if tempRoute != None:
             route += tempRoute
             routeLength += tempLength
             break
@@ -46,9 +46,9 @@ def rerouter(start, end, evID, netFile, additionalFile):
         routeLength += tempLength
         startNode = graph.Net.getEdge(route[-1]).getToNode().getID()
 
-        # Get distance startNode to CS, to get current EV range that has just been travelled
-        lastEdgeLength = graph.Net.getEdge(route[-1]).getLength()
-        evRange -= (routeLength - lastEdgeLength) + csStop.EndPos
+        # Get current EV range that has just been travelled
+        # lastEdgeLength = graph.Net.getEdge(route[-1]).getLength()
+        evRange -= tempLength
         evRange, csStop = calculateCSRefuel(evRange, csStop, tempLength, evID)
         csStops.append(csStop)
 
@@ -65,8 +65,10 @@ def routeViaCS(graph, startNode, endNode, evRange):
         csStartNode = graph.Net.getEdge(chargingStation.Lane).getFromNode().getID()
         csEndNode = graph.Net.getEdge(chargingStation.Lane).getToNode().getID()
 
-        route, routeLength = aStarSearch(graph, startNode, csStartNode)
+        route, routeLength = aStarSearch(graph, startNode, csStartNode, evRange)
 
+        # Append the connecting node to the edge where the CS
+        # lies incase more than one edge coming from start node
         routeLength += graph.Net.getEdge(chargingStation.Lane).getLength()
         route.append(chargingStation.Lane)
 
@@ -105,7 +107,7 @@ def calculateCSRefuel(evRange, chargingStation, routeLength, evID):
 
     return evRange, chargingStation
 
-def aStarSearch(graph, start, end):
+def aStarSearch(graph, start, end, evRange):
     openList = set([start])
     closedList = set([])
 
@@ -118,7 +120,8 @@ def aStarSearch(graph, start, end):
         currentNode = None
 
         for node in openList:
-            if currentNode == None or routeCost[node] + distanceBetweenNodes(graph, node, end) < routeCost[currentNode] + distanceBetweenNodes(graph, currentNode, end):
+            if currentNode == None \
+                or routeCost[node] + heuristic(graph, node, end) < routeCost[currentNode] + heuristic(graph, currentNode, end):
                 currentNode = node;
 
         if currentNode == None:
@@ -144,10 +147,17 @@ def aStarSearch(graph, start, end):
                         closedList.remove(neighbourNode)
                         openList.add(neighbourNode)
 
+        if evRange < list(routeCost.values())[-1]:
+            print('Error, cannot find valid route with current range. Reroute via CS')
+            break
+
         closedList.add(currentNode)
         openList.remove(currentNode)
 
     return None, 0
+
+def heuristic(graph, currentNode, endNode):
+    return distanceBetweenNodes(graph, currentNode, endNode)
 
 # Get distance from node to end node using euclidean distance
 # Used for heuristic in A*

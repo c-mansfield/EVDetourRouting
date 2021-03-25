@@ -41,7 +41,7 @@ class Graph:
                         'Neighbour': j.getToNode().getID(),
                         'ConnectingEdge': j.getID(),
                         'Length': j.getLength(),
-                        'TravelTime': traci.edge.getTraveltime(j.getID())
+                        'EdgeSpeed': traci.edge.getLastStepMeanSpeed(j.getID())
                     })
 
             nodes.update([(i.getID(), nodeConnections)])
