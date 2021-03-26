@@ -14,8 +14,7 @@ import traci
 from algorithm.Graph import Graph
 
 def rerouter(start, end, evID, netFile, additionalFile):
-    net = sumolib.net.readNet(netFile)
-    graph = Graph(net, additionalFile)
+    graph = Graph(netFile, additionalFile)
 
     startNode = graph.Net.getEdge(start).getFromNode().getID()
     endNode = graph.Net.getEdge(end).getToNode().getID()
@@ -67,6 +66,9 @@ def routeViaCS(graph, startNode, endNode, evRange):
 
         route, routeLength = aStarSearch(graph, startNode, csStartNode, evRange)
 
+        if route == None:
+            return None, None, None
+
         # Append the connecting node to the edge where the CS
         # lies incase more than one edge coming from start node
         routeLength += graph.Net.getEdge(chargingStation.Lane).getLength()
@@ -113,8 +115,12 @@ def aStarSearch(graph, start, end, evRange):
 
     route = {}
     route[start] = start
+
     routeCost = {}
     routeCost[start] = 0
+
+    routeLength = {}
+    routeLength[start] = 0
 
     while len(openList) > 0:
         currentNode = None
@@ -128,26 +134,31 @@ def aStarSearch(graph, start, end, evRange):
             return None
 
         if currentNode == end:
-            return reconstructRoutePath(graph, start, currentNode, route)
+            return reconstructRoutePath(graph, start, currentNode, route, routeLength)
 
         for next in graph.neighbors(currentNode):
             neighbourNode = next['Neighbour']
+            edgeStepSpeed = traci.edge.getLastStepMeanSpeed(next['ConnectingEdge'])
 
             if neighbourNode not in openList and neighbourNode not in closedList:
                 openList.add(neighbourNode)
                 route[neighbourNode] = currentNode
-                routeCost[neighbourNode] = routeCost[currentNode] + next['Length']
+
+                # Travel time is cost of each node, length / speed of road, this gets fastest and shortest route
+                routeCost[neighbourNode] = routeCost[currentNode] + (next['Length'] / edgeStepSpeed)
+                routeLength[neighbourNode] = routeLength[currentNode] + next['Length']
 
             else:
-                if routeCost[neighbourNode] > routeCost[currentNode] + next['Length']:
-                    routeCost[neighbourNode] = routeCost[currentNode] + next['Length']
+                if routeCost[neighbourNode] > routeCost[currentNode] + (next['Length'] / edgeStepSpeed):
+                    routeCost[neighbourNode] = routeCost[currentNode] + (next['Length'] / edgeStepSpeed)
                     route[neighbourNode] = currentNode
+                    routeLength[neighbourNode] = routeLength[currentNode] + next['Length']
 
                     if neighbourNode in closedList:
                         closedList.remove(neighbourNode)
                         openList.add(neighbourNode)
 
-        if evRange < list(routeCost.values())[-1]:
+        if evRange < list(routeLength.values())[-1]:
             print('Error, cannot find valid route with current range. Reroute via CS')
             break
 
@@ -156,8 +167,10 @@ def aStarSearch(graph, start, end, evRange):
 
     return None, 0
 
+# Estimating the heristic as the euclidean distance from current to end divided
+# by the max speed of any
 def heuristic(graph, currentNode, endNode):
-    return distanceBetweenNodes(graph, currentNode, endNode)
+    return distanceBetweenNodes(graph, currentNode, endNode) / 13.049
 
 # Get distance from node to end node using euclidean distance
 # Used for heuristic in A*
@@ -175,22 +188,18 @@ def euclideanDistance(aCoords, bCoords):
     return math.sqrt((x ** 2) + (y ** 2))
 
 # Converts the route to be in edges not nodes for sumo vehicle to follow
-def reconstructRoutePath(graph, start, current, route):
+def reconstructRoutePath(graph, start, current, route, routeLength):
     newRoute = []
-    # routeLength = []
-    length = 0
 
     while route[current] != current:
         connectingEdge = graph.getNodeEdge(route[current], current)
 
-        length += connectingEdge['Length']
-        # routeLength.append(length)
         newRoute.append(connectingEdge['ConnectingEdge'])
         current = route[current]
 
     newRoute.reverse()
 
-    return newRoute, length
+    return newRoute, list(routeLength.values())[-1]
 
 # Estimates range for EV from current battery capacity
 # Returns value in meters

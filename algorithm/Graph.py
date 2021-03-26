@@ -13,12 +13,13 @@ import sumolib
 import traci
 
 class Graph:
-    def __init__(self, net, additionalFile):
-        self.Net = net
-        self.Edges = net.getEdges()
-        self.Nodes = net.getNodes()
-        self.NodeNeighbours = self.getNodeNeighbours(net)
+    def __init__(self, netFile, additionalFile):
+        self.Net = sumolib.net.readNet(netFile)
+        self.Edges = self.Net.getEdges()
+        self.Nodes = self.Net.getNodes()
+        self.NodeNeighbours = self.getNodeNeighbours()
         self.ChargingStations = self.getChargingStations(additionalFile)
+        self.MaxSpeed = self.getMaxSpeed()
 
     def neighbors(self, id):
         return self.NodeNeighbours.get(id)
@@ -28,14 +29,14 @@ class Graph:
         nodesNeighbours = self.NodeNeighbours.get(fromNode)
         return next(edge for edge in nodesNeighbours if edge['Neighbour'] == toNode)
 
-    def getNodeNeighbours(self, net):
-        netNodes = net.getNodes()
+    def getNodeNeighbours(self):
+        netNodes = self.Net.getNodes()
         nodes = {}
 
         for i in netNodes:
             nodeConnections = []
 
-            for j in net.getNode(i.getID()).getOutgoing():
+            for j in self.Net.getNode(i.getID()).getOutgoing():
                 if j.getToNode().getID():
                     nodeConnections.append({
                         'Neighbour': j.getToNode().getID(),
@@ -60,3 +61,6 @@ class Graph:
             chargingStations.append(cs)
 
         return chargingStations
+
+    def getMaxSpeed(self):
+        return 13.89
