@@ -1,7 +1,7 @@
 import os
 import sys
 import math
-from random import shuffle
+from random import shuffle, uniform
 
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
@@ -78,15 +78,38 @@ def routeViaCS(graph, startNode, endNode, evRange):
 
     return None, None, None
 
+# Make MCDM based on SAW technique and normalizing the data using vector normalization
+# https://hal.inria.fr/hal-01438251/document#:~:text=They%20used%20a%20ranking%20consistency,SAW%20is%20the%20vector%20normalization.
+# http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.134.8891&rep=rep1&type=pdf
 def getBestCS(graph, closestCSs):
-    closestCSs.sort(key=lambda x: (x.DistanceFromStart, x.DistanceFromDivider))
-    closestCSs = closestCSs[:10]
+    # Get vector lengths for denomatonator for all attributes
+    lenDistStart = math.sqrt(sum(cs.DistanceFromStart ** 2 for cs in closestCSs))
+    lenDistDivider = math.sqrt(sum(cs.DistanceFromDivider ** 2 for cs in closestCSs))
+    lenPrice = math.sqrt(sum(cs.Price ** 2 for cs in closestCSs))
+    lenVehiclesCharging = math.sqrt(sum(cs.VehiclesCharging ** 2 for cs in closestCSs))
+    lenStepCharge = math.sqrt(sum(cs.ChargePerStep ** 2 for cs in closestCSs))
 
     for cs in closestCSs:
-        cs.VehiclesCharging = traci.chargingstation.getVehicleCount(cs.id)
-        csChargePerStep = (cs.Power * cs.Efficiency) / 3600
+        # Normalize each attribute of CS wish to make decision based on and  its weighting
+        distStartScore = (1 - catchZeroDivision(cs.DistanceFromStart, lenDistStart)) * 0.25
+        distDividerScore = (1 - catchZeroDivision(cs.DistanceFromDivider, lenDistDivider)) * 0.25
+        priceScore = (1 - catchZeroDivision(cs.Price, lenPrice)) * 0.05
+        vehiclesChargingScore = (1 - catchZeroDivision(cs.VehiclesCharging, lenVehiclesCharging)) * 0.20
+        stepChargeScore = catchZeroDivision(cs.ChargePerStep, lenStepCharge) * 0.25
 
-    return closestCSs[0]
+        # Get CS score of best charging station
+        cs.Score = distStartScore + distDividerScore + priceScore + stepChargeScore # + vehiclesChargingScore
+
+        print('Charging Station: ', cs.id)
+        print('Score: ', cs.Score)
+
+    return max(closestCSs, key=lambda item: item.Score)
+
+def catchZeroDivision(x, y):
+    try:
+        return x / y
+    except ZeroDivisionError:
+        return 0
 
 # Get the correct range and duration needed from and for EV
 def calculateCSRefuel(evRange, chargingStation, routeLength, evID):
@@ -145,12 +168,12 @@ def aStarSearch(graph, start, end, evRange):
                 route[neighbourNode] = currentNode
 
                 # Travel time is cost of each node, length / speed of road, this gets fastest and shortest route
-                routeCost[neighbourNode] = routeCost[currentNode] + (next['Length'] / edgeStepSpeed)
+                routeCost[neighbourNode] = routeCost[currentNode] + catchZeroDivision(next['Length'], edgeStepSpeed)
                 routeLength[neighbourNode] = routeLength[currentNode] + next['Length']
 
             else:
-                if routeCost[neighbourNode] > routeCost[currentNode] + (next['Length'] / edgeStepSpeed):
-                    routeCost[neighbourNode] = routeCost[currentNode] + (next['Length'] / edgeStepSpeed)
+                if routeCost[neighbourNode] > routeCost[currentNode] + catchZeroDivision(next['Length'], edgeStepSpeed):
+                    routeCost[neighbourNode] = routeCost[currentNode] + catchZeroDivision(next['Length'], edgeStepSpeed)
                     route[neighbourNode] = currentNode
                     routeLength[neighbourNode] = routeLength[currentNode] + next['Length']
 
@@ -228,6 +251,8 @@ def getNeighbouringCS(graph, mainNode, endNode, radius):
         if checkCSInRadius(nodeCoords, cs.X, cs.Y, radius):
             cs.DistanceFromStart = euclideanDistance(nodeCoords, [cs.X, cs.Y])
             cs.DistanceFromDivider = distanceFromLine(nodeCoords, endCoords, [cs.X, cs.Y], lineDistance)
+            cs.VehiclesCharging = traci.chargingstation.getVehicleCount(cs.id)
+            cs.Price = uniform(0.1, 0.25)
 
             chargingStations.append(cs)
 

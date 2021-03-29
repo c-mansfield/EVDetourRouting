@@ -10,9 +10,11 @@ class ChargingStation:
         self.Price = 0
         self.Power = power
         self.Efficiency = efficiency
+        self.ChargePerStep = (power * efficiency) / 3600
         self.Duration = 0
         self.DistanceFromStart = 0
         self.DistanceFromDivider = 0
+        self.Score = 0
 
     def __str__(self):
         return '[' + (str(self.id) + ", " + str(self.Lane)
