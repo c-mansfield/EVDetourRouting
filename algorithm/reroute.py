@@ -28,14 +28,19 @@ def rerouter(start, end, evID, netFile, additionalFile):
     print('batteryCapacity: ', batteryCapacity)
 
     while True:
-        tempRoute, tempLength = aStarSearch(graph, startNode, endNode, evRange)
+        tempRoute, tempLength = aStarSearch(graph, startNode, endNode, evRange, evID, False)
 
-        if tempRoute != None:
+        # When intitial route gets something back, saves route and sets new start as last node
+        if tempRoute != None and tempRoute != []:
             route += tempRoute
             routeLength += tempLength
-            break
+            startNode = graph.Net.getEdge(tempRoute[-1]).getToNode().getID()
 
-        tempRoute, tempLength, csStop = routeViaCS(graph, startNode, endNode, evRange)
+            # End cycle for route search if reached the end
+            if graph.Net.getEdge(tempRoute[-1]).getToNode().getID() == endNode:
+                break
+
+        tempRoute, tempLength, csStop = routeViaCS(graph, startNode, endNode, evRange, evID)
 
         if tempRoute == None:
             print('No valid route for EV with current capacity')
@@ -56,7 +61,7 @@ def rerouter(start, end, evID, netFile, additionalFile):
     print('csStops: ', csStops)
     return route, csStops
 
-def routeViaCS(graph, startNode, endNode, evRange):
+def routeViaCS(graph, startNode, endNode, evRange, evID):
     closestCSs = getNeighbouringCS(graph, startNode, endNode, evRange)
 
     if len(closestCSs) > 0:
@@ -64,7 +69,7 @@ def routeViaCS(graph, startNode, endNode, evRange):
         csStartNode = graph.Net.getEdge(chargingStation.Lane).getFromNode().getID()
         csEndNode = graph.Net.getEdge(chargingStation.Lane).getToNode().getID()
 
-        route, routeLength = aStarSearch(graph, startNode, csStartNode, evRange)
+        route, routeLength = aStarSearch(graph, startNode, csStartNode, evRange, evID, True)
 
         if route == None:
             return None, None, None
@@ -132,7 +137,7 @@ def calculateCSRefuel(evRange, chargingStation, routeLength, evID):
 
     return evRange, chargingStation
 
-def aStarSearch(graph, start, end, evRange):
+def aStarSearch(graph, start, end, evRange, evID, csRouting):
     openList = set([start])
     closedList = set([])
 
@@ -159,6 +164,13 @@ def aStarSearch(graph, start, end, evRange):
         if currentNode == end:
             return reconstructRoutePath(graph, start, currentNode, route, routeLength)
 
+        # Checks whether soc under limit when getting intial route or route from CS
+        if not csRouting:
+            currentSOC = estimateSOC(evID, evRange, list(routeLength.values())[-1])
+
+            if currentSOC < 11:
+                return reconstructRoutePath(graph, start, currentNode, route, routeLength)
+
         for next in graph.neighbors(currentNode):
             neighbourNode = next['Neighbour']
             edgeStepSpeed = traci.edge.getLastStepMeanSpeed(next['ConnectingEdge'])
@@ -181,9 +193,12 @@ def aStarSearch(graph, start, end, evRange):
                         closedList.remove(neighbourNode)
                         openList.add(neighbourNode)
 
-        if evRange < list(routeLength.values())[-1]:
-            print('Error, cannot find valid route with current range. Reroute via CS')
-            break
+        # print('evRange: ', evRange)
+        # print('list(routeLength.values())[-1]: ', list(routeLength.values())[-1])
+        #
+        # if evRange < list(routeLength.values())[-1]:
+        #     print('Error, cannot find valid route with current range. Reroute via CS')
+        #     break
 
         closedList.add(currentNode)
         openList.remove(currentNode)
@@ -234,6 +249,11 @@ def estimateRange(evID, batteryCapacity):
 # Returns value in Wh
 def estimateBatteryCapacity(evID, evRange):
     return evRange / getMetersPerWatt(evID)
+
+# Get estimated state of charge for current spot in location
+def estimateSOC(evID, evRange, routeLength):
+    currentRange = evRange - routeLength
+    return (estimateBatteryCapacity(evID, currentRange) / float(traci.vehicle.getParameter(evID, 'device.battery.maximumBatteryCapacity'))) * 100
 
 # Gte the meters per Watt-hour of the current EV to use in range and capacity calculations
 def getMetersPerWatt(evID):

@@ -43,14 +43,14 @@ def add_ev(netFile, additionalFile):
     batteryCapacity = 200
 
     # Generate vehicle
-    traci.route.add('placeholder_trip', ['gneE53'])
-    # traci.route.add('placeholder_trip', ['27252673#2', '27252673#2'])
-    traci.vehicle.add(vehicleID, 'placeholder_trip', typeID='evehicle')
+    # traci.route.add('placeholder_trip', ['gneE53'])
+    traci.route.add('placeholder_trip', ['-28038817#3'])
+    traci.vehicle.add(vehicleID, 'placeholder_trip', typeID='electricvehicle')
     traci.vehicle.setParameter(vehicleID, 'device.battery.actualBatteryCapacity', batteryCapacity)
 
     # Generates optimal route for EV
-    route, csStops = rerouter('gneE53', '-gneE64', vehicleID, netFile, additionalFile)
-    # route, csStops = reroute.rerouter('27252673#2', '167121167#2', batteryCapacity, graph)
+    # route, csStops = rerouter('gneE53', '-gneE64', vehicleID, netFile, additionalFile)
+    route, csStops = rerouter('-28038817#3', '167121171#7', vehicleID, netFile, additionalFile)
 
     if len(route) > 0:
         traci.vehicle.setRoute(vehicleID, route)
@@ -63,14 +63,14 @@ def add_ev_vtype():
     original_stdout = sys.stdout
 
     # Get all lines in routing file apart from </route> so can append more to file
-    f = open("data/electricvehicles.rou.xml", "r")
+    f = open("data/electricvehicles.rou.xml", "r+")
     lines = f.read()
-    lines = lines.replace("</routes>", "")
+    f.truncate(0)
 
     with open("data/electricvehicles.rou.xml", "w") as routes:
         sys.stdout = routes
-        print(lines)
-        print("""  <vType id="evehicle" accel="0.8" decel="4.5" sigma="0.5" emissionClass="Energy/unknown" minGap="2.5" maxSpeed="40" guiShape="evehicle" vClass="evehicle">
+        print("<routes>")
+        print("""  <vType id="electricvehicle" accel="0.8" decel="4.5" sigma="0.5" emissionClass="Energy/unknown" minGap="2.5" maxSpeed="40" guiShape="evehicle" vClass="evehicle">
                      <param key="has.battery.device" value="true"/>
                      <param key="maximumBatteryCapacity" value="2000"/>
                      <param key="maximumPower" value="1000"/>

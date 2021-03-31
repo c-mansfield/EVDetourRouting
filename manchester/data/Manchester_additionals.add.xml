@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 03/31/21 11:10:25 by Eclipse SUMO netedit Version v1_8_0+1742-ceeb7fe3f3
+<!-- generated on 03/31/21 15:56:46 by Eclipse SUMO netedit Version v1_8_0+1742-ceeb7fe3f3
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
@@ -42,18 +42,17 @@
 -->
 
 <additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
-    <chargingStation id="chargingStation_-159131952#1_0_12" lane="-159131952#1_0" startPos="1.97" endPos="11.97" power="21000.00" efficiency="0.90"/>
-    <chargingStation id="chargingStation_155732603_0_4" lane="155732603_0" startPos="8.34" endPos="18.34" power="18000.00"/>
+    <chargingStation id="chargingStation_155732603_0_4" lane="155732603_0" startPos="8.34" endPos="18.34" power="19000.00" efficiency="0.98"/>
     <chargingStation id="chargingStation_172190974_0_13" lane="172190974_0" startPos="3.58" endPos="13.58" power="20000.00" efficiency="0.96"/>
-    <chargingStation id="chargingStation_353919193_0_3" lane="353919193_0" startPos="0.00" endPos="61.31" power="18000.00"/>
-    <chargingStation id="chargingStation_gneE10_0_2" lane="gneE10_0" startPos="0.00" endPos="16.50" power="18000.00"/>
-    <chargingStation id="chargingStation_gneE16_0_5" lane="gneE16_0" startPos="0.00" endPos="10.92" friendlyPos="1" power="22500.00" efficiency="0.70"/>
-    <chargingStation id="chargingStation_gneE19_0_6" lane="gneE19_0" startPos="0.00" endPos="15.31" friendlyPos="1"/>
-    <chargingStation id="chargingStation_gneE1_0_0" lane="gneE1_0" startPos="0.00" endPos="13.69" power="20000.00" efficiency="0.90"/>
+    <chargingStation id="chargingStation_353919193_0_3" lane="353919193_0" startPos="0.00" endPos="61.31" power="19000.00" efficiency="0.98"/>
+    <chargingStation id="chargingStation_gneE10_0_2" lane="gneE10_0" startPos="0.00" endPos="16.50" power="20000.00" efficiency="0.90"/>
+    <chargingStation id="chargingStation_gneE16_0_5" lane="gneE16_0" startPos="0.00" endPos="7.33" friendlyPos="1" power="22500.00" efficiency="0.70"/>
+    <chargingStation id="chargingStation_gneE19_0_6" lane="gneE19_0" startPos="0.00" endPos="12.82" friendlyPos="1" power="21000.00" efficiency="0.88"/>
+    <chargingStation id="chargingStation_gneE1_0_0" lane="gneE1_0" startPos="0.00" endPos="13.68" power="20000.00" efficiency="0.90"/>
     <chargingStation id="chargingStation_gneE22_0_7" lane="gneE22_0" startPos="0.00" endPos="13.57" power="18000.00" efficiency="0.90"/>
-    <chargingStation id="chargingStation_gneE25_0_8" lane="gneE25_0" startPos="0.00" endPos="13.83" friendlyPos="1" power="21000.00" efficiency="0.82"/>
-    <chargingStation id="chargingStation_gneE28_0_9" lane="gneE28_0" startPos="0.00" endPos="19.75" friendlyPos="1" power="20000.00" efficiency="0.92"/>
-    <chargingStation id="chargingStation_gneE31_0_10" lane="gneE31_0" startPos="0.00" endPos="15.76" power="21000.00" efficiency="0.86"/>
-    <chargingStation id="chargingStation_gneE33_0_11" lane="gneE33_0" startPos="0.00" endPos="41.34" friendlyPos="1" power="23000.00" efficiency="0.85"/>
-    <chargingStation id="chargingStation_gneE4_0_1" lane="gneE4_0" startPos="0.00" endPos="20.49" friendlyPos="1" power="19000.00" efficiency="0.85"/>
+    <chargingStation id="chargingStation_gneE25_0_8" lane="gneE25_0" startPos="0.00" endPos="10.22" friendlyPos="1" power="21000.00" efficiency="0.82"/>
+    <chargingStation id="chargingStation_gneE28_0_9" lane="gneE28_0" startPos="0.00" endPos="14.79" friendlyPos="1" power="20000.00" efficiency="0.92"/>
+    <chargingStation id="chargingStation_gneE31_0_10" lane="gneE31_0" startPos="0.00" endPos="15.75" power="21000.00" efficiency="0.86"/>
+    <chargingStation id="chargingStation_gneE33_0_11" lane="gneE33_0" startPos="0.00" endPos="27.57" friendlyPos="1" power="23000.00" efficiency="0.85"/>
+    <chargingStation id="chargingStation_gneE4_0_1" lane="gneE4_0" startPos="0.00" endPos="14.07" friendlyPos="1" power="19000.00" efficiency="0.85"/>
 </additional>
