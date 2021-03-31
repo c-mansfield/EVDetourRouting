@@ -40,13 +40,13 @@ def run(netFile, additionalFile, options=None):
 # Adds electric vehicle wish to route
 def add_ev(netFile, additionalFile):
     vehicleID = 'EV1'
-    batteryCapacity = 90
+    batteryCapacity = 200
 
     # Generate vehicle
     traci.route.add('placeholder_trip', ['gneE53'])
     # traci.route.add('placeholder_trip', ['27252673#2', '27252673#2'])
-    traci.vehicle.add(vehicleID, 'placeholder_trip', typeID='electricvehicle')
-    traci.vehicle.setParameter('EV1', 'device.battery.actualBatteryCapacity', batteryCapacity)
+    traci.vehicle.add(vehicleID, 'placeholder_trip', typeID='evehicle')
+    traci.vehicle.setParameter(vehicleID, 'device.battery.actualBatteryCapacity', batteryCapacity)
 
     # Generates optimal route for EV
     route, csStops = rerouter('gneE53', '-gneE64', vehicleID, netFile, additionalFile)
@@ -70,7 +70,7 @@ def add_ev_vtype():
     with open("data/electricvehicles.rou.xml", "w") as routes:
         sys.stdout = routes
         print(lines)
-        print("""  <vType id="electricvehicle" accel="0.8" decel="4.5" sigma="0.5" emissionClass="Energy/unknown" minGap="2.5" maxSpeed="40" guiShape="evehicle">
+        print("""  <vType id="evehicle" accel="0.8" decel="4.5" sigma="0.5" emissionClass="Energy/unknown" minGap="2.5" maxSpeed="40" guiShape="evehicle" vClass="evehicle">
                      <param key="has.battery.device" value="true"/>
                      <param key="maximumBatteryCapacity" value="2000"/>
                      <param key="maximumPower" value="1000"/>
