@@ -10,7 +10,6 @@ else:
     sys.exit("please declare environment variable 'SUMO_HOME'")
 
 import sumolib
-import traci
 
 class Graph:
     def __init__(self, netFile, additionalFile):
@@ -19,7 +18,7 @@ class Graph:
         self.Nodes = self.Net.getNodes()
         self.NodeNeighbours = self.getNodeNeighbours()
         self.ChargingStations = self.getChargingStations(additionalFile)
-        self.MaxSpeed = self.getMaxSpeed()
+        self.MaxSpeed = self.getMaxSpeed(netFile)
 
     def neighbors(self, id):
         return self.NodeNeighbours.get(id)
@@ -37,18 +36,19 @@ class Graph:
             nodeConnections = []
 
             for j in self.Net.getNode(i.getID()).getOutgoing():
-                if j.getToNode().getID():
+                # Make sure only gets lanes with evehicle access
+                if j.getToNode().getID() and j.allows('evehicle'):
                     nodeConnections.append({
                         'Neighbour': j.getToNode().getID(),
                         'ConnectingEdge': j.getID(),
-                        'Length': j.getLength(),
-                        'EdgeSpeed': traci.edge.getLastStepMeanSpeed(j.getID())
+                        'Length': j.getLength()
                     })
 
-            nodes.update([(i.getID(), nodeConnections)])
+                    nodes.update([(i.getID(), nodeConnections)])
 
         return nodes
 
+    # Gets all charging stations and attributes in the sumo simulation net
     def getChargingStations(self, additionalFile):
         chargingStations = []
         xmlTree = ET.parse(additionalFile)
@@ -62,5 +62,14 @@ class Graph:
 
         return chargingStations
 
-    def getMaxSpeed(self):
-        return 13.89
+    # Gets the max speed in the sumo simulation net
+    def getMaxSpeed(self, netFile):
+        xmlTree = ET.parse(netFile)
+        root = xmlTree.getroot()
+        maxSpeed = 0
+
+        for lane in root.findall('.//edge/lane'):
+            laneSpeed = float(lane.get('speed'))
+            maxSpeed = max(laneSpeed, maxSpeed)
+
+        return maxSpeed

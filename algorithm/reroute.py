@@ -11,11 +11,8 @@ else:
 
 import sumolib
 import traci
-from algorithm.Graph import Graph
 
-def rerouter(start, end, evID, netFile, additionalFile):
-    graph = Graph(netFile, additionalFile)
-
+def rerouter(start, end, evID, graph):
     startNode = graph.Net.getEdge(start).getFromNode().getID()
     endNode = graph.Net.getEdge(end).getToNode().getID()
     batteryCapacity = float(traci.vehicle.getParameter(evID, 'device.battery.actualBatteryCapacity'))
@@ -26,11 +23,12 @@ def rerouter(start, end, evID, netFile, additionalFile):
 
     print('evRange: ', evRange)
     print('batteryCapacity: ', batteryCapacity)
+    print('startNode: ', startNode)
 
     while True:
         tempRoute, tempLength = aStarSearch(graph, startNode, endNode, evRange, evID, False)
 
-        # When intitial route gets something back, saves route and sets new start as last node
+        # When initial route gets something back, saves route and sets new start as last node
         if tempRoute != None and tempRoute != []:
             route += tempRoute
             routeLength += tempLength
@@ -40,6 +38,8 @@ def rerouter(start, end, evID, netFile, additionalFile):
             if graph.Net.getEdge(tempRoute[-1]).getToNode().getID() == endNode:
                 break
 
+        print('startNode2: ', startNode)
+
         tempRoute, tempLength, csStop = routeViaCS(graph, startNode, endNode, evRange, evID)
 
         if tempRoute == None:
@@ -48,6 +48,8 @@ def rerouter(start, end, evID, netFile, additionalFile):
 
         route += tempRoute
         routeLength += tempLength
+
+        # Set new start node from node after charging station
         startNode = graph.Net.getEdge(route[-1]).getToNode().getID()
 
         # Get current EV range that has just been travelled
@@ -59,6 +61,7 @@ def rerouter(start, end, evID, netFile, additionalFile):
     print('route: ', route)
     print('routeLength: ', routeLength)
     print('csStops: ', csStops)
+
     return route, csStops
 
 def routeViaCS(graph, startNode, endNode, evRange, evID):
@@ -150,6 +153,8 @@ def aStarSearch(graph, start, end, evRange, evID, csRouting):
     routeLength = {}
     routeLength[start] = 0
 
+    print('evRange2: ', evRange)
+
     while len(openList) > 0:
         currentNode = None
 
@@ -171,31 +176,34 @@ def aStarSearch(graph, start, end, evRange, evID, csRouting):
             if currentSOC < 11:
                 return reconstructRoutePath(graph, start, currentNode, route, routeLength)
 
-        for next in graph.neighbors(currentNode):
-            neighbourNode = next['Neighbour']
-            edgeStepSpeed = traci.edge.getLastStepMeanSpeed(next['ConnectingEdge'])
+        # Checker to not evaluate nodes that lead to dead end
+        if graph.neighbors(currentNode) != None:
+            for next in graph.neighbors(currentNode):
+                neighbourNode = next['Neighbour']
+                edgeStepSpeed = traci.edge.getLastStepMeanSpeed(next['ConnectingEdge'])
 
-            if neighbourNode not in openList and neighbourNode not in closedList:
-                openList.add(neighbourNode)
-                route[neighbourNode] = currentNode
-
-                # Travel time is cost of each node, length / speed of road, this gets fastest and shortest route
-                routeCost[neighbourNode] = routeCost[currentNode] + catchZeroDivision(next['Length'], edgeStepSpeed)
-                routeLength[neighbourNode] = routeLength[currentNode] + next['Length']
-
-            else:
-                if routeCost[neighbourNode] > routeCost[currentNode] + catchZeroDivision(next['Length'], edgeStepSpeed):
-                    routeCost[neighbourNode] = routeCost[currentNode] + catchZeroDivision(next['Length'], edgeStepSpeed)
+                # Checker for dead-ends
+                if neighbourNode not in openList and neighbourNode not in closedList:
+                    openList.add(neighbourNode)
                     route[neighbourNode] = currentNode
+
+                    # Travel time is cost of each node, length / speed of road, this gets fastest and shortest route
+                    routeCost[neighbourNode] = routeCost[currentNode] + catchZeroDivision(next['Length'], edgeStepSpeed)
                     routeLength[neighbourNode] = routeLength[currentNode] + next['Length']
 
-                    if neighbourNode in closedList:
-                        closedList.remove(neighbourNode)
-                        openList.add(neighbourNode)
+                else:
+                    if routeCost[neighbourNode] > routeCost[currentNode] + catchZeroDivision(next['Length'], edgeStepSpeed):
+                        routeCost[neighbourNode] = routeCost[currentNode] + catchZeroDivision(next['Length'], edgeStepSpeed)
+                        route[neighbourNode] = currentNode
+                        routeLength[neighbourNode] = routeLength[currentNode] + next['Length']
+
+                        if neighbourNode in closedList:
+                            closedList.remove(neighbourNode)
+                            openList.add(neighbourNode)
 
         # print('evRange: ', evRange)
         # print('list(routeLength.values())[-1]: ', list(routeLength.values())[-1])
-        #
+
         # if evRange < list(routeLength.values())[-1]:
         #     print('Error, cannot find valid route with current range. Reroute via CS')
         #     break
@@ -208,7 +216,7 @@ def aStarSearch(graph, start, end, evRange, evID, csRouting):
 # Estimating the heristic as the euclidean distance from current to end divided
 # by the max speed of any
 def heuristic(graph, currentNode, endNode):
-    return distanceBetweenNodes(graph, currentNode, endNode) / 13.049
+    return distanceBetweenNodes(graph, currentNode, endNode) / graph.MaxSpeed
 
 # Get distance from node to end node using euclidean distance
 # Used for heuristic in A*
@@ -253,7 +261,8 @@ def estimateBatteryCapacity(evID, evRange):
 # Get estimated state of charge for current spot in location
 def estimateSOC(evID, evRange, routeLength):
     currentRange = evRange - routeLength
-    return (estimateBatteryCapacity(evID, currentRange) / float(traci.vehicle.getParameter(evID, 'device.battery.maximumBatteryCapacity'))) * 100
+    currentSOC = (estimateBatteryCapacity(evID, currentRange) / float(traci.vehicle.getParameter(evID, 'device.battery.maximumBatteryCapacity'))) * 100
+    return currentSOC if currentSOC < 100 else 100
 
 # Gte the meters per Watt-hour of the current EV to use in range and capacity calculations
 def getMetersPerWatt(evID):

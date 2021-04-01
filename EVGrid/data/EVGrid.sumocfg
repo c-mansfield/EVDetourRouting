@@ -1,7 +1,7 @@
 <configuration>
    <input>
        <net-file value="EVGrid.net.xml"/>
-       <route-files value="electricvehicles.rou.xml"/>
+       <route-files value="electricvehicles.rou.xml,randroutes.rou.xml"/>
        <gui-settings-file value="gui-settings.cfg"/>
    </input>
    <output>

@@ -3,6 +3,7 @@ import sys
 import optparse
 import random
 from algorithm.reroute import rerouter, estimateRange
+from algorithm.Graph import Graph
 
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
@@ -16,21 +17,18 @@ import sumolib
 def run(netFile, additionalFile, options=None):
     """execute the TraCI control loop"""
     step = 0
+    graph = Graph(netFile, additionalFile)
 
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
 
         if step == 100:
-            add_ev(netFile, additionalFile)
+            add_ev(graph)
 
         # Checks EV battery capacity
         # if step > 105:
-        #     mWh = float(traci.vehicle.getDistance('EV1')) / float(traci.vehicle.getParameter('EV1', 'device.battery.totalEnergyConsumed'))
-        #     print('MwH: ', mWh)
-            # print('Range: ', float(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity')) * mWh)
-            # print('actualBatteryCapacity: ', float(traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity')))
-        # if traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity') == "0.00":
-        #     print('Vehicle battery empty')
+        #     if traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity') == "0.00":
+        #         print('Vehicle battery empty')
 
         step += 1
 
@@ -38,19 +36,19 @@ def run(netFile, additionalFile, options=None):
     sys.stdout.flush()
 
 # Adds electric vehicle wish to route
-def add_ev(netFile, additionalFile):
+def add_ev(graph):
     vehicleID = 'EV1'
-    batteryCapacity = 200
+    batteryCapacity = 300
 
     # Generate vehicle
     # traci.route.add('placeholder_trip', ['gneE53'])
-    traci.route.add('placeholder_trip', ['-28038817#3'])
+    traci.route.add('placeholder_trip', ['122066614#0'])
     traci.vehicle.add(vehicleID, 'placeholder_trip', typeID='electricvehicle')
     traci.vehicle.setParameter(vehicleID, 'device.battery.actualBatteryCapacity', batteryCapacity)
 
     # Generates optimal route for EV
-    # route, csStops = rerouter('gneE53', '-gneE64', vehicleID, netFile, additionalFile)
-    route, csStops = rerouter('-28038817#3', '167121171#7', vehicleID, netFile, additionalFile)
+    # route, csStops = rerouter('gneE53', '-gneE64', vehicleID, graph)
+    route, csStops = rerouter('122066614#0', '167121171#7', vehicleID, graph)
 
     if len(route) > 0:
         traci.vehicle.setRoute(vehicleID, route)

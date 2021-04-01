@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 03/31/21 15:31:09 by Eclipse SUMO sumo Version v1_8_0+1742-ceeb7fe3f3
+<!-- generated on 04/01/21 14:10:42 by Eclipse SUMO sumo Version v1_8_0+1742-ceeb7fe3f3
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
         <net-file value="data/EVGrid.net.xml"/>
-        <route-files value="data/electricvehicles.rou.xml"/>
+        <route-files value="data/electricvehicles.rou.xml,data/randroutes.rou.xml"/>
         <additional-files value="data/EVGrid_additionals.add.xml"/>
     </input>
 
@@ -26,7 +26,7 @@
     </battery>
 
     <traci_server>
-        <remote-port value="53180"/>
+        <remote-port value="55606"/>
     </traci_server>
 
     <gui_only>

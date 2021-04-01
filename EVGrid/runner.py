@@ -20,7 +20,7 @@ import randomTrips  # noqa
 def generate_trips():
     randomTrips.main(randomTrips.get_options([
         '-n', 'data/EVGrid.net.xml',
-        '--route-file', 'data/electricvehicles.rou.xml',
+        '--route-file', 'data/randroutes.rou.xml',
         '--prefix', 'V',
         '-e', '10',
         '-p', '1.93',

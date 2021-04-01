@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 03/31/21 16:03:45 by Eclipse SUMO sumo Version v1_8_0+1742-ceeb7fe3f3
+<!-- generated on 04/01/21 16:17:42 by Eclipse SUMO GUI Version v1_8_0+1742-ceeb7fe3f3
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
@@ -29,7 +29,7 @@
     </report>
 
     <traci_server>
-        <remote-port value="53456"/>
+        <remote-port value="56085"/>
     </traci_server>
 
     <gui_only>
@@ -40,3 +40,17 @@
 -->
 
 <chargingstations-export>
+    <chargingStation id="chargingStation_155732603_0_4" totalEnergyCharged="0.00" chargingSteps="0"/>
+    <chargingStation id="chargingStation_172190974_0_13" totalEnergyCharged="0.00" chargingSteps="0"/>
+    <chargingStation id="chargingStation_353919193_0_3" totalEnergyCharged="0.00" chargingSteps="0"/>
+    <chargingStation id="chargingStation_gneE10_0_2" totalEnergyCharged="0.00" chargingSteps="0"/>
+    <chargingStation id="chargingStation_gneE16_0_5" totalEnergyCharged="0.00" chargingSteps="0"/>
+    <chargingStation id="chargingStation_gneE19_0_6" totalEnergyCharged="0.00" chargingSteps="0"/>
+    <chargingStation id="chargingStation_gneE1_0_0" totalEnergyCharged="0.00" chargingSteps="0"/>
+    <chargingStation id="chargingStation_gneE22_0_7" totalEnergyCharged="0.00" chargingSteps="0"/>
+    <chargingStation id="chargingStation_gneE25_0_8" totalEnergyCharged="0.00" chargingSteps="0"/>
+    <chargingStation id="chargingStation_gneE28_0_9" totalEnergyCharged="0.00" chargingSteps="0"/>
+    <chargingStation id="chargingStation_gneE31_0_10" totalEnergyCharged="0.00" chargingSteps="0"/>
+    <chargingStation id="chargingStation_gneE33_0_11" totalEnergyCharged="0.00" chargingSteps="0"/>
+    <chargingStation id="chargingStation_gneE4_0_1" totalEnergyCharged="0.00" chargingSteps="0"/>
+</chargingstations-export>
