@@ -4,6 +4,7 @@ import optparse
 import random
 from algorithm.reroute import rerouter, estimateRange
 from algorithm.Graph import Graph
+import time
 
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
@@ -41,14 +42,16 @@ def add_ev(graph):
     batteryCapacity = 300
 
     # Generate vehicle
-    # traci.route.add('placeholder_trip', ['gneE53'])
-    traci.route.add('placeholder_trip', ['122066614#0'])
+    traci.route.add('placeholder_trip', ['gneE53'])
+    # traci.route.add('placeholder_trip', ['122066614#0'])
     traci.vehicle.add(vehicleID, 'placeholder_trip', typeID='electricvehicle')
     traci.vehicle.setParameter(vehicleID, 'device.battery.actualBatteryCapacity', batteryCapacity)
 
     # Generates optimal route for EV
-    # route, csStops = rerouter('gneE53', '-gneE64', vehicleID, graph)
-    route, csStops = rerouter('122066614#0', '167121171#7', vehicleID, graph)
+    start_time = time.time()
+    route, csStops = rerouter('gneE53', '-gneE64', vehicleID, graph)
+    # route, csStops = rerouter('122066614#0', '167121171#7', vehicleID, graph)
+    print("Reroute algorithm runtime: ", str(time.time() - start_time))
 
     if len(route) > 0:
         traci.vehicle.setRoute(vehicleID, route)

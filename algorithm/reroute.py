@@ -20,6 +20,7 @@ def rerouter(start, end, evID, graph):
     route = []
     routeLength = 0
     csStops = []
+    csSearchNode = graph.Net.getEdge(start).getFromNode().getID()
 
     print('evRange: ', evRange)
     print('batteryCapacity: ', batteryCapacity)
@@ -29,18 +30,16 @@ def rerouter(start, end, evID, graph):
         tempRoute, tempLength = aStarSearch(graph, startNode, endNode, evRange, evID, False)
 
         # When initial route gets something back, saves route and sets new start as last node
-        if tempRoute != None and tempRoute != []:
-            route += tempRoute
-            routeLength += tempLength
-            startNode = graph.Net.getEdge(tempRoute[-1]).getToNode().getID()
+        if tempRoute != []:
+            csSearchNode = graph.Net.getEdge(tempRoute[-1]).getToNode().getID()
 
             # End cycle for route search if reached the end
             if graph.Net.getEdge(tempRoute[-1]).getToNode().getID() == endNode:
+                route += tempRoute
+                routeLength += tempLength
                 break
 
-        print('startNode2: ', startNode)
-
-        tempRoute, tempLength, csStop = routeViaCS(graph, startNode, endNode, evRange, evID)
+        tempRoute, tempLength, csStop = routeViaCS(graph, startNode, endNode, evRange, evID, csSearchNode)
 
         if tempRoute == None:
             print('No valid route for EV with current capacity')
@@ -64,13 +63,12 @@ def rerouter(start, end, evID, graph):
 
     return route, csStops
 
-def routeViaCS(graph, startNode, endNode, evRange, evID):
-    closestCSs = getNeighbouringCS(graph, startNode, endNode, evRange)
+def routeViaCS(graph, startNode, endNode, evRange, evID, csSearchNode):
+    closestCSs = getNeighbouringCS(graph, csSearchNode, endNode, evRange)
 
     if len(closestCSs) > 0:
         chargingStation = getBestCS(graph, closestCSs)
         csStartNode = graph.Net.getEdge(chargingStation.Lane).getFromNode().getID()
-        csEndNode = graph.Net.getEdge(chargingStation.Lane).getToNode().getID()
 
         route, routeLength = aStarSearch(graph, startNode, csStartNode, evRange, evID, True)
 
@@ -99,11 +97,11 @@ def getBestCS(graph, closestCSs):
 
     for cs in closestCSs:
         # Normalize each attribute of CS wish to make decision based on and  its weighting
-        distStartScore = (1 - catchZeroDivision(cs.DistanceFromStart, lenDistStart)) * 0.25
-        distDividerScore = (1 - catchZeroDivision(cs.DistanceFromDivider, lenDistDivider)) * 0.25
+        distStartScore = (1 - catchZeroDivision(cs.DistanceFromStart, lenDistStart)) * 0.1
+        distDividerScore = (1 - catchZeroDivision(cs.DistanceFromDivider, lenDistDivider)) * 0.35
         priceScore = (1 - catchZeroDivision(cs.Price, lenPrice)) * 0.05
-        vehiclesChargingScore = (1 - catchZeroDivision(cs.VehiclesCharging, lenVehiclesCharging)) * 0.20
-        stepChargeScore = catchZeroDivision(cs.ChargePerStep, lenStepCharge) * 0.25
+        vehiclesChargingScore = (1 - catchZeroDivision(cs.VehiclesCharging, lenVehiclesCharging)) * 0.15
+        stepChargeScore = catchZeroDivision(cs.ChargePerStep, lenStepCharge) * 0.35
 
         # Get CS score of best charging station
         cs.Score = distStartScore + distDividerScore + priceScore + stepChargeScore # + vehiclesChargingScore
@@ -164,7 +162,7 @@ def aStarSearch(graph, start, end, evRange, evID, csRouting):
                 currentNode = node;
 
         if currentNode == None:
-            return None
+            return None, 0
 
         if currentNode == end:
             return reconstructRoutePath(graph, start, currentNode, route, routeLength)
@@ -200,13 +198,10 @@ def aStarSearch(graph, start, end, evRange, evID, csRouting):
                         if neighbourNode in closedList:
                             closedList.remove(neighbourNode)
                             openList.add(neighbourNode)
-
-        # print('evRange: ', evRange)
-        # print('list(routeLength.values())[-1]: ', list(routeLength.values())[-1])
-
-        # if evRange < list(routeLength.values())[-1]:
-        #     print('Error, cannot find valid route with current range. Reroute via CS')
-        #     break
+        if csRouting:
+            if evRange < list(routeLength.values())[-1]:
+                print('Error, cannot find valid route with current range.')
+                break
 
         closedList.add(currentNode)
         openList.remove(currentNode)
