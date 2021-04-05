@@ -17,6 +17,8 @@ def rerouter(start, end, evID, graph):
     endNode = graph.Net.getEdge(end).getToNode().getID()
     batteryCapacity = float(traci.vehicle.getParameter(evID, 'device.battery.actualBatteryCapacity'))
     evRange = estimateRange(evID, batteryCapacity)
+    evRangeAtCS = 0
+
     route = []
     routeLength = 0
     csStops = []
@@ -35,6 +37,7 @@ def rerouter(start, end, evID, graph):
 
             # End cycle for route search if reached the end
             if graph.Net.getEdge(tempRoute[-1]).getToNode().getID() == endNode:
+                evRange, csStops = calculateCSRefuel(evRangeAtCS, csStops, tempLength, evID, 10)
                 route += tempRoute
                 routeLength += tempLength
                 break
@@ -49,17 +52,22 @@ def rerouter(start, end, evID, graph):
         routeLength += tempLength
 
         # Set new start node from node after charging station
+        # Used to find next section route
         startNode = graph.Net.getEdge(route[-1]).getToNode().getID()
 
         # Get current EV range that has just been travelled
-        # lastEdgeLength = graph.Net.getEdge(route[-1]).getLength()
-        evRange -= tempLength
-        evRange, csStop = calculateCSRefuel(evRange, csStop, tempLength, evID)
+        evRangeAtCS = evRange - tempLength
         csStops.append(csStop)
+
+        # Set ev range as 100% making as can charge full at cs
+        # Work out correct when get next route
+        evRange, csStops = calculateCSRefuel(evRangeAtCS, csStops, tempLength, evID, 100)
+        print('csStops[-1]: ', csStops[-1])
 
     print('route: ', route)
     print('routeLength: ', routeLength)
     print('csStops: ', csStops)
+    print('evRange at end: ', evRange)
 
     return route, csStops
 
@@ -117,26 +125,37 @@ def catchZeroDivision(x, y):
     except ZeroDivisionError:
         return 0
 
-# Get the correct range and duration needed from and for EV
-def calculateCSRefuel(evRange, chargingStation, routeLength, evID):
-    # Get meters still needed to travel to complete journey
-    rangeNeeded = routeLength - evRange
-    capacityNeeded = estimateBatteryCapacity(evID, rangeNeeded) * 1.2
+# Get the correct range and duration needed from and for EV for last charging station stop
+def calculateCSRefuel(evRange, chargingStations, routeLength, evID, goalPercentage):
+    if len(chargingStations) > 0:
+        # Get meters still needed to travel to complete journey
+        rangeNeeded = routeLength - evRange
+        capacityNeeded = estimateBatteryCapacity(evID, rangeNeeded) \
+                         + (float(traci.vehicle.getParameter(evID, 'device.battery.maximumBatteryCapacity')) * 0.1)
 
-    # Preference from user what percentage capacity they would like after charging
-    capacityGoal = float(traci.vehicle.getParameter(evID, 'device.battery.maximumBatteryCapacity')) * 0.5
+        # Goal capacity set depending on part of route
+        capacityGoal = float(traci.vehicle.getParameter(evID, 'device.battery.maximumBatteryCapacity')) * (goalPercentage / 100)
 
-    csChargePerStep = (chargingStation.Power * chargingStation.Efficiency) / 3600
-    durationToNeeded = math.ceil(capacityNeeded / csChargePerStep)
-    durationToGoal = math.ceil(capacityGoal / csChargePerStep)
+        csChargePerStep = (chargingStations[-1].Power * chargingStations[-1].Efficiency) / 3600
+        durationToNeeded = math.ceil(capacityNeeded / csChargePerStep)
+        durationToGoal = math.ceil(capacityGoal / csChargePerStep)
 
-    # Get higher duration of two for time spent charging at CS
-    chargingStation.Duration = max(durationToNeeded, durationToGoal)
-    newCapacity = evRange + (chargingStation.Duration * csChargePerStep)
+        print('routeLength: ', routeLength)
+        print('evRange: ', evRange)
+        print('rangeNeeded: ', rangeNeeded)
+        print('capacityGoal: ', capacityGoal)
+        print('capacityNeeded: ', capacityNeeded)
+        print('durationToNeeded: ', durationToNeeded)
+        print('durationToGoal: ', durationToGoal)
 
-    evRange = estimateRange(evID, newCapacity)
+        # Get higher duration of two for time spent charging at CS
+        chargingStations[-1].Duration = max(durationToNeeded, durationToGoal)
+        print('chargingStations[-1].Duration: ', chargingStations[-1].Duration)
+        newCapacity = estimateBatteryCapacity(evID, evRange) + (chargingStations[-1].Duration * csChargePerStep)
 
-    return evRange, chargingStation
+        evRange = estimateRange(evID, newCapacity)
+
+    return evRange, chargingStations
 
 def aStarSearch(graph, start, end, evRange, evID, csRouting):
     openList = set([start])
@@ -150,8 +169,6 @@ def aStarSearch(graph, start, end, evRange, evID, csRouting):
 
     routeLength = {}
     routeLength[start] = 0
-
-    print('evRange2: ', evRange)
 
     while len(openList) > 0:
         currentNode = None
@@ -231,16 +248,22 @@ def euclideanDistance(aCoords, bCoords):
 # Converts the route to be in edges not nodes for sumo vehicle to follow
 def reconstructRoutePath(graph, start, current, route, routeLength):
     newRoute = []
+    length = list(routeLength.values())[-1]
 
     while route[current] != current:
         connectingEdge = graph.getNodeEdge(route[current], current)
+
+        # Add length of junction to overall route length
+        if len(newRoute) > 0:
+            connectionLength = next((connection['length'] for connection in graph.Connections.get(connectingEdge['ConnectingEdge']) if connection['to'] == newRoute[-1]), None)
+            length += connectionLength
 
         newRoute.append(connectingEdge['ConnectingEdge'])
         current = route[current]
 
     newRoute.reverse()
 
-    return newRoute, list(routeLength.values())[-1]
+    return newRoute, length
 
 # Estimates range for EV from current battery capacity
 # Returns value in meters

@@ -13,12 +13,13 @@ import sumolib
 
 class Graph:
     def __init__(self, netFile, additionalFile):
-        self.Net = sumolib.net.readNet(netFile)
+        self.Net = sumolib.net.readNet(netFile, withInternal=True)
         self.Edges = self.Net.getEdges()
         self.Nodes = self.Net.getNodes()
         self.NodeNeighbours = self.getNodeNeighbours()
         self.ChargingStations = self.getChargingStations(additionalFile)
         self.MaxSpeed = self.getMaxSpeed(netFile)
+        self.Connections = self.getConnections(netFile)
 
     def neighbors(self, id):
         return self.NodeNeighbours.get(id)
@@ -73,3 +74,26 @@ class Graph:
             maxSpeed = max(laneSpeed, maxSpeed)
 
         return maxSpeed
+
+    # Workaround function due to .getConnections broken in SUMO
+    def getConnections(self, netFile):
+        connections = {}
+        xmlTree = ET.parse(netFile)
+        root = xmlTree.getroot()
+
+        for con in root.findall('connection'):
+            if con.get('via') != None:
+                connectionObj = {
+                    'to': con.get('to'),
+                    'via': con.get('via'),
+                    'length': self.Net.getLane(con.get('via')).getLength()
+                }
+                allConnections = connections.get(con.get('from'))
+
+                if allConnections == None:
+                    allConnections = []
+
+                allConnections.append(connectionObj)
+                connections.update([(con.get('from'), allConnections)])
+
+        return connections
