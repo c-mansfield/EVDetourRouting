@@ -13,7 +13,7 @@ import sumolib
 
 class Graph:
     def __init__(self, netFile, additionalFile):
-        self.Net = sumolib.net.readNet(netFile, withInternal=True)
+        self.Net = sumolib.net.readNet(netFile)
         self.Edges = self.Net.getEdges()
         self.Nodes = self.Net.getNodes()
         self.NodeNeighbours = self.getNodeNeighbours()
@@ -80,13 +80,14 @@ class Graph:
         connections = {}
         xmlTree = ET.parse(netFile)
         root = xmlTree.getroot()
+        internalLanes = sumolib.net.readNet(netFile, withInternal=True)
 
         for con in root.findall('connection'):
             if con.get('via') != None:
                 connectionObj = {
                     'to': con.get('to'),
                     'via': con.get('via'),
-                    'length': self.Net.getLane(con.get('via')).getLength()
+                    'length': internalLanes.getLane(con.get('via')).getLength()
                 }
                 allConnections = connections.get(con.get('from'))
 

@@ -23,15 +23,16 @@ def run(netFile, additionalFile, options=None):
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
 
-        if step == 100:
-            add_ev(graph)
+        if step >= 100 and step <= 101 \
+           and step % 20 == 0:
+            add_ev(graph, step)
 
         # Checks EV battery capacity
-        if step > 105:
-            print('EV Lane: ', traci.vehicle.getLaneID('EV1'))
-            print('EV Current capacity: ', traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))
-            if traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity') == "0.00":
-                print('Vehicle battery empty')
+        # if step > 105:
+        #     print('EV Lane: ', traci.vehicle.getLaneID('EV1'))
+        #     print('EV Current capacity: ', traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))
+        #     if traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity') == "0.00":
+        #         print('Vehicle battery empty')
 
         step += 1
 
@@ -39,9 +40,13 @@ def run(netFile, additionalFile, options=None):
     sys.stdout.flush()
 
 # Adds electric vehicle wish to route
-def add_ev(graph):
-    vehicleID = 'EV1'
+def add_ev(graph, step):
+    vehicleID = 'EV' + str(step)
     batteryCapacity = 300
+    toEdge = random.choice(list(graph.NodeNeighbours.keys()))
+    fromEdge = random.choice(graph.Edges).getID()
+
+    print('toEdge: ', toEdge)
 
     # Generate vehicle
     # traci.route.add('placeholder_trip', ['gneE53'])
@@ -53,7 +58,7 @@ def add_ev(graph):
     start_time = time.time()
     # route, csStops = rerouter('gneE53', '-gneE64', vehicleID, graph)
     route, csStops = rerouter('122066614#0', '167121171#7', vehicleID, graph)
-    print("Reroute algorithm runtime: ", str(time.time() - start_time))
+    print("Reroute algorithm runtime ", vehicleID, ": ", str(time.time() - start_time))
 
     if len(route) > 0:
         traci.vehicle.setRoute(vehicleID, route)
@@ -65,10 +70,8 @@ def add_ev(graph):
 def add_ev_vtype():
     original_stdout = sys.stdout
 
-    # Get all lines in routing file apart from </route> so can append more to file
     f = open("data/electricvehicles.rou.xml", "r+")
-    lines = f.read()
-    f.truncate(0)
+    f.truncate(0)       # Clear file
 
     with open("data/electricvehicles.rou.xml", "w") as routes:
         sys.stdout = routes
@@ -88,7 +91,6 @@ def add_ev_vtype():
                      <param key="recuperationEfficiency" value="0.9"/>
                      <param key="stoppingTreshold" value="0.1"/>
              </vType>""")
-         #print('     <vehicle id="EV1" type="electricvehicle" depart="0" route="circuit" ><param key="actualBatteryCapacity" value="5"/></vehicle>')
         print("</routes>")
         sys.stdout = original_stdout
 

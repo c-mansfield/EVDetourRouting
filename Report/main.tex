@@ -1,0 +1,601 @@
+\documentclass[11pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[acronym]{glossaries}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{color}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\lstdefinestyle{mystyle}{
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+\lstset{framexleftmargin=16pt,
+        framextopmargin=6pt,
+        framexbottommargin=6pt, 
+        frame=tb, framerule=0pt,
+        basicstyle=\footnotesize\ttfamily,
+        basicstyle=\footnotesize}
+
+\graphicspath{ {images/} }
+\usepackage{algorithmic}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+% commands for including the picture
+\newcommand{\titlepicture}[2][]{%
+  \renewcommand\placetitlepicture{%
+    \includegraphics[#1]{#2}\par\medskip
+  }%
+}
+\newcommand{\placetitlepicture}{} % initialization
+
+\usepackage[style=authoryear-ibid,backend=biber]{biblatex}
+\addbibresource{references.bib}
+
+\setlength{\parindent}{4em}
+\setlength{\parskip}{1em}
+
+\title{\includegraphics[width=10cm]{mmuLogo.png}\\Efficient Detour Computation Scheme for Electric Vehicles}
+\author{Cole Mansfield}
+\date{May 2021}
+
+\makeglossaries
+
+\newacronym{ev}{EV}{Electric Vehicle}
+\newacronym{evs}{EVs}{Electric Vehicles}
+\newacronym{co2}{\[CO_{2}\]}{Carbon Dioxide}
+\newacronym{icev}{ICEV}{Internal combustion engine vehicle}
+\newacronym{mod}{MoD}{Mobility on demand}
+\newacronym{soc}{SoC}{State of charge}
+\newacronym{saw}{SAW}{Simple additive weighting}
+\newacronym{madm}{MADM}{Multiple-attribute decision-making}
+\newacronym{cs}{CS}{Charging Station}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{titlepage}
+\maketitle
+\end{titlepage}
+
+\pagenumbering{arabic}
+
+\begin{center}
+  \normalsize\textbf{Declaration}
+\end{center}
+\newpage
+
+\begin{center}
+  \normalsize\textbf{Acknowledgements}
+\end{center}
+\newpage
+
+\begin{abstract}
+\end{abstract}
+\newpage
+
+\tableofcontents
+\newpage
+
+\glsaddall
+\printglossary[type=\acronymtype]
+\newpage
+
+\chapter{Introduction}
+
+\newpage
+
+\section{Background}
+
+\section{Motivations}
+
+\newpage
+
+\chapter{Literature Review}
+
+\newpage
+
+\noindent In this chapter, the rise of electric vehicles, traffic congestion and vehicle routing will be discussed and reports surrounding these topics will be investigated. Additionally, the most cutting edge research on the electric vehicle routing problem will be presented, compared and evaluated.
+
+\section{The Rise of Electric Vehicles}
+
+The production and purchase of electric vehicles in recent years has been growing rapidly. Passenger EV sales increased from 450,000 in 2015 to 2.1 million in 2019 \autocite{bnefEVReport}. EVs use a rechargeable battery and electric motors for propulsion. They have many advantages that are directly contributing to their rising popularity. Companies such as Tesla and Volkswagen are progressing EV technology, innovating private transport so EVs can become more accessible to the general population and aid in the fight against climate change. In 2020, Tesla became the most valuable car company globally, a great feat for EV innovation and production as they are an EV only car company.
+
+Due to the Covid-19 pandemic in 2020, the transport industry was hit hard with lock-downs happening across the globe and more people staying at home. EVs were also greatly impacted by this issue, although they were not as harshly impacted than their counterparts, internal combustion engine vehicles(ICEV)\autocite{IEA2020CovidReport}. Despite this, the future is positive for EVs, with government policy changes and environmental concern, they look to be on an increasing trajectory. The Sustainable Development Scenario estimates that in 2030 EVs will make up 13\% of the global car fleet, increased from 1\% in 2020 \autocite{IEA2020EVReport}.  Policies set in place around the world by various governments will also be a contributing factor in the continuing rise. Seventeen countries have announced 100\% zero-emission targets as well as phasing out internal combustion engines through till 2050, with France being the first to put the intention into law \autocite{IEA2020GlobalEV}. Additionally, the EV credit system implemented in China and India's Faster Adoption and Manufacturing of EVs \autocite{bnefEVReport} show the progression and push from governments to shift towards EVs and will contribute to the rise towards them in the coming years. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.55\linewidth]{electric-car-share-in-the-sustainable-development-scenario-2000-2030.png}
+  \caption{Electric car share in the Sustainable Development Scenario \autocite{IEA2020EVReport}}
+  \label{fig:1}
+\end{figure}
+
+Electric vehicles have various benefits compared to their competitors that can contribute to their popularity, the main being their environmental benefit. The burning of gasoline produces CO2, the main gas linked to climate change. Study's have found that even though in the production of EVs more carbon is produced than ICEVs over their life-cycle \autocite{hampshire2018electric}, the carbon-emitted from EVs is up to 70\% less in countries with decarbonised power generation and in 2015 they contributed to 31\% lower emissions per vehicle-kilometre compared to petrol cars\autocite{knobloch2020net}. The increasing concern over climate change is leading to the rise of EVs, their carbon-emission reducing qualities will be a major factor in the fight against it. EVs also presents a benefit to humans health in the reduction of harmful emissions, cost-efficiency and reduction of noise pollution. A study in 2016 found that when driving a Nissan Leaf(EV) instead of a Honda Civic(ICEV) over the 10-year life of the vehicle, the estimated fuel savings would be \$4130 at a time when fuel prices were at a 10-year low \autocite{malmgren2016quantifying}.
+
+\section{Traffic Congestion}
+
+Traffic congestion refers to the travel delay caused by interacting vehicles on roads, particularly as the volume of vehicle traffic approaches the road's capacity \autocite{litman2016smart}. It is a global issue affecting the majority of the population of the earth, mostly in urban areas. There are two main types of traffic congestion, recurring and non-recurring. Recurring congestion is "the congestion present on a normal day if nothing bad has happened on the roadway" \autocite{hallenbeck2003measurement}, such as typical rush hour traffic. Non-recurrent congestion is defined as "unexpected or unusual congestion caused by an event that was unexpected and transient relative to other similar days" \autocite{hallenbeck2003measurement}, such as accidents on the road or weather changes.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.75\linewidth]{graphRoadNetwork.PNG}
+  \caption{Representation of a road network as a graph of vertices and edges}
+  \label{fig:2}
+\end{figure}
+
+Despite the Covid-19 pandemic in 2020 hitting the transport market, new vehicle registrations projections are rebounding on the market. In the UK new vehicle registrations are forecast in 2022 to have increased by 30\%  from 2020 \autocite{smmtnewCars}. Traffic congestion is expected to increase with the growing vehicle population. As well as the vehicle population, the growth in the general population will increase traffic congestion. The UK population is projected to grow by 3 million by 2028 \autocite{nashnational}, meaning there will be more trips needed to be taken, equating to more congestion. Traffic from 2014 to 2019 escalated by 7.2\% \autocite{dotRoadEstimates} and through the rises in vehicle population and general population, is forecast to rise further between 17\% and 51\% by 2050 \autocite{roadtrafficforecasts}.
+
+Both types of congestion affect people daily, adding significant delays in their lives. It has substantial economic and social impacts on society. A 2019 traffic report scorecard found that the average British driver lost 115 hours annually due to traffic congestion, and overall £5.2 billion was lost \autocite{reed2019inrix}. These can have negative factors on businesses and the economy, as it is a non-productive activity and could be a direct cause for employee punctuality. Traffic congestion can also affect peoples health. Stress and aggressiveness brought on through traffic congestion can be detrimental to others safety on the roads and cause more delays. The 2019 RAC Report on Motoring found that increasing traffic levels is the most common cause of stress at 40\%, which represents 10 million motorists \autocite{racreportonmotoring}. The congestion issue is of significance and if not managed, will continue to disrupt different parts of society. 
+
+\section{Vehicle Routing}
+
+\subsection{Overview}
+
+Vehicle routing is one of the main ways of combating traffic congestion. Finding the optimal shortest path between two vertices in a network of vertices is a challenging task studied in graph theory. When applying this concept for vehicle routing we would present the vertices and edges as systems of junctions and roads. When adding vehicles into the problem it becomes more problematic due to weather conditions, traffic congestion and the state of the road. Choosing the correct algorithm is a problem for many current transportation navigation systems, there are various approaches developed to tackle this issue, each with its pros and cons.
+
+Optimal based shortest path algorithms guarantee to find the optimal solution through exploring the whole set of available solutions \autocite{nha2012comparative}. One example of an optimal based algorithm is Dijkstra. Dijkstra is one of the most used shortest path algorithms \autocite{broumi2016applying}, created in 1959 by Edsger W. Dijkstra. It finds the shortest path between two nodes in a graph \autocite{dijkstra1959note}. The route is found by initially creating a set of nodes not visited, then beginning at the starting node and calculating the cost of movement to each node connected to the starting node \autocite{pathComparison2012}. After all neighbouring nodes have been considered, the starting node is then deleted from the nodes not visited set and the next node is chosen as the one with the lowest cost of movement from the starting node \autocite{pathComparison2012}. These steps are then iterated until the destination node is deleted from the nodes not visited set or all nodes have been considered \autocite{pathComparison2012}.
+
+Heuristic-based shortest path algorithms explore available solutions and find an approximate optimal solution that is close to or the same as the optimal one \autocite{nha2012comparative}. The main heuristic-based approach developed is the A* algorithm \autocite{hartAStar}. Created in 1968 by Peter E. Hart, Nils J. Nilsson and Bertram Raphael, it is seen as an extension of Dijkstra but a more general approach to the shortest path problem \autocite{pathComparison2012}. The difference between the two is that A* introduces a heuristic in which nodes are chosen when searching for the route. A heuristic is a function that is used to solve problems faster and when traditional problems fail to find a solution. In the case of A*, the most popular method used for the heuristic calculates the distance from the node currently being evaluated to the end node, then using that cost in the decision of which node to go to next.
+
+In addition to A* another example of a heuristic-based approach is the genetic algorithm \autocite{haupt2004practical}. It is a meta-heuristic used to solve optimisation problems and is based on the principles of genetics and natural selection \autocite{bagheri2008finding}\autocite{nha2012comparative}. The genetic algorithm has been used in the shortest path problem and can be an approach to solving harder problems that come about such as when vehicles have to visit all nodes in a large network \autocite{genAlgs1997}.
+
+The different algorithms for the shortest path problem have advantages that better suit them for specific scenarios. Heuristic-based approaches reduce computation time but can be more resource dependant due to more memory usage for storing the heuristic. Dijkstra and A* will always give the best route solution as long as A* does not overestimate the heuristic \autocite{wang2013comprehensive}. Meta-heuristic optimisation approaches such as genetic algorithm and tabu search are better suited for multi-location vehicle routing, where the data set is much larger.
+
+\subsection{Electric Vehicle Routing}
+
+When it comes to routing electric vehicles the problem becomes more difficult. Extra constraints when routing EVs make calculating a route more challenging than normal ICEVs do. Firstly, EV charging station infrastructure is still not there, with demand for chargers rising rapidly. The UK would need to install charging stations five times faster if it was to reach between 300,000 and 500,000 stations, which is required for 2030 with current EV projections \autocite{charginUpPolicyExchange}. Refuelling times of EVs is also a problem that needs to be factored in when routing. An EV can take between 26 hours for the slowest chargers (alternating current chargers) and 6 minutes for the fastest chargers (direct current fast chargers) to add 100 miles to its range \autocite{lee2018charging}. With the charging station infrastructure not being there and the added issue of timely charging, the availability of them is also affected. With EV demand and consumption continually growing and government policy changes around the globe, the issue will only worsen without major changes. Range anxiety is a concern of EV drivers, the fear of battery capacity depleting mid-trip \autocite{neubauer2014impact}. This is something that could be reduced with electric vehicle routing and progression in charging station infrastructure. Additionally, conditions in the EVs environment can affect battery capacity such as the weather. A 2019 study found that an EV at 20°F resulted in a 12\% decrease in driving range and when the HVAC (Heating, Ventilation and Air Conditioning) system was used there was a 41\% decrease. This could result in a need for more charges and will put a strain on charging station availability at colder temperatures \autocite{aaaEVWeather}. With these added constraints a new comprehensive solution for electric vehicle routing needs to be developed to reduce range anxiety in EV users.
+
+\section{Related works}
+
+\subsection{Route Search Method for Electric Vehicles in Consideration of Range and Locations of Charging Stations \autocite{kobayashi2011route}}
+
+Researchers at the Yokohama Research Laboratory in Japan proposed this paper introducing a new routing search solution for EVs. Their proposal investigated how to calculate a route for EVs based on stops at charging stations if the current battery capacity was not enough to reach the destination, providing a route with the minimum travelling cost.
+
+Their method takes the EV range and charging stations locations, and calculates through the range a new route. When the current range of the EV is sufficient enough to reach the destination without the need for a refuelling stop, a route is calculated conventionally with the remaining capacity on arrival. Meanwhile, when the starting range is insufficient, charging stations based on the EVs range are selected as potential stops. Then with the distance between charging stations, estimated travel time and estimated charging time, the most cost-effective route is selected. Routes were created based on Dijkstra's algorithm and the appropriate charging stations. The algorithm was then evaluated on a Japanese map with hypothetical charging stations on the route, assessing execution time for selecting potential charging stations and for conventional route searching with some of the selected charging stations. 
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|p{0.3cm} p{2.2cm} p{2.2cm} p{1.3cm} p{1.3cm} p{0.5cm} p{1.3cm} p{1.3cm} p{1.3cm}|} 
+ \hline
+ No & Departure Point & Destination & Travel distance & Travel Time & \# SCS & POI Search Time & Route Search Time  & Total Search Time \\
+ \hline
+ 1 & Narita Airport & Maihama station & 62.784 & 1.542 & 1 & 3.46 & 7.06 & 10.52\\ 
+ 2 & Narita Airport & Maihama station & 58.434 & 0.874 & 0 & 2.71 & 5.63 & 8.34\\
+ 3 & Narita Airport & Maihama station & 58.434 & 0.874 & 0 & 2.78 & 5.63 & 8.41\\
+ 4 & Narita Airport & Hachioji Station & 121.941 & 3.033 & 2 & 6.40 & 13.41 & 19.81\\
+ 5 & Narita Airport & Hachioji Station & 112.772 & 2.303 & 1 & 6.41 & 16.20 & 22.61\\
+ 6 & Narita Airport & Hachioji Station & 109.548 & 1.652 & 0 & 4.24 & 9.09 & 13.33\\
+ 7 & Narita Airport & Atami Station & 200.522 & 4.953 & 2 & 6.01 & 16.98 & 22.99\\
+ 8 & Narita Airport & Atami Station & 200.522 & 4.786 & 2 & 6.29 & 16.98 & 23.27\\
+ 9 & Narita Airport & Atami Station & 167 953 & 3 834 & 1 & 6.74 & 13 98 & 20.72\\
+ \hline
+\end{tabular}
+\end{center}
+\caption{Simulation results \autocite{kobayashi2011route}}
+\label{table:1}
+\end{table}
+
+The results in Table \ref{table:1} shows that the Point of Interest search time, which is the execution time for selecting charging stations and the route search time, was evidently higher for users needing to stop at charging stations. The computation time can be seen as much faster and more accurate than manually planning CS visits on the route. Also, their solution computes routes with accessible charging over a large network efficiently. A drawback of the solution is its failure to evaluate charging stations further. Checking the availability and current capacity of charging stations are things that could affect journey times and distances needing to be travelled. Additionally, it does not take into account time delays such as traffic when evaluating routes.
+
+\subsection{A Bellman-Ford approach to energy-efficient routing of electric vehicles \autocite{bellmanFordRouting}}
+
+This paper from researchers at Oakland University presents a routing solution for electric vehicles focusing on energy efficiency. They model an electric vehicle with accurate energy consumption and then find the optimal route using a bellman-ford approach. They aim to tackle the energy-efficient routing problem in its most simple form.
+
+The researchers first present an EV model and calculate vehicle power output using parameters such as vehicle mass, gravitational acceleration, tire rolling resistance coefficient, mass density and drag coefficient. They also calculate the regenerative braking power of the vehicle and net energy consumption. Using this model they compute the route from the start to the destination through the graph using the bellman-ford algorithm, finding the energy consumption between each node and making decisions on which path to take based on the least energy consumption from node to node. The bellman-ford algorithm \autocite{bellman1958routing} is a similar pathfinding algorithm to Dijkstra although its main difference is its capability to find a path even with negative edge weightings. It is used in this solution due to the possibility of node to node energy consumption being negative.
+
+Their proposal was then simulated on various map sizes represented as graphs. From this, they found in large scale maps that their approach cannot be used for routing and is impractical, with path generation taking 203 hours on a graph with 270,780 edges. Although on smaller-scale maps it is effective with it taking 0.128 seconds on a graph with 63 edges. Their solution is adequate and finds routes based on energy efficiency for EVs in small networks with bellman ford working well for energy weighted graphs. Also, the EV energy model is an accurate representation of EV energy consumption. A downside of the model is its failure to highlight environmental issues such as the impact of weather conditions in the battery consumption speed. Another limitation to the routing proposal is that it does not taking into account charging and charging station selection when routing. As an extension to this solution traffic could be taken into account on routing decisions and whether the current vehicle range is sufficient  enough for the journey.
+
+\subsection{Optimal Routing with In-Route Charging of Mobility-on-Demand Electric Vehicles  \autocite{inRouteOptimalAmmous}}
+
+This work from the University of Idaho in the USA develops a routing solution for mobility on demand(MoD) EV systems. MoD is a one-way vehicle sharing system and is a promising way to reduce greenhouse gas emissions and a sustainable way for private mobility over the current reliance on a personal vehicle. They aim to reduce the inconvenience surrounding MoD systems with the occasional customer needing to perform in route charging and getting the optimal average trip time.
+
+The authors propose a system of routing between multiple passenger stations while considering in-route charging and allocating passengers with fewer delay constraints to EVs needing to be charged. Using a multi-server, cloud-based infrastructure for connectivity through all components in the system, they calculate the routing probabilities of EVs to charging stations and then make routing decisions based on these. There model only considers EVs that need to be charged on the way to their destination. Their model is then simulated extensively using battery-swapping to reduce excess charging delays and different systems parameters, then evaluated against conventional shortest time decisions.
+
+The results from the simulations carried out show a reduction in charging station delays and trip times compared to other shortest time and random routing schemes. MoD systems could be a great implementation for private mobility using electric vehicles and could be a future system of transport to tackle population growth and climate change. The presented solution for routing and scheduling of vehicles in the system finds optimal solutions and would significantly reduce frustration levels of customers that are forced to charge in-route.
+
+\subsection{Implementation of charging station based electric vehicle routing problem using nearest neighbour search algorithm  \autocite{csNearestNeighbourDaanish}}
+
+This paper from the Indian Institute of Technology proposes a nearest neighbour approach to EV routing, finding the most energy-efficient route. This work aims to develop a new routing solution for EVs taking into account vehicle battery capacity and charging stations after the recent surge in EV market share and the environmental benefits they bring with them.
+
+Their solution concentrates on multi-node traversal where each node only can be visited once. Using Dijkstra's algorithm from each current node they find the next nearest node in the graph. They iteratively do this until each node has been visited once. For routing an EV, their solution checks whether the vehicle can make it to the next node or next charging station without losing all charge, charging fully at each charging station it visits, and again iteratively checking at each node whether the vehicle will make the journey to the nearest neighbour. This was then simulated using coordinates of cities(nodes), finding the accurate optimal solution based on the shortest route between each city.
+
+The simulations results revealed accuracy when calculating an optimum routing path for EVs with charging taken into account. It also showed a good basic solution to multi-stop vehicle routing, with checks on vehicle current range and routing the vehicle via charging stations when current battery capacity could not reach the next city(node). As an extension, the algorithm could have a better estimation of EV range to take in more vehicle parameters. Also, route constraints such as traffic and weather could be incorporated into the algorithm to test its effectiveness against real-world scenarios. Furthermore, when evaluating the algorithm next time assessing it against more conventional routing solutions would give a better insight into how well it performs.
+
+\subsection{Distributed Routing and Charging Scheduling Optimisation for Internet of Electric Vehicles  \autocite{distributedRoutingTang}}
+
+Work by researchers at the Chinese University of Hong Kong developed a routing and charging algorithm for an internet of electric vehicles(IoEV). Their solution allows routing to be calculated in a distributed manner by users and a system operator. They aim to protect the anonymity of users and reduce the computational complexity of the system operator. Their algorithm selects an approximate path for each EV, then optimises the charging scheduling of the EVs based on the approximate path. This was then simulated extensively, comparing it with two other benchmark algorithms on a dataset that maps real-world data to nodes and edges from Washington D.C.
+
+Overall the simulation results showed that the proposed routing solution outperformed the two conventional methods used in the simulation and that it always produced a near-optimal performance with low computational complexity. Using an IoEV is a promising way of tackling the NP-hardness and computational complexity of EV routing for larger systems with multiple destinations, such as delivery couriering. Having a centralised location for distributing EVs and scheduling them at charging stations would also reduce queuing times at charging stations and allow for improved selection. A downside of their proposal is the infrastructure needed to be put into place to get the system up and running, needing a centralised system to manage multi-car rerouting. To extend their implementation, we propose to incorporate charging station availability into decision making which could further decrease travel and wait times.
+
+\subsection{Electric Vehicle Charging Warning and Path Planning Method Based on Spark \autocite{sparkEVChargingDing}}
+
+Researches from the Xi’an University of Technology in China propose a shortest time path planning algorithm with an energy consumption warning method for EVs with an insufficient battery capacity for their journey. They also use the java Spark Parallelization framework \autocite{spark} to reduce computation time. It was designed to help EV drivers with the charging problem of slow charging times, small charging station availability and best charging station to route to.
+
+They first present an energy warning model which monitors the energy consumption of the vehicle and using its average speed and regression coefficients, issues a warning when the current battery capacity of the EV will not reach its destination. Then a path planning algorithm is developed. They use Dijkstra's algorithm to find the shortest path from the current node to charging stations and the destination, choosing the optimal charging station to stop factoring in queuing and charging times. When calculating the shortest path they also implemented Spark to compute the shortest path in parallel to improve the efficiency of the algorithm. Their solution is then run through a real-world traffic network to test its effectiveness.
+
+Simulation results showed with the addition of Spark to run Dijkstra computations at the same time, it had a significant reduction in the time taken to find the optimal route. Notably when the number of nodes in the graph grew larger the run time of the algorithm dropped, for example on a road network with 300 nodes the computation time decreased from 1.2s to 0.1s. The implementation of synchronous computing in the routing algorithm is an encouraging feature for big network pathfinding.
+
+\subsection{Optimization of Electric Vehicle Routing Problem Using Tabu Search \autocite{optimizationTabuSearch}}
+
+This work from Northeastern University in China presents a pathfinding solution to the electric vehicle routing problem(EVRP). They use the Tabu Search approach to multi-objective route planning for EVs and aim to combat the issues of limited battery capacity and charging demands when routing these vehicles. They aim to optimize routing for logistics services when using EVs as the issue becomes more prominent with major US companies implementing fleets of these vehicles.
+
+The authors propose a routing solution using Tabu search, where the vehicle has multiple destinations to visit on their journey. Tabu search is an optimization technique that uses a meta-heuristic and Tabu list in which mimics the human memory function, blocking all areas that have been searched in a route to avoid detours. It begins by creating a random initial route, then from that searches for possible routes, comparing each route until it finds the optimal one, taking into account electrical charging demands of the EVs. Their proposal is then evaluated using coordinates of locations, charging stations and the locations needed to be visited.
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|p{3cm} p{3cm} p{3cm} p{3cm}|} 
+ \hline
+ Method & Node Number & Result(km) & Time(s) \\
+ \hline
+ Tabu Search & 20 & 247 & 5s \\ 
+ & 30 & 422.56 & 5s \\
+ CPLEX & 20 & 247 & 49s \\
+  & 30 & 422.56 & 358s \\
+ \hline
+\end{tabular}
+\end{center}
+\caption{Tabu search results comparison \autocite{optimizationTabuSearch}}
+\label{table:2}
+\end{table}
+
+The Tabu search solution was then evaluated against another commercial routing algorithm and the results are shown in Table \ref{table:2}. They show routing for two different distances and how the time taken for Tabu search was significantly reduced, with no time increasing with distance increase, unlike the CPLEX. Overall the proposed algorithm is a good solution to the routing problem using EVs with multiple stops. It has significant time reductions on other existing solutions and always finds the optimal route considering EV battery limitations. An improvement of their proposal would be to add in better choosing of charging stations, taking into account availability and efficiency. Also extending their evaluation to examine its performance on destination to destination routing and assessing it against a few more routing algorithms would its justification. 
+
+\section{Comparative Study}
+
+Each of the related works aims to design a routing solution for electric vehicles and tackle the new associated issues. To begin it is clear that all charging station constraints need to be taken into account when deciding on which to route via. The path planning method proposed by researchers at the Xi’an University of Technology \autocite{sparkEVChargingDing} takes in more charging station constraints such as vehicles waiting and charging times into account when making a decision, making the path calculated more optimal for an EV. This compared to earlier works, such as \autocite{kobayashi2011route} and \autocite{bellmanFordRouting}, where these constraints were not considered allows for better judgement on the true optimal route. Also, the proposal for the mobile on-demand includes a promising idea with charging station schedule, although this would, in turn, affect the privacy of drivers and their vehicles \autocite{inRouteOptimalAmmous}. The inclusion of all constraints for charging stations will ensure accuracy in the route.
+
+\section{Conclusion}
+
+To conclude, the research in this chapter shows the growth of electric vehicles and the upwards trajectory they are on. Also, the significant effects of traffic congestion, the problems that come with it and the vehicle routing that can be used to reduce it. Then the issue of routing electric vehicles and the research done to combat this was investigated. On investigation of the related works, it is evident all charging station constraints need to be considered when making a decision on which one to route through. Also, all vehicle parameters need to be taken into account when estimating vehicle range, to ensure correct charging station selection is done based on the current EV range and whether they will make it to their destination.
+
+\newpage
+
+\chapter{Solution Design}
+
+\newpage
+
+\noindent This chapter provides a an overview of the proposed routing algorithm, including routing algorithm chosen and charging station selection. In addition, the tools needed and software development methodology followed throughout the project will be presented.
+
+\section{Routing Process Design}
+
+The detour routing algorithm will attempt to find the optimal route for an EV taking into account current vehicle range, route length and traffic. Figure \ref{fig:3} below shows a high-level overview of the algorithm as a flowchart.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.62\linewidth]{AlgFlow.png}
+  \caption{Flowchart of the algorithm}
+  \label{fig:3}
+\end{figure}
+
+Finding a detour will be initialised when the current location of the EV and the destination is inputted. A route is then calculated from these two points using the path searching technique described in section 3.2. When evaluating each node, stopping criteria is put in place that checks whether the current EV range is sufficient enough for the current route length and ensures that it doesn't fall below the minimum SoC(state of charge), which is defaulted at 10\%. Having this stopping criteria will reduce computation time as calculating the full route is unnecessary due to inadequate battery capacity. 
+
+If the route reaches the end node without dropping below the minimum SoC then the route is outputted back to the user. When it falls below minimum SoC then re-routing via a charging station is initialized. A charging station is selected using the logic in section 3.3 then a route from the start to the charging station is found again using the path search technique from section 3.2. Once the route is found a new start point will be set after the CS location and the algorithm iterates again from the beginning with the new start point until the end is reached.
+
+\section{Vehicle Routing Algorithms}
+
+For the proposed solution a graph traversal algorithm is needed to calculate optimal routes for vehicles. There are various methods developed for computing how a vehicle will traverse a network, starting at one designated point and ending at another. As discussed in the literature review, there are algorithms developed in graph theory that searches for a path in the graph, typically the shortest one. Numerous popular algorithms were considered to be used when finding the path such as Dijkstra, A*, Tabu search, genetic algorithm and Breadth-first traversal. The main aims of the algorithm are for it to find the optimal route, faster computing times and the ability to incorporate more constraints than distance such as travel time when routing.
+
+\subsection{Chosen Path Search Algorithm}
+
+On evaluation of the algorithms used for graph traversal and vehicle routing, the A* algorithm is the one being used to traverse the vehicle network and find an optimal route. As mentioned above in the literature A* is a heuristic-based pathfinding algorithm that is considered an extension of Dijkstra. 
+
+A* was the chosen algorithm due to various factors. Firstly, the use of a heuristic function benefits the solution. The main benefit being faster computation times due to searching fewer nodes, which is also beneficial when the number of nodes in a graph increases. In addition, when the heuristic is admissible (can never overestimate the cost to reach the goal) A* is guaranteed to output the optimal path which has the least cost \autocite{rana2011star}. Additionally, the complexity of A* compared to the meta-heuristic techniques, such as Tabu search and genetic algorithm, is a lot lower, making it easier to implement and add custom constraints. Likewise, these techniques are better suited for multi-objective routing problems such as the vehicle routing problem and travelling salesman problems where routing criteria and graph size is much larger. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.78\linewidth]{a-starAlg.jpg}
+  \caption{A* pseudo-code \autocite{sharma2012determining}}
+  \label{fig:4}
+\end{figure}
+
+\subsection{Network Costs and Heuristic}
+
+Equation \ref{eq:1} shows the A* path cost formula which uses the minimum value for path selection.
+\begin{equation} \label{eq:1}
+f(n)=g(n)+h(n)
+\end{equation}
+The term denoted as \emph{g(n)} traditionally is the cost of movement from the start node to the current node(n) in the graph (the weight from node to node in the network). The term \emph{h(n)} is traditionally the heuristic function which estimates the cost of movement from the current node to the destination node. \emph{h(n)} is usually calculated through euclidean distance which is denoted in equation \ref{eq:2}, with p and q being coordinates of nodes in the graph \autocite{pathComparison2012}.
+\begin{equation} \label{eq:2}
+ d\left( p,q\right)   = \sqrt {\sum _{i=1}^{n}  \left( q_{i}-p_{i}\right)^2 } 
+\end{equation}
+When finding a path for vehicle routing, using the traditional methods for A* will not suffice because typically more real-world constraints such as traffic affect routing choices and finding the shortest path will only find the optimal shortest solution. Instead, our goal is to minimize the travel time of a vehicle routing, changing the traditional cost values for \emph{g(n)} and the heuristic function \emph{h(n)} from equation \ref{eq:1} to fit this criteria.
+\begin{equation} \label{eq:3}
+    g(n)=l(n)/s(n)
+\end{equation}
+\begin{equation} \label{eq:4}
+    h(n)=d(n)/m(n)
+\end{equation}
+Equation \ref{eq:3} denotes the new value of \emph{g(n)}, which is the travel time from the start node to the current node(n) in the graph. This is calculated by dividing the length from the start node to the current node which is shown as \emph{l(n)} by the last time steps mean edge speed for the same nodes, which is denoted as \emph{s(n)}. Equation \ref{eq:4} denotes the new heuristic function formula for the value \emph{h(n)}. \emph{d(n)} represents the Euclidean distance calculation used in the traditional A* heuristic function, this is then divided by \emph{m(n)} which is the max speed of any edge in the network. Using the max speed of any edge in the network allows us to never overestimate the cost to reach the goal for the heuristic, which makes it admissible and gives us the optimal route.
+
+\section{Charging Station Selection}
+
+Selection of the optimal charging station is needed for the optimal solution. Figure \ref{fig:5} depicts a visual representation of charging station selection. Various parameters are needed to be taken into account when making a decision on which charging station the vehicle should refuel at, making it a multiple-attribute decision-making (MADM) problem. There are various methods developed to help make optimal decisions and the technique we will use is simple additive weighting (SAW).
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.85\linewidth]{CSSelection.png}
+  \caption{Visual representation of charging station selection}
+  \label{fig:5}
+\end{figure}
+
+\subsection{Simple Additive Weighting (SAW)}
+
+SAW is one of the most popular and best-known MADM techniques used \autocite{chakraborty2007simulation}. It uses a weighted sum of all attributes for each instance of objects and compares the total of each, with the higher overall weighted sum being the better choice \autocite{churchman1954approximate}. 
+
+To begin, each attribute value needs to be normalised for each charging station, making each value within a common scale so values with more extreme ranges do not influence the end summation. There are many different techniques for data normalization such as linear, min-max, vector and logarithmic normalization. A 2007 comparative study on normalization procedures in MADM found that vector normalization is the most suitable for SAW \autocite{chakraborty2007simulation}.
+\begin{equation} \label{eq:5}
+    r_{ij} = \frac{x_{ij}}{\sqrt{\sum_{i=1}^{m}x_{ij}^{2}}}
+\end{equation}
+\begin{equation} \label{eq:6}
+    r_{ij} = 1 - \frac{x_{ij}}{\sqrt{\sum_{i=1}^{m}x_{ij}^{2}}}
+\end{equation}
+Equation \ref{eq:5} shows the formula used to normalize the data using beneficial vector normalization and equation \ref{eq:6} shows non-beneficial vector normalization. The beneficial formula is used when the attribute's value aims to be higher and the non-beneficial used when the value desired is lower. Once the data has been normalized each value can then be multiplied by their weighting value. 
+\begin{equation} \label{eq:7}
+    v_{i}=\sum_{j=1}^{n} w_{j} \cdot r_{ij}
+\end{equation}
+Weightings are determined by how much the given parameter matters when making a decision and all have to add up to 100\%. Equation \ref{eq:7} depicts the calculation that gets the score for each charging station based on SAW. \emph{r} represents the score of the CS attributes and \emph{w} is the weighting value for the given attribute. Attribute for each charging station is multiplied by its weighting then each summed together for its overall score.
+
+\subsection{Charging Station Decision Attributes}
+
+Deciding on which CS to route via requires the decision attributes to be defined. Table \ref{table:3} illustrates the parameters used in SAW. The distance from the start is the straight line distance from the current node to the CS. Distance from divider is the straight line distance from a line that connects the current node and end node, this highlights whether the CS is in the right direction. Figure \ref{fig:5} shows visually how the distances work in context with the charging stations in the vicinity of the EV current range. Refueling price, number of vehicles charging and charging efficiency are CS properties. Charging efficiency is the KW gained by EV battery per time step from the CS.
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|p{6cm} p{3cm}|} 
+ \hline
+ Attribute Name & Normalization \\
+ \hline
+ Distance From Start & Non-beneficial  \\ 
+ Distance From Divider & Non-beneficial  \\ 
+ Price & Non-beneficial  \\ 
+ Vehicles Charging & Non-beneficial  \\ 
+ Charge Per Step & Beneficial  \\ 
+ \hline
+\end{tabular}
+\end{center}
+\caption{Charging station attributes for SAW MADM}
+\label{table:3}
+\end{table}
+
+\section{Development Methodology}
+
+An agile approach was the software development methodology used throughout the project. Agile is a popular and industry-leading methodology that uses an iterative approach to software development project management. Project requirements are split and each stage is set out. Iterations are done for each requirement split until each stage has been complete for that section. It is a well ordered and structured methodology that creates adjustability and adaptation \autocite{InsightstoAgile}. Figure \ref{fig:6} depicts the key stages and cycle of an agile iteration.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.65\linewidth]{agileWheel.jpg}
+  \caption{Agile methodology \autocite{InsightstoAgile}}
+  \label{fig:6}
+\end{figure}
+
+In 2001, a group of software developers met to find common ground and came up with the agile manifesto that highlights the key values and principles \autocite{beck2001agile}. The main was:
+\begin{itemize}
+  \item Working, valuable software early
+  \item Welcome change
+  \item Working software is the primary measure of progress
+  \item Sustainable development - should be able to maintain a constant pace indefinitely
+\end{itemize}
+
+Agile is the methodology being applied in the project due to its lenient and flexible working model. As well as this, it promotes constant improvement and refinement, with the project having defined aims but freedom on ways to solve the problem it is best suited.
+
+\section{Solution Resources}
+
+\subsection{SUMO}
+
+The EV detour routing solution will depend upon a piece of software called SUMO. SUMO is an open-source microscopic traffic simulation suite that allows us to create models of road networks, simulate vehicles, pedestrians and public transport on said networks and manage each vehicle dynamically \autocite{SUMO2018}. It provides the tools needed to implement and evaluate our proposed algorithm in real-world scenarios and get an artificial real-world representation of its performance. In 2014, mathematical energy and charging models for EVs were implemented into sumo that mimics an EVs energy consumption and charging \autocite{kurczveil2013implementation}, which provides the ability for our EV routing solution to be simulated within SUMO. The sumo-cli and sumo-gui tools give us a command-line based and graphical representation of the road networks, with time step based performance XML outputs for each vehicle. In addition, netedit is a visual editing tool that allows us to create and edit road networks.
+
+\subsection{Python and TraCi}
+
+The algorithm will be implemented using the Python programming language with the TraCi(Traffic Control Interface) library \autocite{van1991python} \autocite{traciPython}. Traci is an application protocol interface(API) that allows us to receive data from the SUMO simulator as it runs and manipulate the behaviour of objects in the simulation. TraCi has been developed for multiple programming languages. Python was the one selected due to its support for all TraCi commands unlike the other implementations and its daily testing and usage. TraCi will allow us to get current electric vehicle parameters such as battery capacity and re-route the vehicle with the computed detour from the algorithm with stops at charging stations.
+
+\subsection{Open Street Map}
+
+OSM(Open Street Map) is a free and editable map. With osm, it has the ability to import real-world areas into the netedit tool, randomly generate vehicle trips and public transport networks and run them using SUMO. This will be used to evaluate the performance of the proposed detour routing algorithm in real-world scenarios.
+
+\section{Conclusion}
+
+To conclude this chapter outlines the overall design and techniques used for the EV detour routing algorithm. It identified the technical requirements and the design choices made for the solution, allowing for a reduction in time on implementation. Furthermore, the development methodology followed and the resources needed were presented.
+
+\newpage
+
+\chapter{Solution Implementation}
+
+\newpage
+
+TODO: SUMMARY OF CHAPTER
+
+\section{SUMO Configuration}
+
+\subsection{Network Building}
+
+The SUMO software requires artificially networks to be built to simulate intermodal traffic systems. Using the netedit tool that is included in the SUMO software package it adds the ability to produce and edit SUMO networks using a graphical user interface (GUI). For our implementation and evaluation 2 networks will be developed to be simulated on, a basic grid network and real world mirror of the center of Manchester.
+
+SUMO networks are based on XML files that map the nodes(junctions) and edges(roads) with there respective co-ordinates on a plain. These are stored collected in a .net file, listing 4.1 is a snippet of this file. When editing the network you can do it manually using a text editor or the netedit tool. Network edges and nodes have the ability to be only used by specific vehicles, set the max speed limit, set the length of the edges, number of lanes and direction that they go in. 
+
+\begin{lstlisting}[language=XML, caption=Example of SUMO net file XML]
+    <edge id="-gneE63" from="gneJ34" to="gneJ33" priority="-1">
+        <lane id="-gneE63_0" index="0" speed="13.89" length="239.60" shape="746.80,-501.60 507.20,-501.60"/>
+    </edge>
+    <edge id="-gneE64" from="gneJ35" to="gneJ34" priority="-1">
+        <lane id="-gneE64_0" index="0" speed="13.89" length="239.60" shape="751.60,-257.20 751.60,-496.80"/>
+    </edge>
+    <connection from="-gneE63" to="gneE117" fromLane="0" toLane="0" via=":gneJ33_0_0" dir="s" state="M"/>
+\end{lstlisting}
+
+Simulated modes of transport through SUMO all need a route in which they use to navigate the network. Routes are put in a routing XML file that specifies edge in which a vehicle starts and ends at. Routes can manually be added to the XML, added through TraCi commands or generated using the randomTrips tool which randomly creates various vehicles and routes for the simulation scenario.
+
+SUMO networks can also be built up automatically using open street map using snippets of real world maps. Using the OSMWebWizard which is included in the SUMO package areas can be selected from locations around the globe and SUMO net files can be automatically generated for the given area. Also, through the tool it has the ability to generate random routes of a specified number of different types of transportation such as cars, trucks, buses, motorcycles, pedestrians, ships and public transport scenarios. Figure \ref{fig:7} illustrates the GUI for the OSMWebWizard tool.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.9\linewidth]{osmWizard.PNG}
+  \caption{OSMWebWizard SUMO tool}
+  \label{fig:7}
+\end{figure}
+
+\newpage
+
+\subsection{Electric Vehicle and Charging Station Models}
+
+As discussed above in the section 3.5.1 SUMO has an accurate EV and charging station model that mimics the real world behaviours of both. After each time step of the SUMO simulation energy lost from the EV its subtracted from it current battery capacity. Attributes such as air density, vehicle front surface area, gravity acceleration, covered distance, rolling
+resistance coefficient, centripetal force, curve resistance coefficient and average power of constant consumers all contribute to the energy lost from movement of the EV \autocite{kurczveil2013implementation}.
+
+\begin{lstlisting}[language=Python, caption=Utility function to define definition EVs]
+        f = open("data/electricvehicles.rou.xml", "r+")
+        f.truncate(0)       # Clear file
+    
+        with open("data/electricvehicles.rou.xml", "w") as routes:
+            sys.stdout = routes
+            print("<routes>")
+            print("""  <vType id="electricvehicle" accel="0.8" decel="4.5" sigma="0.5" emissionClass="Energy/unknown" minGap="2.5" maxSpeed="40" guiShape="evehicle" vClass="evehicle">
+                         <param key="has.battery.device" value="true"/>
+                         <param key="maximumBatteryCapacity" value="2000"/>
+                         <param key="maximumPower" value="1000"/>
+                         <param key="vehicleMass" value="1000"/>
+                         <param key="frontSurfaceArea" value="5"/>
+                         <param key="airDragCoefficient" value="0.6"/>
+                         <param key="internalMomentOfInertia" value="0.01"/>
+                         <param key="radialDragCoefficient" value="0.5"/>
+                         <param key="rollDragCoefficient" value="0.01"/>
+                         <param key="constantPowerIntake" value="100"/>
+                         <param key="propulsionEfficiency" value="0.9"/>
+                         <param key="recuperationEfficiency" value="0.9"/>
+                         <param key="stoppingTreshold" value="0.1"/>
+                 </vType>""")
+            print("</routes>")
+\end{lstlisting}
+
+To implement EVs in SUMO they need to be defined \autocite{sumoElectric}. For this a utility function was created which is illustrated in listing 4.2. This dynamically defines the electric vehicle model for the simulation it is called on with all needed EV attributes.
+
+Charging stations on simulation networks are surfaces on lanes which activates EV charging once the vehicle has drove over it. Attributes of a CS include lane in which it resides, power output in wattage, charging efficiency, delay before starts to charge and whether it charges in transit so the vehicle doesn't have to stop over on it. In a real-world scenario plug in charging stations are mostly deployed on parking bays where the vehicles park up and wait for them to charge. For our simulation we need to replicate this, figure \ref{fig:8} shows how charging stations will be implemented on the networks. They will work as a bypass/parking bay which can be only accessed by the EV vehicle type in SUMO.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.7\linewidth]{sumoCS.PNG}
+  \caption{Charging station on a SUMO network}
+  \label{fig:8}
+\end{figure}
+
+\subsection{TraCi Simulation Connection}
+
+Once the sumo network is configured the simulation can be initialised in the python script using TraCi. Listing 4.3 shows the commands to start the traci simulation and the call to functionality for simulation control. Within the TraCi start command outputs can be defined, "tripinfo-output" will give full information on all vehicles in a XML file and "chargingstations-output" all events that happened at each CS. The run function is where the TraCi step loop is located which allows simulation manipulation and adjustment.
+
+\begin{lstlisting}[language=Python, caption=]
+    traci.start([sumoBinary, "-c", "data/osm.sumocfg",
+                             "--tripinfo-output", "tripinfo.xml", "--additional-files", "data/additionals.add.xml",
+                             "--chargingstations-output", "data/chargingstations.xml"])
+    main.run(netFile='data/osm.net.xml',
+             additionalFile='data/additionals.add.xml',
+             options=options)
+\end{lstlisting}
+
+\section{Algorithm Implementation}
+
+After SUMO networks have been created with the EV and charging station models integrated and connection has been established with the Python and TraCi script the algorithm can then be implemented. 
+
+\subsection{Building a Graph}
+
+To begin, a graph object needs to be created which will be populated with data from the SUMO networks. The graph object will be used throughout the process of finding a detour for the electric vehicle. The SUMO Python modules \emph{sumolib} provides methods which allows easy interaction with SUMO network files and aids in getting information about the network. The graph objects properties include:
+
+\begin{itemize}
+  \item Net = The network XML file.
+  \item Edges = All network edges.
+  \item Nodes = All network nodes.
+  \item Node Neighbours = All nodes that allow EVs, its neighbouring nodes, the connecting edge and its length.
+  \item Charging Stations = All charging stations within the network.
+  \item Max Speed = Max speed across the whole network.
+  \item Connections = Internal lanes within in a junction.
+\end{itemize}
+
+GRAPH FUNCTION 'getNodeNeighbours' EXPLANATION
+
+GRAPH FUNCTION 'getMaxSpeed' EXPLANATION
+
+\subsection{Routing Algorithm Outline}
+
+OUTLINE OF MAIN REROUTE FUNCTION
+
+
+REROUTE FUNCTION SNIPPET
+
+\subsection{EV Range Calculations}
+
+EV RANGE FUNCTIONS EXPLAIN
+
+FUNCTION 'estimateRange'
+
+FUNCTION 'estimateBatteryCapacity'
+
+FUNCTION 'estimateSOC'
+
+\subsection{A* Implementation}
+
+EXPLAIN OUR IMPLEMENTATION OF A* ALG
+
+FUNCTION 'estimateSOC'
+
+\subsection{Selecting a Charging Station}
+
+EXPLAIN INITIAL ROUTING THROUGH FUNCTION 'routeViaCS'
+
+EXPLAIN FUNCTION 'getBestCS'
+
+\subsection{Calculating Charging Station Refuel}
+
+EXPLAIN FUNCTION 'calculateCSRefuel'
+
+\subsection{Routing SUMO Electric vehicle}
+
+EXPLAIN ADDING ROUTER IN 'add\_ev'
+
+\newpage
+
+\chapter{Performance Evaluation}
+
+\newpage
+
+\chapter{Conclusion and Future Works}
+
+\newpage
+
+\newpage
+
+\printbibliography
+
+\newpage
+
+\listoffigures
+
+\newpage
+
+\listoftables
+
+\newpage
+
+\lstlistoflistings
+
+\end{document}
