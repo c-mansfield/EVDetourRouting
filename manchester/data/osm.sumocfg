@@ -29,4 +29,8 @@
         <gui-settings-file value="osm.view.xml"/>
     </gui_only>
 
+    <output>
+        <summary-output value="summary_100.xml"/>
+    </output>
+
 </configuration>

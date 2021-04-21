@@ -12,41 +12,55 @@ else:
 import sumolib
 import traci
 
-def rerouter(start, end, evID, graph):
+graph = None
+evID = None
+
+def rerouter(start, end, EVID, Graph, weightings):
+    global graph
+    graph = Graph
+    global evID
+    evID = EVID
+
     startNode = graph.Net.getEdge(start).getFromNode().getID()
     endNode = graph.Net.getEdge(end).getToNode().getID()
-    batteryCapacity = float(traci.vehicle.getParameter(evID, 'device.battery.actualBatteryCapacity'))
-    evRange = estimateRange(evID, batteryCapacity)
+    evBatteryCapacity = float(traci.vehicle.getParameter(evID, 'device.battery.actualBatteryCapacity'))
+    evRange = estimateRange(evBatteryCapacity)
     evRangeAtCS = 0
 
     route = []
     routeLength = 0
     csStops = []
-    csSearchNode = graph.Net.getEdge(start).getFromNode().getID()
+    csSearchNode = startNode
 
     print('evRange: ', evRange)
-    print('batteryCapacity: ', batteryCapacity)
-    print('startNode: ', startNode)
 
     while True:
-        tempRoute, tempLength = aStarSearch(graph, startNode, endNode, evRange, evID, False)
+        tempRoute, tempLength = aStarSearch(startNode, endNode, evRange, False)
 
         # When initial route gets something back, saves route and sets new start as last node
         if tempRoute != []:
             csSearchNode = graph.Net.getEdge(tempRoute[-1]).getToNode().getID()
+            evRangeAtCS = evRange - tempLength
 
             # End cycle for route search if reached the end
             if graph.Net.getEdge(tempRoute[-1]).getToNode().getID() == endNode:
-                evRange, csStops = calculateCSRefuel(evRangeAtCS, csStops, tempLength, evID, 10)
+                evRange, csStops = calculateCSRefuel(evRangeAtCS, csStops, tempLength, 10)
                 route += tempRoute
                 routeLength += tempLength
                 break
 
-        tempRoute, tempLength, csStop = routeViaCS(graph, startNode, endNode, evRange, evID, csSearchNode)
+        tempRoute, tempLength, csStop = routeViaCS(startNode, endNode, evRangeAtCS, csSearchNode, evRange, weightings)
 
         if tempRoute == None:
             print('No valid route for EV with current capacity')
+            route = []
+            routeLength = 0
             break
+
+        if tempRoute != []:
+            if graph.Net.getEdge(tempRoute[-1]).getToNode().getID() == endNode:
+                evRange, csStops = calculateCSRefuel(evRangeAtCS, csStops, tempLength, 10)
+                break
 
         route += tempRoute
         routeLength += tempLength
@@ -61,8 +75,7 @@ def rerouter(start, end, evID, graph):
 
         # Set ev range as 100% making as can charge full at cs
         # Work out correct when get next route
-        evRange, csStops = calculateCSRefuel(evRangeAtCS, csStops, tempLength, evID, 100)
-        print('csStops[-1]: ', csStops[-1])
+        evRange, csStops = calculateCSRefuel(evRangeAtCS, csStops, tempLength, 100)
 
     print('route: ', route)
     print('routeLength: ', routeLength)
@@ -71,14 +84,18 @@ def rerouter(start, end, evID, graph):
 
     return route, csStops
 
-def routeViaCS(graph, startNode, endNode, evRange, evID, csSearchNode):
-    closestCSs = getNeighbouringCS(graph, csSearchNode, endNode, evRange)
+def routeViaCS(startNode, endNode, evRangeAtSearch, csSearchNode, evRange, weightings):
+    closestCSs = getNeighbouringCS(csSearchNode, endNode, evRangeAtSearch)
+
+    # Check for CS from start point if cannot find one at the search node
+    if len(closestCSs) == 0:
+        closestCSs = getNeighbouringCS(startNode, endNode, evRange)
 
     if len(closestCSs) > 0:
-        chargingStation = getBestCS(graph, closestCSs)
+        chargingStation = getBestCS(closestCSs, weightings)
         csStartNode = graph.Net.getEdge(chargingStation.Lane).getFromNode().getID()
 
-        route, routeLength = aStarSearch(graph, startNode, csStartNode, evRange, evID, True)
+        route, routeLength = aStarSearch(startNode, csStartNode, evRange, True)
 
         if route == None:
             return None, None, None
@@ -95,7 +112,7 @@ def routeViaCS(graph, startNode, endNode, evRange, evID, csSearchNode):
 # Make MCDM based on SAW technique and normalizing the data using vector normalization
 # https://hal.inria.fr/hal-01438251/document#:~:text=They%20used%20a%20ranking%20consistency,SAW%20is%20the%20vector%20normalization.
 # http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.134.8891&rep=rep1&type=pdf
-def getBestCS(graph, closestCSs):
+def getBestCS(closestCSs, weightings):
     # Get vector lengths for denomatonator for all attributes
     lenDistStart = math.sqrt(sum(cs.DistanceFromStart ** 2 for cs in closestCSs))
     lenDistDivider = math.sqrt(sum(cs.DistanceFromDivider ** 2 for cs in closestCSs))
@@ -105,14 +122,14 @@ def getBestCS(graph, closestCSs):
 
     for cs in closestCSs:
         # Normalize each attribute of CS wish to make decision based on and  its weighting
-        distStartScore = (1 - catchZeroDivision(cs.DistanceFromStart, lenDistStart)) * 0.1
-        distDividerScore = (1 - catchZeroDivision(cs.DistanceFromDivider, lenDistDivider)) * 0.35
-        priceScore = (1 - catchZeroDivision(cs.Price, lenPrice)) * 0.05
-        vehiclesChargingScore = (1 - catchZeroDivision(cs.VehiclesCharging, lenVehiclesCharging)) * 0.15
-        stepChargeScore = catchZeroDivision(cs.ChargePerStep, lenStepCharge) * 0.35
+        distStartScore = (1 - catchZeroDivision(cs.DistanceFromStart, lenDistStart)) * weightings["DistanceFromStart"]
+        distDividerScore = (1 - catchZeroDivision(cs.DistanceFromDivider, lenDistDivider)) * weightings["DistanceFromDivider"]
+        priceScore = (1 - catchZeroDivision(cs.Price, lenPrice)) * weightings["Price"]
+        vehiclesChargingScore = (1 - catchZeroDivision(cs.VehiclesCharging, lenVehiclesCharging)) * weightings["VehiclesCharging"]
+        stepChargeScore = catchZeroDivision(cs.ChargePerStep, lenStepCharge) * weightings["ChargePerStep"]
 
         # Get CS score of best charging station
-        cs.Score = distStartScore + distDividerScore + priceScore + stepChargeScore # + vehiclesChargingScore
+        cs.Score = distStartScore + distDividerScore + priceScore + stepChargeScore + vehiclesChargingScore
 
         print('Charging Station: ', cs.id)
         print('Score: ', cs.Score)
@@ -126,11 +143,11 @@ def catchZeroDivision(x, y):
         return 0
 
 # Get the correct range and duration needed from and for EV for last charging station stop
-def calculateCSRefuel(evRange, chargingStations, routeLength, evID, goalPercentage):
+def calculateCSRefuel(evRange, chargingStations, routeLength, goalPercentage):
     if len(chargingStations) > 0:
         # Get meters still needed to travel to complete journey
         rangeNeeded = routeLength - evRange
-        capacityNeeded = estimateBatteryCapacity(evID, rangeNeeded) \
+        capacityNeeded = estimateBatteryCapacity(rangeNeeded) \
                          + (float(traci.vehicle.getParameter(evID, 'device.battery.maximumBatteryCapacity')) * 0.1)
 
         # Goal capacity set depending on part of route
@@ -140,24 +157,16 @@ def calculateCSRefuel(evRange, chargingStations, routeLength, evID, goalPercenta
         durationToNeeded = math.ceil(capacityNeeded / csChargePerStep)
         durationToGoal = math.ceil(capacityGoal / csChargePerStep)
 
-        print('routeLength: ', routeLength)
-        print('evRange: ', evRange)
-        print('rangeNeeded: ', rangeNeeded)
-        print('capacityGoal: ', capacityGoal)
-        print('capacityNeeded: ', capacityNeeded)
-        print('durationToNeeded: ', durationToNeeded)
-        print('durationToGoal: ', durationToGoal)
-
         # Get higher duration of two for time spent charging at CS
         chargingStations[-1].Duration = max(durationToNeeded, durationToGoal)
-        print('chargingStations[-1].Duration: ', chargingStations[-1].Duration)
-        newCapacity = estimateBatteryCapacity(evID, evRange) + (chargingStations[-1].Duration * csChargePerStep)
+        # print('chargingStations[-1].Duration: ', chargingStations[-1].Duration)
+        newCapacity = estimateBatteryCapacity(evRange) + (chargingStations[-1].Duration * csChargePerStep)
 
-        evRange = estimateRange(evID, newCapacity)
+        evRange = estimateRange(newCapacity)
 
     return evRange, chargingStations
 
-def aStarSearch(graph, start, end, evRange, evID, csRouting):
+def aStarSearch(start, end, evRange, csRouting):
     openList = set([start])
     closedList = set([])
 
@@ -175,21 +184,21 @@ def aStarSearch(graph, start, end, evRange, evID, csRouting):
 
         for node in openList:
             if currentNode == None \
-                or routeCost[node] + heuristic(graph, node, end) < routeCost[currentNode] + heuristic(graph, currentNode, end):
+                or routeCost[node] + heuristic(node, end) < routeCost[currentNode] + heuristic(currentNode, end):
                 currentNode = node;
 
         if currentNode == None:
             return None, 0
 
         if currentNode == end:
-            return reconstructRoutePath(graph, start, currentNode, route, routeLength)
+            return reconstructRoutePath(start, currentNode, route, routeLength)
 
         # Checks whether soc under limit when getting intial route or route from CS
         if not csRouting:
-            currentSOC = estimateSOC(evID, evRange, list(routeLength.values())[-1])
+            currentSOC = estimateSOC(evRange, list(routeLength.values())[-1])
 
-            if currentSOC < 11:
-                return reconstructRoutePath(graph, start, currentNode, route, routeLength)
+            if currentSOC < 10:
+                return reconstructRoutePath(start, currentNode, route, routeLength)
 
         # Checker to not evaluate nodes that lead to dead end
         if graph.neighbors(currentNode) != None:
@@ -197,7 +206,6 @@ def aStarSearch(graph, start, end, evRange, evID, csRouting):
                 neighbourNode = next['Neighbour']
                 edgeStepSpeed = traci.edge.getLastStepMeanSpeed(next['ConnectingEdge'])
 
-                # Checker for dead-ends
                 if neighbourNode not in openList and neighbourNode not in closedList:
                     openList.add(neighbourNode)
                     route[neighbourNode] = currentNode
@@ -227,12 +235,12 @@ def aStarSearch(graph, start, end, evRange, evID, csRouting):
 
 # Estimating the heristic as the euclidean distance from current to end divided
 # by the max speed of any
-def heuristic(graph, currentNode, endNode):
-    return distanceBetweenNodes(graph, currentNode, endNode) / graph.MaxSpeed
+def heuristic(currentNode, endNode):
+    return distanceBetweenNodes(currentNode, endNode) / graph.MaxSpeed
 
 # Get distance from node to end node using euclidean distance
 # Used for heuristic in A*
-def distanceBetweenNodes(graph, currentNode, endNode):
+def distanceBetweenNodes(currentNode, endNode):
     currentCoords = graph.Net.getNode(currentNode).getCoord()
     endCoords = graph.Net.getNode(endNode).getCoord()
 
@@ -246,7 +254,7 @@ def euclideanDistance(aCoords, bCoords):
     return math.sqrt((x ** 2) + (y ** 2))
 
 # Converts the route to be in edges not nodes for sumo vehicle to follow
-def reconstructRoutePath(graph, start, current, route, routeLength):
+def reconstructRoutePath(start, current, route, routeLength):
     newRoute = []
     length = list(routeLength.values())[-1]
 
@@ -268,27 +276,27 @@ def reconstructRoutePath(graph, start, current, route, routeLength):
 # Estimates range for EV from current battery capacity
 # Returns value in meters
 # https://sumo.dlr.de/docs/Models/Electric.html#calculating_the_remaining_range
-def estimateRange(evID, batteryCapacity):
-    return batteryCapacity * getMetersPerWatt(evID)
+def estimateRange(batteryCapacity):
+    return batteryCapacity * getMetersPerWatt()
 
 # Estimate the battery capacity needed from refuel at charging station to get to destination
 # Returns value in Wh
-def estimateBatteryCapacity(evID, evRange):
-    return evRange / getMetersPerWatt(evID)
+def estimateBatteryCapacity(evRange):
+    return evRange / getMetersPerWatt()
 
 # Get estimated state of charge for current spot in location
-def estimateSOC(evID, evRange, routeLength):
+def estimateSOC(evRange, routeLength):
     currentRange = evRange - routeLength
-    currentSOC = (estimateBatteryCapacity(evID, currentRange) / float(traci.vehicle.getParameter(evID, 'device.battery.maximumBatteryCapacity'))) * 100
+    currentSOC = (estimateBatteryCapacity(currentRange) / float(traci.vehicle.getParameter(evID, 'device.battery.maximumBatteryCapacity'))) * 100
     return currentSOC if currentSOC < 100 else 100
 
 # Gte the meters per Watt-hour of the current EV to use in range and capacity calculations
-def getMetersPerWatt(evID):
+def getMetersPerWatt():
     # mWh = traci.vehicle.getDistance(evID) / float(traci.vehicle.getElectricityConsumption(evID))
     mWh = 4.665999805641006
     return mWh
 
-def getNeighbouringCS(graph, mainNode, endNode, radius):
+def getNeighbouringCS(mainNode, endNode, radius):
     nodeCoords = graph.Net.getNode(mainNode).getCoord()
     endCoords = graph.Net.getNode(endNode).getCoord()
     lineDistance = euclideanDistance(nodeCoords, endCoords)
@@ -315,4 +323,4 @@ def checkCSInRadius(nodeCoords, csX, csY, radius):
 def distanceFromLine(lineA, lineB, csCoords, lineDistance):
     eqTop = ((lineB[0] - lineA[0]) * (lineA[1] - csCoords[1])) - ((lineA[0] - csCoords[0]) * (lineB[1] - lineA[1]))
 
-    return abs(eqTop / lineDistance)
+    return abs(catchZeroDivision(eqTop, lineDistance))

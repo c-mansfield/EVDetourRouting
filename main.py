@@ -15,6 +15,12 @@ else:
 import traci
 import sumolib
 
+# EVGrid route
+# 'gneE53' -> '-gneE64'
+
+# Manchester route
+# '122066614#0' -> '167121171#7'
+
 def run(netFile, additionalFile, options=None):
     """execute the TraCI control loop"""
     step = 0
@@ -23,9 +29,20 @@ def run(netFile, additionalFile, options=None):
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
 
-        if step >= 100 and step <= 101 \
-           and step % 20 == 0:
-            add_ev(graph, step)
+        # Add random EV routes
+        if step >= 0 and step <= 100 \
+           and step % 10 == 0:
+            fromEdge = random.choice(graph.Edges).getID()
+            toEdge = random.choice(graph.Edges).getID()
+
+            print('toEdge', toEdge)
+            print('fromEdge', fromEdge)
+
+            if fromEdge != toEdge:
+                add_ev(graph, fromEdge, toEdge, str(step))
+
+        if step == 110:
+            add_ev(graph, 'gneE53', '-gneE64', 'Main')
 
         # Checks EV battery capacity
         # if step > 105:
@@ -40,24 +57,19 @@ def run(netFile, additionalFile, options=None):
     sys.stdout.flush()
 
 # Adds electric vehicle wish to route
-def add_ev(graph, step):
-    vehicleID = 'EV' + str(step)
+def add_ev(graph, fromEdge, toEdge, evName):
+    vehicleID = 'EV_' + evName
     batteryCapacity = 300
-    toEdge = random.choice(list(graph.NodeNeighbours.keys()))
-    fromEdge = random.choice(graph.Edges).getID()
-
-    print('toEdge: ', toEdge)
+    weightings = buildWeightings()
 
     # Generate vehicle
-    # traci.route.add('placeholder_trip', ['gneE53'])
-    traci.route.add('placeholder_trip', ['122066614#0'])
-    traci.vehicle.add(vehicleID, 'placeholder_trip', typeID='electricvehicle')
+    traci.route.add('placeholder_trip_' + evName, [toEdge])
+    traci.vehicle.add(vehicleID, 'placeholder_trip_' + evName, typeID='electricvehicle')
     traci.vehicle.setParameter(vehicleID, 'device.battery.actualBatteryCapacity', batteryCapacity)
 
     # Generates optimal route for EV
     start_time = time.time()
-    # route, csStops = rerouter('gneE53', '-gneE64', vehicleID, graph)
-    route, csStops = rerouter('122066614#0', '167121171#7', vehicleID, graph)
+    route, csStops = rerouter(fromEdge, toEdge, vehicleID, graph, weightings)
     print("Reroute algorithm runtime ", vehicleID, ": ", str(time.time() - start_time))
 
     if len(route) > 0:
@@ -93,6 +105,17 @@ def add_ev_vtype():
              </vType>""")
         print("</routes>")
         sys.stdout = original_stdout
+
+def buildWeightings():
+    weightings = {}
+
+    weightings["DistanceFromStart"] = 0.1
+    weightings["DistanceFromDivider"] = 0.35
+    weightings["Price"] = 0.05
+    weightings["VehiclesCharging"] = 0.15
+    weightings["ChargePerStep"] = 0.35
+
+    return weightings
 
 # Get run parameters
 def get_options():
