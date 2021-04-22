@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 04/22/21 16:59:00 by Eclipse SUMO sumo Version v1_8_0+1742-ceeb7fe3f3
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="data/EVGrid.net.xml"/>
+        <route-files value="data/electricvehicles.rou.xml,data/randroutes.rou.xml"/>
+        <additional-files value="data/EVGrid_additionals.add.xml"/>
+    </input>
+
+    <output>
+        <battery-output value="data/battery.out.xml"/>
+        <battery-output.precision value="4"/>
+        <chargingstations-output value="data/EVGrid_chargingstations.xml"/>
+        <summary-output value="data/summary-overview.xml"/>
+        <tripinfo-output value="tripinfo.xml"/>
+    </output>
+
+    <processing>
+        <lateral-resolution value="1"/>
+    </processing>
+
+    <report>
+        <no-warnings value="true"/>
+    </report>
+
+    <battery>
+        <device.battery.probability value="1"/>
+    </battery>
+
+    <traci_server>
+        <remote-port value="61165"/>
+    </traci_server>
+
+    <gui_only>
+        <gui-settings-file value="data/gui-settings.cfg"/>
+    </gui_only>
+
+</configuration>
+-->
+
+<vehicle-type-probes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/vtypeprobe_file.xsd">
+    <timestep time="0.00" id="probe1" vType="electricvehicle"/>
+    <timestep time="10.00" id="probe1" vType="electricvehicle"/>
+    <timestep time="20.00" id="probe1" vType="electricvehicle"/>
+    <timestep time="30.00" id="probe1" vType="electricvehicle"/>
+    <timestep time="40.00" id="probe1" vType="electricvehicle"/>
+    <timestep time="50.00" id="probe1" vType="electricvehicle"/>
+    <timestep time="60.00" id="probe1" vType="electricvehicle"/>
+    <timestep time="70.00" id="probe1" vType="electricvehicle"/>
+    <timestep time="80.00" id="probe1" vType="electricvehicle"/>
+    <timestep time="90.00" id="probe1" vType="electricvehicle"/>
+    <timestep time="100.00" id="probe1" vType="electricvehicle"/>
+    <timestep time="110.00" id="probe1" vType="electricvehicle"/>
+    <timestep time="120.00" id="probe1" vType="electricvehicle"/>
+    <timestep time="130.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE106_0" pos="34.90" x="42.11" y="1.47" speed="6.12"/>
+    </timestep>
+    <timestep time="140.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE106_0" pos="128.91" x="136.12" y="1.18" speed="12.21"/>
+    </timestep>
+    <timestep time="150.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="-gneE79_0" pos="0.06" x="248.40" y="7.26" speed="7.64"/>
+    </timestep>
+    <timestep time="160.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="-gneE79_0" pos="107.37" x="248.35" y="114.57" speed="13.46"/>
+    </timestep>
+    <timestep time="170.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="-gneE78_0" pos="26.37" x="248.38" y="242.36" speed="4.64"/>
+    </timestep>
+    <timestep time="180.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE96_0" pos="17.21" x="264.10" y="221.29" speed="0.07"/>
+    </timestep>
+    <timestep time="190.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE96_0" pos="17.23" x="264.10" y="221.27" speed="0.00"/>
+    </timestep>
+    <timestep time="200.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE96_0" pos="17.23" x="264.10" y="221.27" speed="0.00"/>
+    </timestep>
+    <timestep time="210.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE96_0" pos="17.23" x="264.10" y="221.27" speed="0.00"/>
+    </timestep>
+    <timestep time="220.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE96_0" pos="17.23" x="264.10" y="221.27" speed="0.00"/>
+    </timestep>
+    <timestep time="230.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE96_0" pos="17.23" x="264.10" y="221.27" speed="0.00"/>
+    </timestep>
+    <timestep time="240.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE98_0" pos="1.81" x="262.04" y="218.87" speed="1.61"/>
+    </timestep>
+    <timestep time="250.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE79_0" pos="33.80" x="251.53" y="174.20" speed="7.47"/>
+    </timestep>
+    <timestep time="260.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE79_0" pos="147.97" x="251.58" y="60.03" speed="14.59"/>
+    </timestep>
+    <timestep time="270.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE59_0" pos="37.21" x="294.41" y="1.60" speed="9.18"/>
+    </timestep>
+    <timestep time="280.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE59_0" pos="165.95" x="423.15" y="1.60" speed="14.36"/>
+    </timestep>
+    <timestep time="290.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE49_0" pos="24.73" x="501.60" y="-31.93" speed="9.75"/>
+    </timestep>
+    <timestep time="300.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE49_0" pos="154.86" x="501.60" y="-162.06" speed="14.51"/>
+    </timestep>
+    <timestep time="310.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE70_0" pos="49.99" x="501.60" y="-307.19" speed="14.44"/>
+    </timestep>
+    <timestep time="320.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE70_0" pos="194.61" x="501.60" y="-451.81" speed="14.48"/>
+    </timestep>
+    <timestep time="330.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE63_0" pos="45.84" x="553.04" y="-498.40" speed="10.54"/>
+    </timestep>
+    <timestep time="340.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_Main" lane="gneE63_0" pos="179.07" x="686.27" y="-498.40" speed="14.67"/>
+    </timestep>
+</vehicle-type-probes>

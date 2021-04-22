@@ -46,7 +46,7 @@ if __name__ == "__main__":
     # subprocess and then the python script connects and runs
     traci.start([sumoBinary, "-c", "data/osm.sumocfg",
                              "--tripinfo-output", "tripinfo.xml", "--additional-files", "data/Manchester_additionals.add.xml",
-                             "--chargingstations-output", "data/Manchester_chargingstations.xml"])
+                             "--chargingstations-output", "data/Manchester_chargingstations.xml", "--no-warnings"])
     main.run(netFile='data/osm.net.xml',
              additionalFile='data/Manchester_additionals.add.xml',
              options=options)

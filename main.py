@@ -30,28 +30,29 @@ def run(netFile, additionalFile, options=None):
         traci.simulationStep()
 
         # Add random EV routes
-        if step >= 0 and step <= 100 \
-           and step % 10 == 0:
-            fromEdge = random.choice(graph.Edges).getID()
-            toEdge = random.choice(graph.Edges).getID()
+        # if step >= 0 and step <= 100 \
+        #    and step % 10 == 0:
+        #     fromEdge = getEVEdges(graph, "")
+        #     toEdge = getEVEdges(graph, fromEdge)
+        #
+        #     print('toEdge', toEdge)
+        #     print('fromEdge', fromEdge)
+        #
+        #     add_ev(graph, fromEdge, toEdge, str(step))
 
-            print('toEdge', toEdge)
-            print('fromEdge', fromEdge)
+        if step == 120:
+            add_ev(graph, '122066614#0', '167121171#7', 'Main')
 
-            if fromEdge != toEdge:
-                add_ev(graph, fromEdge, toEdge, str(step))
-
-        if step == 110:
-            add_ev(graph, 'gneE53', '-gneE64', 'Main')
-
-        # Checks EV battery capacity
-        # if step > 105:
-        #     print('EV Lane: ', traci.vehicle.getLaneID('EV1'))
-        #     print('EV Current capacity: ', traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity'))
-        #     if traci.vehicle.getParameter('EV1', 'device.battery.actualBatteryCapacity') == "0.00":
-        #         print('Vehicle battery empty')
+        # if step >= 120:
+        #     try:
+        #         mWh = traci.vehicle.getDistance('EV_Main') / float(traci.vehicle.getParameter('EV_Main', "device.battery.totalEnergyConsumed"))
+        #         print('mWh: ', mWh)
+        #     except ZeroDivisionError:
+        #         print('Empty')
 
         step += 1
+
+    # print('EV Capacity at end: ', traci.vehicle.getParameter('EV_Main', 'device.battery.actualBatteryCapacity'))
 
     traci.close()
     sys.stdout.flush()
@@ -60,7 +61,7 @@ def run(netFile, additionalFile, options=None):
 def add_ev(graph, fromEdge, toEdge, evName):
     vehicleID = 'EV_' + evName
     batteryCapacity = 300
-    weightings = buildWeightings()
+    hyperParams = buildHyperParams()
 
     # Generate vehicle
     traci.route.add('placeholder_trip_' + evName, [toEdge])
@@ -69,7 +70,7 @@ def add_ev(graph, fromEdge, toEdge, evName):
 
     # Generates optimal route for EV
     start_time = time.time()
-    route, csStops = rerouter(fromEdge, toEdge, vehicleID, graph, weightings)
+    route, csStops = rerouter(fromEdge, toEdge, vehicleID, graph, hyperParams)
     print("Reroute algorithm runtime ", vehicleID, ": ", str(time.time() - start_time))
 
     if len(route) > 0:
@@ -106,16 +107,18 @@ def add_ev_vtype():
         print("</routes>")
         sys.stdout = original_stdout
 
-def buildWeightings():
-    weightings = {}
+def buildHyperParams():
+    hyperParams = {}
 
-    weightings["DistanceFromStart"] = 0.1
-    weightings["DistanceFromDivider"] = 0.35
-    weightings["Price"] = 0.05
-    weightings["VehiclesCharging"] = 0.15
-    weightings["ChargePerStep"] = 0.35
+    hyperParams["DistanceFromStart"] = 0.1
+    hyperParams["DistanceFromDivider"] = 0.30
+    hyperParams["Price"] = 0.1
+    hyperParams["VehiclesCharging"] = 0.15
+    hyperParams["ChargePerStep"] = 0.35
 
-    return weightings
+    hyperParams["MinimumSoC"] = 10
+
+    return hyperParams
 
 # Get run parameters
 def get_options():
@@ -126,3 +129,13 @@ def get_options():
                          default=False, help="Run algorithm on simulation")
     options, args = optParser.parse_args()
     return options
+
+# Utility function to get random edges on network that allows EV vehicles
+def getEVEdges(graph, otherEdge):
+    while True:
+        edge = random.choice(graph.Edges).getID()
+
+        if graph.Net.getEdge(edge).allows('evehicle') and otherEdge != edge:
+            break
+
+    return edge

@@ -45,7 +45,7 @@ if __name__ == "__main__":
     # subprocess and then the python script connects and runs
     traci.start([sumoBinary, "-c", "data/EVGrid.sumocfg",
                              "--tripinfo-output", "tripinfo.xml", "--additional-files", "data/EVGrid_additionals.add.xml",
-                             "--chargingstations-output", "data/EVGrid_chargingstations.xml"])
+                             "--chargingstations-output", "data/EVGrid_chargingstations.xml", "--no-warnings"])
 
     main.run(netFile='data/EVGrid.net.xml',
              additionalFile='data/EVGrid_additionals.add.xml',

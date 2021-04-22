@@ -83,7 +83,7 @@ class Graph:
         internalLanes = sumolib.net.readNet(netFile, withInternal=True)
 
         for con in root.findall('connection'):
-            if con.get('via') != None:
+            if con.get('via') != None and internalLanes.getLane(con.get('via')).allows('evehicle'):
                 connectionObj = {
                     'to': con.get('to'),
                     'via': con.get('via'),
