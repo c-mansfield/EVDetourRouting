@@ -40,15 +40,16 @@ def rerouter(start, end, EVID, Graph, hyperParams):
 
         # When initial route gets something back, saves route and sets new start as last node
         if tempRoute != []:
-            csSearchNode = graph.Net.getEdge(tempRoute[-1]).getToNode().getID()
-            evRangeAtSearch = evRange - tempLength
+            if tempRoute != None:
+                csSearchNode = graph.Net.getEdge(tempRoute[-1]).getToNode().getID()
+                evRangeAtSearch = evRange - tempLength
 
-            # End cycle for route search if reached the end
-            if graph.Net.getEdge(tempRoute[-1]).getToNode().getID() == endNode:
-                evRange, csStops = calculateCSRefuel(evRangeAtCS, csStops, tempLength, 10)
-                route += tempRoute
-                routeLength += tempLength
-                break
+                # End cycle for route search if reached the end
+                if graph.Net.getEdge(tempRoute[-1]).getToNode().getID() == endNode:
+                    evRange, csStops = calculateCSRefuel(evRangeAtCS, csStops, tempLength, 10)
+                    route += tempRoute
+                    routeLength += tempLength
+                    break
 
         tempRoute, tempLength, csStop = routeViaCS(startNode, endNode, evRangeAtSearch, csSearchNode, evRange, hyperParams)
 
@@ -151,12 +152,20 @@ def calculateCSRefuel(evRange, chargingStations, routeLength, goalPercentage):
         maxBatteryCapacity = float(traci.vehicle.getParameter(evID, 'device.battery.maximumBatteryCapacity'))
 
         capacityNeeded = (estimateBatteryCapacity(rangeNeeded)) + (maxBatteryCapacity * 0.1)
+        capacityGoal = maxBatteryCapacity * (goalPercentage / 100)
 
-        # Goal capacity set depending on part of route
-        if goalPercentage < 100:
-            capacityGoal = maxBatteryCapacity * (goalPercentage / 100)
-        else:
-            capacityGoal = (maxBatteryCapacity * (goalPercentage / 100)) - currentEstCapacity
+        print('rangeNeeded: ', rangeNeeded)
+        print('evRange: ', evRange)
+        print('currentEstCapacity: ', currentEstCapacity)
+        print('capacityNeeded: ', capacityNeeded)
+        print('(maxBatteryCapacity * 0.1): ', (maxBatteryCapacity * 0.1))
+        print('estimateBatteryCapacity(rangeNeeded): ', estimateBatteryCapacity(rangeNeeded))
+
+        # Goal capacity as max battery capacity if goal greater
+        if capacityGoal > maxBatteryCapacity:
+            capacityGoal = maxBatteryCapacity - currentEstCapacity
+
+        print('capacityGoal: ', capacityGoal)
 
         csChargePerStep = (chargingStations[-1].Power * chargingStations[-1].Efficiency) / 3600
         durationToNeeded = math.ceil(capacityNeeded / csChargePerStep)
@@ -208,6 +217,7 @@ def aStarSearch(start, end, evRange, csRouting):
             currentSOC = estimateSOC(evRange, list(routeLength.values())[-1])
 
             if currentSOC < 10:
+                print('Refuel required, SOC: ', currentSOC)
                 return reconstructRoutePath(start, currentNode, route, routeLength)
 
         # Checker to not evaluate nodes that lead to dead end
@@ -266,7 +276,7 @@ def euclideanDistance(aCoords, bCoords):
 # Converts the route to be in edges not nodes for sumo vehicle to follow
 def reconstructRoutePath(start, current, route, routeLength):
     newRoute = []
-    length = list(routeLength.values())[-1]
+    length = 0
 
     while route[current] != current:
         connectingEdge = graph.getNodeEdge(route[current], current)
@@ -279,10 +289,12 @@ def reconstructRoutePath(start, current, route, routeLength):
             except TypeError:
                 print('No interal lane match for ', connectingEdge['ConnectingEdge'], ' / ', newRoute[-1])
 
+        length += connectingEdge['Length']
         newRoute.append(connectingEdge['ConnectingEdge'])
         current = route[current]
 
     newRoute.reverse()
+    print('length: ', length)
 
     return newRoute, length
 
@@ -303,11 +315,11 @@ def estimateSOC(evRange, routeLength):
     currentSOC = (estimateBatteryCapacity(currentRange) / float(traci.vehicle.getParameter(evID, 'device.battery.maximumBatteryCapacity'))) * 100
     return currentSOC if currentSOC < 100 else 100
 
-# Gte the meters per Watt-hour of the current EV to use in range and capacity calculations
+# Get the meters per Watt-hour of the current EV to use in range and capacity calculations
 # Current value got from prev simulation, getting the mean from each mWh time step value
 def getMetersPerWatt():
     # mWh = traci.vehicle.getDistance('EV_Main') / float(traci.vehicle.getParameter(vehID, "device.battery.totalEnergyConsumed"))
-    mWh = 4.9853650435593
+    mWh = 3.3101451138736278
     return mWh
 
 def getNeighbouringCS(mainNode, endNode, radius):

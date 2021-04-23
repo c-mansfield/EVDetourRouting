@@ -5,6 +5,7 @@ import random
 from algorithm.reroute import rerouter, estimateRange
 from algorithm.Graph import Graph
 import time
+import statistics
 
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
@@ -25,34 +26,39 @@ def run(netFile, additionalFile, options=None):
     """execute the TraCI control loop"""
     step = 0
     graph = Graph(netFile, additionalFile)
+    mWhList = []
 
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
 
         # Add random EV routes
-        # if step >= 0 and step <= 100 \
-        #    and step % 10 == 0:
-        #     fromEdge = getEVEdges(graph, "")
-        #     toEdge = getEVEdges(graph, fromEdge)
-        #
-        #     print('toEdge', toEdge)
-        #     print('fromEdge', fromEdge)
-        #
-        #     add_ev(graph, fromEdge, toEdge, str(step))
+        if step >= 0 and step <= 100 \
+           and step % 10 == 0:
+            fromEdge = getEVEdges(graph, "")
+            toEdge = getEVEdges(graph, fromEdge)
+
+            print('toEdge', toEdge)
+            print('fromEdge', fromEdge)
+
+            add_ev(graph, fromEdge, toEdge, str(step))
 
         if step == 120:
-            add_ev(graph, '122066614#0', '167121171#7', 'Main')
+            add_ev(graph, 'gneE53', '-gneE64', 'Main')
 
-        # if step >= 120:
-        #     try:
-        #         mWh = traci.vehicle.getDistance('EV_Main') / float(traci.vehicle.getParameter('EV_Main', "device.battery.totalEnergyConsumed"))
-        #         print('mWh: ', mWh)
-        #     except ZeroDivisionError:
-        #         print('Empty')
+        if step >= 121:
+            try:
+                mWh = traci.vehicle.getDistance('EV_Main') / float(traci.vehicle.getParameter('EV_Main', "device.battery.totalEnergyConsumed"))
+                mWhList.append(mWh)
+                # print('Mean MwH: ', statistics.mean(mWhList))
+            except ZeroDivisionError:
+                print('Empty')
+            # print('EV Capacity: ', traci.vehicle.getParameter('EV_Main', 'device.battery.actualBatteryCapacity'))
 
         step += 1
 
     # print('EV Capacity at end: ', traci.vehicle.getParameter('EV_Main', 'device.battery.actualBatteryCapacity'))
+
+    print('Mean MwH: ', mean(mWhList))
 
     traci.close()
     sys.stdout.flush()
@@ -91,7 +97,7 @@ def add_ev_vtype():
         print("<routes>")
         print("""  <vType id="electricvehicle" accel="0.8" decel="4.5" sigma="0.5" emissionClass="Energy/unknown" minGap="2.5" maxSpeed="40" guiShape="evehicle" vClass="evehicle">
                      <param key="has.battery.device" value="true"/>
-                     <param key="maximumBatteryCapacity" value="2000"/>
+                     <param key="maximumBatteryCapacity" value="20000"/>
                      <param key="maximumPower" value="1000"/>
                      <param key="vehicleMass" value="1000"/>
                      <param key="frontSurfaceArea" value="5"/>
@@ -103,7 +109,8 @@ def add_ev_vtype():
                      <param key="propulsionEfficiency" value="0.9"/>
                      <param key="recuperationEfficiency" value="0.9"/>
                      <param key="stoppingTreshold" value="0.1"/>
-             </vType>""")
+                     <param key="has.tripinfo.device" value="true"/>
+                   </vType>""")
         print("</routes>")
         sys.stdout = original_stdout
 

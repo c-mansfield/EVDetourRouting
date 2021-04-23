@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 04/22/21 17:20:41 by Eclipse SUMO sumo Version v1_8_0+1742-ceeb7fe3f3
+<!-- generated on 04/23/21 14:26:15 by Eclipse SUMO sumo Version v1_8_0+1742-ceeb7fe3f3
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
@@ -31,7 +31,7 @@
     </report>
 
     <traci_server>
-        <remote-port value="61748"/>
+        <remote-port value="53064"/>
     </traci_server>
 
     <gui_only>
@@ -42,3 +42,16 @@
 -->
 
 <tripinfos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/tripinfo_file.xsd">
+    <tripinfo id="EV_20" depart="21.00" departLane="136467079#3_0" departPos="5.10" departSpeed="0.00" departDelay="0.00" arrival="32.00" arrivalLane="136467079#3_0" arrivalPos="39.45" arrivalSpeed="5.97" duration="11.00" routeLength="34.35" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="6.98" rerouteNo="0" devices="tripinfo_EV_20 battery_EV_20" vType="electricvehicle" speedFactor="1.01" vaporized=""/>
+    <tripinfo id="EV_30" depart="31.00" departLane="170156790#3_0" departPos="2.71" departSpeed="0.00" departDelay="0.00" arrival="32.00" arrivalLane="170156790#3_0" arrivalPos="2.71" arrivalSpeed="0.59" duration="1.00" routeLength="0.00" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="0.94" rerouteNo="0" devices="tripinfo_EV_30 battery_EV_30" vType="electricvehicle" speedFactor="1.08" vaporized=""/>
+    <tripinfo id="truck1" depart="2.00" departLane="-28039904#0_0" departPos="7.20" departSpeed="0.00" departDelay="0.57" arrival="70.00" arrivalLane="-28011532#3_0" arrivalPos="84.90" arrivalSpeed="20.27" duration="68.00" routeLength="919.93" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="18.06" rerouteNo="1" devices="tripinfo_truck1 routing_truck1" vType="truck_truck" speedFactor="0.92" vaporized=""/>
+    <tripinfo id="moto0" depart="0.00" departLane="-28039428_0" departPos="2.30" departSpeed="0.00" departDelay="0.00" arrival="82.00" arrivalLane="-28011515#4_0" arrivalPos="51.77" arrivalSpeed="9.85" duration="82.00" routeLength="983.24" waitingTime="8.00" waitingCount="1" stopTime="0.00" timeLoss="30.63" rerouteNo="1" devices="tripinfo_moto0 routing_moto0" vType="moto_motorcycle" speedFactor="1.05" vaporized=""/>
+    <tripinfo id="moto13" depart="37.00" departLane="-37077845_0" departPos="2.30" departSpeed="0.00" departDelay="0.04" arrival="96.00" arrivalLane="-28038972#1_0" arrivalPos="0.20" arrivalSpeed="2.99" duration="59.00" routeLength="531.55" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="16.20" rerouteNo="1" devices="tripinfo_moto13 routing_moto13" vType="moto_motorcycle" speedFactor="0.94" vaporized=""/>
+    <tripinfo id="bike1" depart="2.00" departLane="-299268501#1_0" departPos="1.70" departSpeed="0.00" departDelay="0.55" arrival="97.00" arrivalLane="-28022453#0_0" arrivalPos="46.20" arrivalSpeed="5.42" duration="95.00" routeLength="477.50" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="8.51" rerouteNo="1" devices="tripinfo_bike1 routing_bike1" vType="bike_bicycle" speedFactor="1.08" vaporized=""/>
+    <tripinfo id="moto17" depart="49.00" departLane="28038923#2_0" departPos="2.30" departSpeed="0.00" departDelay="0.67" arrival="100.00" arrivalLane="163383627#2_0" arrivalPos="57.68" arrivalSpeed="7.93" duration="51.00" routeLength="404.94" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="13.60" rerouteNo="1" devices="tripinfo_moto17 routing_moto17" vType="moto_motorcycle" speedFactor="0.96" vaporized=""/>
+    <tripinfo id="moto1" depart="3.00" departLane="119926723#3_1" departPos="2.30" departSpeed="0.00" departDelay="0.16" arrival="101.00" arrivalLane="-155731249#10_0" arrivalPos="33.61" arrivalSpeed="17.16" duration="98.00" routeLength="1116.69" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="17.06" rerouteNo="1" devices="tripinfo_moto1 routing_moto1" vType="moto_motorcycle" speedFactor="0.89" vaporized=""/>
+    <tripinfo id="EV_90" depart="91.00" departLane="325259845_0" departPos="5.10" departSpeed="0.00" departDelay="0.00" arrival="101.00" arrivalLane="325259845_0" arrivalPos="36.12" arrivalSpeed="5.78" duration="10.00" routeLength="31.02" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="7.20" rerouteNo="0" devices="tripinfo_EV_90 battery_EV_90" vType="electricvehicle" speedFactor="0.86" vaporized=""/>
+    <tripinfo id="veh40" depart="39.00" departLane="184507808#2_0" departPos="5.10" departSpeed="0.00" departDelay="0.89" arrival="111.00" arrivalLane="589896293#1_0" arrivalPos="90.03" arrivalSpeed="13.98" duration="72.00" routeLength="725.47" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="9.28" rerouteNo="1" devices="tripinfo_veh40 routing_veh40" vType="veh_passenger" speedFactor="1.04" vaporized=""/>
+    <tripinfo id="bike29" depart="42.00" departLane="-261710559_0" departPos="1.70" departSpeed="0.00" departDelay="0.07" arrival="114.00" arrivalLane="-679297889_0" arrivalPos="45.46" arrivalSpeed="4.73" duration="72.00" routeLength="340.84" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="7.47" rerouteNo="1" devices="tripinfo_bike29 routing_bike29" vType="bike_bicycle" speedFactor="0.91" vaporized=""/>
+    <tripinfo id="EV_Main" depart="121.00" departLane="934269#0_0" departPos="2.48" departSpeed="0.00" departDelay="0.00" arrival="122.00" arrivalLane="934269#0_0" arrivalPos="2.48" arrivalSpeed="0.48" duration="1.00" routeLength="0.00" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="0.97" rerouteNo="0" devices="tripinfo_EV_Main battery_EV_Main" vType="electricvehicle" speedFactor="1.03" vaporized=""/>
+</tripinfos>

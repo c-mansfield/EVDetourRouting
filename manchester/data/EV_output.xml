@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 04/22/21 17:20:42 by Eclipse SUMO sumo Version v1_8_0+1742-ceeb7fe3f3
+<!-- generated on 04/23/21 14:26:15 by Eclipse SUMO sumo Version v1_8_0+1742-ceeb7fe3f3
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
@@ -31,7 +31,7 @@
     </report>
 
     <traci_server>
-        <remote-port value="61748"/>
+        <remote-port value="53064"/>
     </traci_server>
 
     <gui_only>
@@ -42,3 +42,86 @@
 -->
 
 <vehicle-type-probes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/vtypeprobe_file.xsd">
+    <timestep time="0.00" id="probe1" vType="electricvehicle"/>
+    <timestep time="10.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_0" lane=":4831694_5_0" pos="0.31" x="2829.63" y="1625.78" lat="53.479737" lon="-2.236889" speed="5.36"/>
+    </timestep>
+    <timestep time="20.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_0" lane=":247394096_4_0" pos="10.34" x="2874.18" y="1663.93" lat="53.480075" lon="-2.236212" speed="0.67"/>
+        <vehicle id="EV_10" lane="198647720#3_0" pos="9.96" x="2849.33" y="2062.45" lat="53.483660" lon="-2.236522" speed="4.71"/>
+    </timestep>
+    <timestep time="30.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_0" lane=":344239323_9_0" pos="3.28" x="2879.83" y="1669.06" lat="53.480121" lon="-2.236126" speed="2.98"/>
+        <vehicle id="EV_10" lane="130296669#1_0" pos="10.95" x="2864.57" y="2071.21" lat="53.483737" lon="-2.236291" speed="0.00"/>
+        <vehicle id="EV_20" lane="136467079#3_0" pos="29.90" x="2990.65" y="1008.24" lat="53.474171" lon="-2.234563" speed="4.96"/>
+    </timestep>
+    <timestep time="40.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_0" lane=":344239323_9_0" pos="67.97" x="2923.99" y="1716.33" lat="53.480542" lon="-2.235453" speed="9.08"/>
+        <vehicle id="EV_10" lane="130296669#1_0" pos="10.95" x="2864.57" y="2071.21" lat="53.483737" lon="-2.236291" speed="0.00"/>
+    </timestep>
+    <timestep time="50.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_0" lane=":cluster_1674351851_3448385086_889324706_889325726_889325793_889326985_6_0" pos="4.85" x="2979.09" y="1747.39" lat="53.480816" lon="-2.234618" speed="4.96"/>
+        <vehicle id="EV_10" lane="130296669#1_0" pos="10.95" x="2864.57" y="2071.21" lat="53.483737" lon="-2.236291" speed="0.00"/>
+        <vehicle id="EV_40" lane=":cluster_249386719_4453861799_6_0" pos="12.17" x="2134.41" y="1106.70" lat="53.475138" lon="-2.247447" speed="5.27"/>
+    </timestep>
+    <timestep time="60.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_0" lane=":4847356_8_0" pos="7.53" x="3031.16" y="1801.34" lat="53.481295" lon="-2.233824" speed="9.45"/>
+        <vehicle id="EV_10" lane="130296669#1_0" pos="10.95" x="2864.57" y="2071.21" lat="53.483737" lon="-2.236291" speed="0.00"/>
+        <vehicle id="EV_40" lane="-670994126_0" pos="45.31" x="2063.73" y="1125.33" lat="53.475312" lon="-2.248509" speed="8.86"/>
+        <vehicle id="EV_50" lane=":889528214_5_0" pos="2.91" x="2264.11" y="1278.09" lat="53.476666" lon="-2.245465" speed="5.34"/>
+    </timestep>
+    <timestep time="70.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_0" lane="-468023826_0" pos="59.76" x="3089.83" y="1872.84" lat="53.481932" lon="-2.232929" speed="9.24"/>
+        <vehicle id="EV_10" lane="130296669#1_0" pos="10.95" x="2864.57" y="2071.21" lat="53.483737" lon="-2.236291" speed="0.00"/>
+        <vehicle id="EV_40" lane="-171593597#2_0" pos="3.38" x="1990.05" y="1149.04" lat="53.475532" lon="-2.249615" speed="7.04"/>
+        <vehicle id="EV_50" lane="-614632173#3_1" pos="1.70" x="2266.52" y="1274.58" lat="53.476634" lon="-2.245430" speed="0.00"/>
+        <vehicle id="EV_60" lane="-169251304#2_0" pos="30.71" x="2178.13" y="2802.20" lat="53.490373" lon="-2.246518" speed="5.24"/>
+    </timestep>
+    <timestep time="80.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_0" lane="-75313258#3_0" pos="12.92" x="3150.81" y="1941.36" lat="53.482542" lon="-2.231999" speed="9.11"/>
+        <vehicle id="EV_10" lane="130296669#1_0" pos="10.95" x="2864.57" y="2071.21" lat="53.483737" lon="-2.236291" speed="0.00"/>
+        <vehicle id="EV_40" lane="-171593597#1_0" pos="6.64" x="1909.50" y="1172.31" lat="53.475749" lon="-2.250825" speed="6.99"/>
+        <vehicle id="EV_50" lane=":cluster_1117062474_1825972540_7252362543_889528195_889528240_14_0" pos="26.61" x="2272.40" y="1246.12" lat="53.476378" lon="-2.245346" speed="5.83"/>
+        <vehicle id="EV_60" lane="gneE28_0" pos="14.79" x="2214.29" y="2802.65" lat="53.490373" lon="-2.245973" speed="0.01"/>
+        <vehicle id="EV_70" lane="-672381830_0" pos="30.60" x="988.29" y="2587.62" lat="53.488556" lon="-2.264483" speed="4.94"/>
+    </timestep>
+    <timestep time="90.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_0" lane="-75313258#2_0" pos="27.56" x="3195.32" y="1996.66" lat="53.483035" lon="-2.231319" speed="8.01"/>
+        <vehicle id="EV_10" lane="130296669#1_0" pos="10.95" x="2864.57" y="2071.21" lat="53.483737" lon="-2.236291" speed="0.00"/>
+        <vehicle id="EV_40" lane="-184507814#5_1" pos="16.49" x="1827.56" y="1190.80" lat="53.475923" lon="-2.252056" speed="9.10"/>
+        <vehicle id="EV_50" lane="4721472#1_1" pos="3.70" x="2228.98" y="1189.66" lat="53.475875" lon="-2.246009" speed="7.32"/>
+        <vehicle id="EV_60" lane="gneE28_0" pos="14.79" x="2214.29" y="2802.65" lat="53.490373" lon="-2.245973" speed="0.00"/>
+        <vehicle id="EV_70" lane="-672381827#1_0" pos="10.48" x="980.27" y="2537.01" lat="53.488102" lon="-2.264612" speed="7.10"/>
+        <vehicle id="EV_80" lane="154695548#0_0" pos="12.82" x="2502.00" y="2719.74" lat="53.489601" lon="-2.241650" speed="4.40"/>
+    </timestep>
+    <timestep time="100.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_0" lane="-75313258#0_0" pos="8.70" x="3235.42" y="2046.24" lat="53.483477" lon="-2.230707" speed="0.10"/>
+        <vehicle id="EV_10" lane="130296669#1_0" pos="10.95" x="2864.57" y="2071.21" lat="53.483737" lon="-2.236291" speed="0.00"/>
+        <vehicle id="EV_40" lane="-184507814#2_0" pos="16.40" x="1742.83" y="1222.63" lat="53.476217" lon="-2.253328" speed="8.88"/>
+        <vehicle id="EV_50" lane="448366042#0_0" pos="3.74" x="2178.00" y="1137.84" lat="53.475414" lon="-2.246785" speed="7.39"/>
+        <vehicle id="EV_60" lane="gneE28_0" pos="14.79" x="2214.29" y="2802.65" lat="53.490373" lon="-2.245973" speed="0.00"/>
+        <vehicle id="EV_70" lane=":3025194469_7_0" pos="5.94" x="1022.52" y="2510.18" lat="53.487857" lon="-2.263980" speed="7.42"/>
+        <vehicle id="EV_80" lane=":3592329282_3_0" pos="2.29" x="2533.35" y="2656.91" lat="53.489033" lon="-2.241188" speed="9.42"/>
+        <vehicle id="EV_90" lane="325259845_0" pos="32.71" x="4711.60" y="1122.31" lat="53.475027" lon="-2.208618" speed="5.22"/>
+    </timestep>
+    <timestep time="110.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_0" lane="-75313258#0_0" pos="8.72" x="3235.43" y="2046.25" lat="53.483477" lon="-2.230707" speed="0.00"/>
+        <vehicle id="EV_10" lane="130296669#1_0" pos="10.95" x="2864.57" y="2071.21" lat="53.483737" lon="-2.236291" speed="0.00"/>
+        <vehicle id="EV_100" lane="-834269#1_0" pos="5.82" x="1670.18" y="1134.29" lat="53.475430" lon="-2.254436" speed="4.94"/>
+        <vehicle id="EV_40" lane="834267#0_0" pos="18.73" x="1680.31" y="1217.08" lat="53.476173" lon="-2.254271" speed="7.79"/>
+        <vehicle id="EV_50" lane="448366042#1_0" pos="17.91" x="2146.46" y="1111.32" lat="53.475178" lon="-2.247264" speed="0.00"/>
+        <vehicle id="EV_60" lane="gneE28_0" pos="14.79" x="2214.29" y="2802.65" lat="53.490373" lon="-2.245973" speed="0.00"/>
+        <vehicle id="EV_70" lane="-155105770_1" pos="22.17" x="1052.91" y="2486.09" lat="53.487637" lon="-2.263525" speed="6.88"/>
+        <vehicle id="EV_80" lane="353455896_0" pos="102.32" x="2588.20" y="2566.44" lat="53.488215" lon="-2.240376" speed="5.15"/>
+    </timestep>
+    <timestep time="120.00" id="probe1" vType="electricvehicle">
+        <vehicle id="EV_0" lane="-75313258#0_0" pos="8.72" x="3235.43" y="2046.25" lat="53.483477" lon="-2.230707" speed="0.00"/>
+        <vehicle id="EV_10" lane="130296669#1_0" pos="10.95" x="2864.57" y="2071.21" lat="53.483737" lon="-2.236291" speed="0.00"/>
+        <vehicle id="EV_100" lane=":cluster_3346165_3346172_18_0" pos="4.54" x="1661.51" y="1191.77" lat="53.475947" lon="-2.254558" speed="6.16"/>
+        <vehicle id="EV_40" lane="gneE31_0" pos="15.64" x="1662.24" y="1159.45" lat="53.475657" lon="-2.254552" speed="2.70"/>
+        <vehicle id="EV_50" lane="448366042#1_0" pos="17.91" x="2146.46" y="1111.32" lat="53.475178" lon="-2.247264" speed="0.00"/>
+        <vehicle id="EV_60" lane="gneE28_0" pos="14.79" x="2214.29" y="2802.65" lat="53.490373" lon="-2.245973" speed="0.00"/>
+        <vehicle id="EV_70" lane="3663356_0" pos="20.00" x="1099.26" y="2483.60" lat="53.487611" lon="-2.262827" speed="8.06"/>
+        <vehicle id="EV_80" lane=":1685984708_2_0" pos="0.95" x="2629.56" y="2543.34" lat="53.488003" lon="-2.239756" speed="7.53"/>
+    </timestep>
+</vehicle-type-probes>
