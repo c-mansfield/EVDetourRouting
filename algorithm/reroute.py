@@ -59,10 +59,10 @@ def rerouter(start, end, EVID, Graph, hyperParams):
             routeLength = 0
             break
 
-        # if tempRoute != []:
-        #     if graph.Net.getEdge(tempRoute[-1]).getToNode().getID() == endNode:
-        #         evRange, csStops = calculateCSRefuel(evRangeAtCS, csStops, tempLength, 10)
-        #         break
+        if tempRoute != []:
+            if graph.Net.getEdge(tempRoute[-1]).getToNode().getID() == endNode:
+                evRange, csStops = calculateCSRefuel(evRangeAtCS, csStops, tempLength, 10)
+                break
 
         route += tempRoute
         routeLength += tempLength
@@ -82,8 +82,8 @@ def rerouter(start, end, EVID, Graph, hyperParams):
 
     print('route: ', route)
     print('routeLength: ', routeLength)
-    print('csStops: ', csStops)
     print('evRange at end: ', evRange)
+    print('CS Stops: ', len(csStops))
 
     return route, csStops
 
@@ -154,18 +154,15 @@ def calculateCSRefuel(evRange, chargingStations, routeLength, goalPercentage):
         capacityNeeded = (estimateBatteryCapacity(rangeNeeded)) + (maxBatteryCapacity * 0.1)
         capacityGoal = maxBatteryCapacity * (goalPercentage / 100)
 
-        print('rangeNeeded: ', rangeNeeded)
-        print('evRange: ', evRange)
-        print('currentEstCapacity: ', currentEstCapacity)
-        print('capacityNeeded: ', capacityNeeded)
-        print('(maxBatteryCapacity * 0.1): ', (maxBatteryCapacity * 0.1))
-        print('estimateBatteryCapacity(rangeNeeded): ', estimateBatteryCapacity(rangeNeeded))
+        # Needed capacity as max battery capacity if greater
+        # Ensure no unnecessary time wasted at CS
+        if capacityNeeded > maxBatteryCapacity:
+            capacityNeeded = maxBatteryCapacity - currentEstCapacity
 
         # Goal capacity as max battery capacity if goal greater
+        # Ensure no unnecessary time wasted at CS
         if capacityGoal > maxBatteryCapacity:
             capacityGoal = maxBatteryCapacity - currentEstCapacity
-
-        print('capacityGoal: ', capacityGoal)
 
         csChargePerStep = (chargingStations[-1].Power * chargingStations[-1].Efficiency) / 3600
         durationToNeeded = math.ceil(capacityNeeded / csChargePerStep)
@@ -173,9 +170,6 @@ def calculateCSRefuel(evRange, chargingStations, routeLength, goalPercentage):
 
         # Get higher duration of two for time spent charging at CS
         chargingStations[-1].Duration = max(durationToNeeded, durationToGoal)
-        print('Charging Station: ', chargingStations[-1].id)
-        print('Score: ', chargingStations[-1].Score)
-        print('chargingStations[-1].Duration: ', chargingStations[-1].Duration)
         newCapacity = currentEstCapacity + (chargingStations[-1].Duration * csChargePerStep)
 
         print('Capacity at CS: ', newCapacity)
@@ -294,7 +288,6 @@ def reconstructRoutePath(start, current, route, routeLength):
         current = route[current]
 
     newRoute.reverse()
-    print('length: ', length)
 
     return newRoute, length
 

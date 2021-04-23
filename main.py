@@ -27,6 +27,9 @@ def run(netFile, additionalFile, options=None):
     step = 0
     graph = Graph(netFile, additionalFile)
     mWhList = []
+    eBatteryCapacity = 0.00
+    evDistance = 0.00
+    evTime = 0.00
 
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
@@ -37,28 +40,24 @@ def run(netFile, additionalFile, options=None):
             fromEdge = getEVEdges(graph, "")
             toEdge = getEVEdges(graph, fromEdge)
 
-            print('toEdge', toEdge)
-            print('fromEdge', fromEdge)
-
             add_ev(graph, fromEdge, toEdge, str(step))
 
-        if step == 120:
+        if step == 150:
             add_ev(graph, 'gneE53', '-gneE64', 'Main')
 
-        if step >= 121:
+        if step >= 151:
             try:
-                mWh = traci.vehicle.getDistance('EV_Main') / float(traci.vehicle.getParameter('EV_Main', "device.battery.totalEnergyConsumed"))
-                mWhList.append(mWh)
-                # print('Mean MwH: ', statistics.mean(mWhList))
-            except ZeroDivisionError:
-                print('Empty')
-            # print('EV Capacity: ', traci.vehicle.getParameter('EV_Main', 'device.battery.actualBatteryCapacity'))
+                eBatteryCapacity = float(traci.vehicle.getParameter('EV_Main', 'device.battery.actualBatteryCapacity'))
+                evDistance = float(traci.vehicle.getDistance('EV_Main'))
+                evTime = float(traci.vehicle.getLastActionTime('EV_Main'))
+            except:
+                print("EV_Main not found")
 
         step += 1
 
-    # print('EV Capacity at end: ', traci.vehicle.getParameter('EV_Main', 'device.battery.actualBatteryCapacity'))
-
-    print('Mean MwH: ', mean(mWhList))
+    print('EV Capacity at end: ', eBatteryCapacity)
+    print('EV Distance: ', evDistance)
+    print('EV Routing Duration: ', evTime - 150)
 
     traci.close()
     sys.stdout.flush()
@@ -66,8 +65,8 @@ def run(netFile, additionalFile, options=None):
 # Adds electric vehicle wish to route
 def add_ev(graph, fromEdge, toEdge, evName):
     vehicleID = 'EV_' + evName
-    batteryCapacity = 300
     hyperParams = buildHyperParams()
+    batteryCapacity = hyperParams["batteryCapacity"]
 
     # Generate vehicle
     traci.route.add('placeholder_trip_' + evName, [toEdge])
@@ -97,7 +96,7 @@ def add_ev_vtype():
         print("<routes>")
         print("""  <vType id="electricvehicle" accel="0.8" decel="4.5" sigma="0.5" emissionClass="Energy/unknown" minGap="2.5" maxSpeed="40" guiShape="evehicle" vClass="evehicle">
                      <param key="has.battery.device" value="true"/>
-                     <param key="maximumBatteryCapacity" value="20000"/>
+                     <param key="maximumBatteryCapacity" value="2000"/>
                      <param key="maximumPower" value="1000"/>
                      <param key="vehicleMass" value="1000"/>
                      <param key="frontSurfaceArea" value="5"/>
@@ -117,13 +116,14 @@ def add_ev_vtype():
 def buildHyperParams():
     hyperParams = {}
 
-    hyperParams["DistanceFromStart"] = 0.1
-    hyperParams["DistanceFromDivider"] = 0.30
-    hyperParams["Price"] = 0.1
-    hyperParams["VehiclesCharging"] = 0.15
-    hyperParams["ChargePerStep"] = 0.35
+    hyperParams["DistanceFromStart"] = 0.32
+    hyperParams["DistanceFromDivider"] = 0.32
+    hyperParams["Price"] = 0.12
+    hyperParams["VehiclesCharging"] = 0.12
+    hyperParams["ChargePerStep"] = 0.12
 
     hyperParams["MinimumSoC"] = 10
+    hyperParams["batteryCapacity"] = 300
 
     return hyperParams
 
@@ -146,3 +146,6 @@ def getEVEdges(graph, otherEdge):
             break
 
     return edge
+
+def outputVehicleEndInfo():
+    return ""
