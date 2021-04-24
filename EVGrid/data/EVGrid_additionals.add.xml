@@ -45,6 +45,4 @@
     <chargingStation id="chargingStation_gneE123_0_2" lane="gneE123_0" startPos="0.00" endPos="17.84" power="20000.00" efficiency="0.95"/>
     <chargingStation id="chargingStation_gneE132_0_3" lane="gneE132_0" startPos="0.00" endPos="13.14" power="21000.00" efficiency="0.70"/>
     <chargingStation id="chargingStation_gneE96_0_0" lane="gneE96_0" startPos="0.00" endPos="17.25" power="20000.00" efficiency="0.80"/>
-
-    <vTypeProbe id="probe1" type="electricvehicle" freq="10" file="EV_output.xml"/>
 </additional>

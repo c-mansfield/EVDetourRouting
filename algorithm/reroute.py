@@ -54,10 +54,14 @@ def rerouter(start, end, EVID, Graph, hyperParams):
         tempRoute, tempLength, csStop = routeViaCS(startNode, endNode, evRangeAtSearch, csSearchNode, evRange, hyperParams)
 
         if tempRoute == None:
-            print('No valid route for EV with current capacity')
-            route = []
-            routeLength = 0
-            break
+            # Check if can route CS from start instead when no route from start node
+            tempRoute, tempLength, csStop = routeViaCS(startNode, endNode, evRange, startNode, evRange, hyperParams)
+
+            if tempRoute == None:
+                print('No valid route for EV with current capacity')
+                route = []
+                routeLength = 0
+                break
 
         if tempRoute != []:
             if graph.Net.getEdge(tempRoute[-1]).getToNode().getID() == endNode:
@@ -85,14 +89,13 @@ def rerouter(start, end, EVID, Graph, hyperParams):
     print('evRange at end: ', evRange)
     print('CS Stops: ', len(csStops))
 
+    for i, cs in enumerate(csStops):
+        print("CS " + str(i) + ": ", str(cs.Duration))
+
     return route, csStops
 
 def routeViaCS(startNode, endNode, evRangeAtSearch, csSearchNode, evRange, hyperParams):
     closestCSs = getNeighbouringCS(csSearchNode, endNode, evRangeAtSearch)
-
-    # Check for CS from start point if cannot find one at the search node
-    if len(closestCSs) == 0:
-        closestCSs = getNeighbouringCS(startNode, endNode, evRange)
 
     if len(closestCSs) > 0:
         chargingStation = getBestCS(closestCSs, hyperParams)

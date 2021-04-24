@@ -27,9 +27,10 @@ def run(netFile, additionalFile, options=None):
     step = 0
     graph = Graph(netFile, additionalFile)
     mWhList = []
-    eBatteryCapacity = 0.00
-    evDistance = 0.00
-    evTime = 0.00
+
+    # EV outputs
+    params = {}
+    outputs = {}
 
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
@@ -40,33 +41,42 @@ def run(netFile, additionalFile, options=None):
             fromEdge = getEVEdges(graph, "")
             toEdge = getEVEdges(graph, fromEdge)
 
-            add_ev(graph, fromEdge, toEdge, str(step))
+            add_ev(graph, fromEdge, toEdge, str(step), options)
 
         if step == 150:
-            add_ev(graph, 'gneE53', '-gneE64', 'Main')
+            params, algRuntime, csStops = add_ev(graph, 'gneE53', '-gneE64', 'Main', options)
+            outputs["algRuntime"] = algRuntime
+            outputs["params"] = params
+            outputs["csStops"] = csStops
 
+        # Gets output params for EV_Main
         if step >= 151:
             try:
-                eBatteryCapacity = float(traci.vehicle.getParameter('EV_Main', 'device.battery.actualBatteryCapacity'))
-                evDistance = float(traci.vehicle.getDistance('EV_Main'))
-                evTime = float(traci.vehicle.getLastActionTime('EV_Main'))
+                outputs["evBatteryCapacity"] = float(traci.vehicle.getParameter('EV_Main', 'device.battery.actualBatteryCapacity'))
+                outputs["evDistance"] = float(traci.vehicle.getDistance('EV_Main'))
+                outputs["evDuration"] = float(traci.vehicle.getLastActionTime('EV_Main'))
+                outputs["evDuration"] -= 150
             except:
                 print("EV_Main not found")
 
         step += 1
 
-    print('EV Capacity at end: ', eBatteryCapacity)
-    print('EV Distance: ', evDistance)
-    print('EV Routing Duration: ', evTime - 150)
+    print('EV Capacity at end: ', outputs["evBatteryCapacity"])
+    print('EV Distance: ', outputs["evDistance"])
+    print('EV Routing Duration: ', outputs["evDuration"])
+
+    outputVehicleEndInfo(outputs)
 
     traci.close()
     sys.stdout.flush()
 
 # Adds electric vehicle wish to route
-def add_ev(graph, fromEdge, toEdge, evName):
+def add_ev(graph, fromEdge, toEdge, evName, options):
     vehicleID = 'EV_' + evName
-    hyperParams = buildHyperParams()
-    batteryCapacity = hyperParams["batteryCapacity"]
+    params = buildHyperParams()
+    batteryCapacity = params["batteryCapacity"]
+    algRuntime = ""
+    csStops = []
 
     # Generate vehicle
     traci.route.add('placeholder_trip_' + evName, [toEdge])
@@ -74,15 +84,19 @@ def add_ev(graph, fromEdge, toEdge, evName):
     traci.vehicle.setParameter(vehicleID, 'device.battery.actualBatteryCapacity', batteryCapacity)
 
     # Generates optimal route for EV
-    start_time = time.time()
-    route, csStops = rerouter(fromEdge, toEdge, vehicleID, graph, hyperParams)
-    print("Reroute algorithm runtime ", vehicleID, ": ", str(time.time() - start_time))
+    if not options.noalg:
+        start_time = time.time()
+        route, csStops = rerouter(fromEdge, toEdge, vehicleID, graph, params)
+        algRuntime = str(time.time() - start_time)
+        print("Reroute algorithm runtime ", vehicleID, ": ", algRuntime)
 
-    if len(route) > 0:
-        traci.vehicle.setRoute(vehicleID, route)
+        if len(route) > 0:
+            traci.vehicle.setRoute(vehicleID, route)
 
-        for chargingStation in csStops:
-            traci.vehicle.setChargingStationStop(vehicleID, chargingStation.id, duration=chargingStation.Duration)
+            for chargingStation in csStops:
+                traci.vehicle.setChargingStationStop(vehicleID, chargingStation.id, duration=chargingStation.Duration)
+
+    return params, algRuntime, csStops
 
 # Adds vehicle type electric vehicle
 def add_ev_vtype():
@@ -96,7 +110,7 @@ def add_ev_vtype():
         print("<routes>")
         print("""  <vType id="electricvehicle" accel="0.8" decel="4.5" sigma="0.5" emissionClass="Energy/unknown" minGap="2.5" maxSpeed="40" guiShape="evehicle" vClass="evehicle">
                      <param key="has.battery.device" value="true"/>
-                     <param key="maximumBatteryCapacity" value="2000"/>
+                     <param key="maximumBatteryCapacity" value="10000"/>
                      <param key="maximumPower" value="1000"/>
                      <param key="vehicleMass" value="1000"/>
                      <param key="frontSurfaceArea" value="5"/>
@@ -123,7 +137,7 @@ def buildHyperParams():
     hyperParams["ChargePerStep"] = 0.12
 
     hyperParams["MinimumSoC"] = 10
-    hyperParams["batteryCapacity"] = 300
+    hyperParams["batteryCapacity"] = 500
 
     return hyperParams
 
@@ -132,8 +146,8 @@ def get_options():
     optParser = optparse.OptionParser()
     optParser.add_option("--nogui", action="store_true",
                          default=False, help="Run the commandline version of sumo")
-    optParser.add_option("--algorithm", action="store_true",
-                         default=False, help="Run algorithm on simulation")
+    optParser.add_option("--noalg", action="store_true",
+                         default=False, help="Do not run algorithm on simulation")
     options, args = optParser.parse_args()
     return options
 
@@ -147,5 +161,13 @@ def getEVEdges(graph, otherEdge):
 
     return edge
 
-def outputVehicleEndInfo():
-    return ""
+def outputVehicleEndInfo(outputs):
+    duration = [cs.Duration for cs in outputs["csStops"]]
+
+    csvRow = str(outputs["params"]).replace(",", "") + "," + str(outputs["evDistance"]) + ',' + \
+             str(outputs["evDuration"]) + ',' + str(len(outputs["csStops"])) + ','+ \
+             str(duration) + ','+ str(outputs["algRuntime"]) + ','+ \
+             str(outputs["evBatteryCapacity"])
+
+    with open('data/EV_Outputs.csv', 'a+') as csv:
+        csv.write(csvRow + '\n')
