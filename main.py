@@ -36,12 +36,12 @@ def run(netFile, additionalFile, options=None):
         traci.simulationStep()
 
         # Add random EV routes
-        if step >= 0 and step <= 100 \
-           and step % 10 == 0:
-            fromEdge = getEVEdges(graph, "")
-            toEdge = getEVEdges(graph, fromEdge)
-
-            add_ev(graph, fromEdge, toEdge, str(step), options)
+        # if step >= 0 and step <= 100 \
+        #    and step % 10 == 0:
+        #     fromEdge = getEVEdges(graph, "")
+        #     toEdge = getEVEdges(graph, fromEdge)
+        #
+        #     add_ev(graph, fromEdge, toEdge, str(step), options)
 
         if step == 150:
             params, algRuntime, csStops = add_ev(graph, 'gneE53', '-gneE64', 'Main', options)
@@ -56,6 +56,7 @@ def run(netFile, additionalFile, options=None):
                 outputs["evDistance"] = float(traci.vehicle.getDistance('EV_Main'))
                 outputs["evDuration"] = float(traci.vehicle.getLastActionTime('EV_Main'))
                 outputs["evDuration"] -= 150
+                outputs["lastEdge"] = traci.vehicle.getRoadID('EV_Main')
             except:
                 print("EV_Main not found")
 
@@ -83,7 +84,7 @@ def add_ev(graph, fromEdge, toEdge, evName, options):
     traci.vehicle.add(vehicleID, 'placeholder_trip_' + evName, typeID='electricvehicle')
     traci.vehicle.setParameter(vehicleID, 'device.battery.actualBatteryCapacity', batteryCapacity)
 
-    # Generates optimal route for EV
+    # Run detour algorithm on EV or not
     if not options.noalg:
         start_time = time.time()
         route, csStops = rerouter(fromEdge, toEdge, vehicleID, graph, params)
@@ -96,6 +97,10 @@ def add_ev(graph, fromEdge, toEdge, evName, options):
             for chargingStation in csStops:
                 traci.vehicle.setChargingStationStop(vehicleID, chargingStation.id, duration=chargingStation.Duration)
 
+    else:
+        route = traci.simulation.findRoute(fromEdge, toEdge)
+        traci.vehicle.setRoute(vehicleID, route.edges)
+
     return params, algRuntime, csStops
 
 # Adds vehicle type electric vehicle
@@ -104,6 +109,7 @@ def add_ev_vtype():
 
     f = open("data/electricvehicles.rou.xml", "r+")
     f.truncate(0)       # Clear file
+    f.close()
 
     with open("data/electricvehicles.rou.xml", "w") as routes:
         sys.stdout = routes
@@ -137,7 +143,7 @@ def buildHyperParams():
     hyperParams["ChargePerStep"] = 0.12
 
     hyperParams["MinimumSoC"] = 10
-    hyperParams["batteryCapacity"] = 500
+    hyperParams["batteryCapacity"] = 200
 
     return hyperParams
 
@@ -167,7 +173,15 @@ def outputVehicleEndInfo(outputs):
     csvRow = str(outputs["params"]).replace(",", "") + "," + str(outputs["evDistance"]) + ',' + \
              str(outputs["evDuration"]) + ',' + str(len(outputs["csStops"])) + ','+ \
              str(duration) + ','+ str(outputs["algRuntime"]) + ','+ \
-             str(outputs["evBatteryCapacity"])
+             str(outputs["evBatteryCapacity"]) + ',' + str(outputs["lastEdge"])
 
     with open('data/EV_Outputs.csv', 'a+') as csv:
+        # Get contents of the file to check if CSV headers should be added
+        f = open("data/EV_Outputs.csv", "r+")
+        contents = f.read()
+        f.close()
+
+        if len(contents) == 0:
+            csv.write('Weightings,Duration,Route distance,CS stops,CS stop duration,Alg runtime,Capacity at end, Last edge\n')
+
         csv.write(csvRow + '\n')
