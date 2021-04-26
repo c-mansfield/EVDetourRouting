@@ -22,10 +22,11 @@ def generate_trips():
         '-n', 'data/EVGrid.net.xml',
         '--route-file', 'data/randroutes.rou.xml',
         '--prefix', 'V',
-        '-e', '10',
-        '-p', '1.93',
+        '-e', '200',
+        '-p', '100',
         '--flows', '100',
-        '--random'
+        '--random',
+        '--binomial', '4'
     ]))
 
 # Script entry point
@@ -37,16 +38,18 @@ if __name__ == "__main__":
     else:
         sumoBinary = checkBinary('sumo-gui')
 
-    # Generates electric vehicle route and random trips
-    generate_trips()
     main.add_ev_vtype()
 
-    # this is the normal way of using traci. sumo is started as a
-    # subprocess and then the python script connects and runs
-    traci.start([sumoBinary, "-c", "data/EVGrid.sumocfg",
-                             "--tripinfo-output", "tripinfo.xml", "--additional-files", "data/EVGrid_additionals.add.xml",
-                             "--chargingstations-output", "data/EVGrid_chargingstations.xml", "--no-warnings"])
+    for x in range(options.c):
+        # Generates electric vehicle route and random trips
+        generate_trips()
 
-    main.run(netFile='data/EVGrid.net.xml',
-             additionalFile='data/EVGrid_additionals.add.xml',
-             options=options)
+        # this is the normal way of using traci. sumo is started as a
+        # subprocess and then the python script connects and runs
+        traci.start([sumoBinary, "-c", "data/EVGrid.sumocfg",
+                                 "--tripinfo-output", "tripinfo.xml", "--additional-files", "data/EVGrid_additionals.add.xml",
+                                 "--chargingstations-output", "data/EVGrid_chargingstations.xml", "--no-warnings"])
+
+        main.run(netFile='data/EVGrid.net.xml',
+                 additionalFile='data/EVGrid_additionals.add.xml',
+                 options=options)

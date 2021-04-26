@@ -38,15 +38,14 @@ if __name__ == "__main__":
     else:
         sumoBinary = checkBinary('sumo-gui')
 
-    # Generates electric vehicle route and random trips
     main.add_ev_vtype()
-    #generate_trips()
 
-    # this is the normal way of using traci. sumo is started as a
-    # subprocess and then the python script connects and runs
-    traci.start([sumoBinary, "-c", "data/osm.sumocfg",
-                             "--tripinfo-output", "tripinfo.xml", "--additional-files", "data/Manchester_additionals.add.xml",
-                             "--chargingstations-output", "data/Manchester_chargingstations.xml", "--no-warnings"])
-    main.run(netFile='data/osm.net.xml',
-             additionalFile='data/Manchester_additionals.add.xml',
-             options=options)
+    for x in range(options.c):
+        # this is the normal way of using traci. sumo is started as a
+        # subprocess and then the python script connects and runs
+        traci.start([sumoBinary, "-c", "data/osm.sumocfg",
+                                 "--tripinfo-output", "tripinfo.xml", "--additional-files", "data/Manchester_additionals.add.xml",
+                                 "--chargingstations-output", "data/Manchester_chargingstations.xml", "--no-warnings"])
+        main.run(netFile='data/osm.net.xml',
+                 additionalFile='data/Manchester_additionals.add.xml',
+                 options=options)

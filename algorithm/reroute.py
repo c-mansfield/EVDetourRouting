@@ -26,7 +26,7 @@ def rerouter(start, end, EVID, Graph, hyperParams):
     evBatteryCapacity = float(traci.vehicle.getParameter(evID, 'device.battery.actualBatteryCapacity'))
     evRange = estimateRange(evBatteryCapacity)
     evRangeAtCS = evRange
-    evRangeAtSearch = 0
+    evRangeAtSearch = evRange
 
     route = []
     routeLength = 0
@@ -34,6 +34,8 @@ def rerouter(start, end, EVID, Graph, hyperParams):
     csSearchNode = startNode
 
     print('evRange: ', evRange)
+    print('startNode: ', startNode)
+    print('endNode: ', endNode)
 
     while True:
         tempRoute, tempLength = aStarSearch(startNode, endNode, evRange, False)
@@ -46,7 +48,7 @@ def rerouter(start, end, EVID, Graph, hyperParams):
 
                 # End cycle for route search if reached the end
                 if graph.Net.getEdge(tempRoute[-1]).getToNode().getID() == endNode:
-                    evRange, csStops = calculateCSRefuel(evRangeAtCS, csStops, tempLength, 10)
+                    evRange, csStops = calculateCSRefuel(evRangeAtCS, csStops, tempLength, hyperParams["GoalCapacityAtEnd"])
                     route += tempRoute
                     routeLength += tempLength
                     break
@@ -54,8 +56,9 @@ def rerouter(start, end, EVID, Graph, hyperParams):
         tempRoute, tempLength, csStop = routeViaCS(startNode, endNode, evRangeAtSearch, csSearchNode, evRange, hyperParams)
 
         if tempRoute == None:
-            # Check if can route CS from start instead when no route from start node
-            tempRoute, tempLength, csStop = routeViaCS(startNode, endNode, evRange, startNode, evRange, hyperParams)
+            # Check if can route CS from start instead when no route from search node
+            if csSearchNode != startNode:
+                tempRoute, tempLength, csStop = routeViaCS(startNode, endNode, evRange, startNode, evRange, hyperParams)
 
             if tempRoute == None:
                 print('No valid route for EV with current capacity')
@@ -65,7 +68,7 @@ def rerouter(start, end, EVID, Graph, hyperParams):
 
         if tempRoute != []:
             if graph.Net.getEdge(tempRoute[-1]).getToNode().getID() == endNode:
-                evRange, csStops = calculateCSRefuel(evRangeAtCS, csStops, tempLength, 10)
+                evRange, csStops = calculateCSRefuel(evRangeAtCS, csStops, tempLength, hyperParams["GoalCapacityAtEnd"])
                 break
 
         route += tempRoute
@@ -97,6 +100,8 @@ def rerouter(start, end, EVID, Graph, hyperParams):
 def routeViaCS(startNode, endNode, evRangeAtSearch, csSearchNode, evRange, hyperParams):
     closestCSs = getNeighbouringCS(csSearchNode, endNode, evRangeAtSearch)
 
+    print('closestCSs: ', closestCSs)
+
     if len(closestCSs) > 0:
         chargingStation = getBestCS(closestCSs, hyperParams)
         csStartNode = graph.Net.getEdge(chargingStation.Lane).getFromNode().getID()
@@ -104,6 +109,7 @@ def routeViaCS(startNode, endNode, evRangeAtSearch, csSearchNode, evRange, hyper
         route, routeLength = aStarSearch(startNode, csStartNode, evRange, True)
 
         if route == None:
+            print('Error, no route to CS.')
             return None, None, None
 
         # Append the connecting node to the edge where the CS
@@ -154,28 +160,18 @@ def calculateCSRefuel(evRange, chargingStations, routeLength, goalPercentage):
         currentEstCapacity = estimateBatteryCapacity(evRange)
         maxBatteryCapacity = float(traci.vehicle.getParameter(evID, 'device.battery.maximumBatteryCapacity'))
 
-        capacityNeeded = (estimateBatteryCapacity(rangeNeeded)) + (maxBatteryCapacity * 0.1)
-        capacityGoal = maxBatteryCapacity * (goalPercentage / 100)
+        capacityNeeded = estimateBatteryCapacity(rangeNeeded) + (maxBatteryCapacity * (goalPercentage / 100))
 
         # Needed capacity as max battery capacity if greater
         # Ensure no unnecessary time wasted at CS
         if capacityNeeded > maxBatteryCapacity:
             capacityNeeded = maxBatteryCapacity - currentEstCapacity
 
-        # Goal capacity as max battery capacity if goal greater
-        # Ensure no unnecessary time wasted at CS
-        if capacityGoal > maxBatteryCapacity:
-            capacityGoal = maxBatteryCapacity - currentEstCapacity
-
         csChargePerStep = (chargingStations[-1].Power * chargingStations[-1].Efficiency) / 3600
         durationToNeeded = math.ceil(capacityNeeded / csChargePerStep)
-        durationToGoal = math.ceil(capacityGoal / csChargePerStep)
 
-        # Get higher duration of two for time spent charging at CS
-        chargingStations[-1].Duration = max(durationToNeeded, durationToGoal)
+        chargingStations[-1].Duration = durationToNeeded
         newCapacity = currentEstCapacity + (chargingStations[-1].Duration * csChargePerStep)
-
-        print('Capacity at CS: ', newCapacity)
 
         evRange = estimateRange(newCapacity)
         evRange -= routeLength
@@ -323,6 +319,7 @@ def getNeighbouringCS(mainNode, endNode, radius):
     endCoords = graph.Net.getNode(endNode).getCoord()
     lineDistance = euclideanDistance(nodeCoords, endCoords)
     chargingStations = []
+    radius = radius - (radius * 0.3)
 
     for cs in graph.ChargingStations:
         if checkCSInRadius(nodeCoords, cs.X, cs.Y, radius):
