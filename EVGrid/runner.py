@@ -22,7 +22,7 @@ def generate_trips():
         '-n', 'data/EVGrid.net.xml',
         '--route-file', 'data/randroutes.rou.xml',
         '--prefix', 'V',
-        '-e', '200',
+        '-e', '400',
         '-p', '100',
         '--flows', '100',
         '--random',
@@ -32,6 +32,7 @@ def generate_trips():
 # Script entry point
 if __name__ == "__main__":
     options = main.get_options()
+    batterys = [500, 1250, 2250]
 
     if options.nogui:
         sumoBinary = checkBinary('sumo')
@@ -40,16 +41,19 @@ if __name__ == "__main__":
 
     main.add_ev_vtype()
 
-    for x in range(options.c):
-        # Generates electric vehicle route and random trips
-        generate_trips()
+    for b in batterys:
+        print('Evaluating for battery capacity: ', str(b))
+        for x in range(options.c):
+            # Generates electric vehicle route and random trips
+            generate_trips()
 
-        # this is the normal way of using traci. sumo is started as a
-        # subprocess and then the python script connects and runs
-        traci.start([sumoBinary, "-c", "data/EVGrid.sumocfg",
-                                 "--tripinfo-output", "tripinfo.xml", "--additional-files", "data/EVGrid_additionals.add.xml",
-                                 "--chargingstations-output", "data/EVGrid_chargingstations.xml", "--no-warnings"])
+            # this is the normal way of using traci. sumo is started as a
+            # subprocess and then the python script connects and runs
+            traci.start([sumoBinary, "-c", "data/EVGrid.sumocfg",
+                                     "--tripinfo-output", "data/tripinfo.xml", "--additional-files", "data/EVGrid_additionals.add.xml",
+                                     "--chargingstations-output", "data/EVGrid_chargingstations.xml", "--no-warnings",
+                                     "--seed", str(x)])
 
-        main.run(netFile='data/EVGrid.net.xml',
-                 additionalFile='data/EVGrid_additionals.add.xml',
-                 options=options)
+            main.run(netFile='data/EVGrid.net.xml',
+                     additionalFile='data/EVGrid_additionals.add.xml',
+                     options=options, batteryCapacity=b)

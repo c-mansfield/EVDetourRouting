@@ -6,6 +6,7 @@ from algorithm.reroute import rerouter, estimateRange
 from algorithm.Graph import Graph
 import time
 import statistics
+from bs4 import BeautifulSoup
 
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
@@ -16,7 +17,7 @@ else:
 import traci
 import sumolib
 
-def run(netFile, additionalFile, options=None):
+def run(netFile, additionalFile, options=None, batteryCapacity=None):
     """execute the TraCI control loop"""
     step = 0
     graph = Graph(netFile, additionalFile)
@@ -27,54 +28,35 @@ def run(netFile, additionalFile, options=None):
     # EV outputs
     params = {}
     outputs = {}
+    evs = []
 
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
 
         # Add random EV routes
-        if step >= 0 and step <= 140 \
-           and step % 10 == 0:
+        if step >= 200 and step <= 700 and step % 10 == 0:
             fromEdge = getEVEdges(graph, "")
             toEdge = getEVEdges(graph, fromEdge)
+            evName = 'EV_' + str(step)
 
-            add_ev(graph, fromEdge, toEdge, str(step), options, random.randint(200, 3000))
+            params, algRuntime, csStops = add_ev(graph, fromEdge, toEdge, evName, options, batteryCapacity)
+            evs.append(evName)
+            outputs[evName] = {}
 
-        if step == 150:
-            params, algRuntime, csStops = add_ev(graph, mainStart, mainEnd, 'Main', options, 500)
-            outputs["algRuntime"] = algRuntime
-            outputs["params"] = params
-            outputs["csStops"] = csStops
-
-        # Gets output params for EV_Main
-        if step >= 151:
-            try:
-                outputs["evBatteryCapacity"] = float(traci.vehicle.getParameter('EV_Main', 'device.battery.actualBatteryCapacity'))
-                outputs["evDistance"] = float(traci.vehicle.getDistance('EV_Main'))
-                outputs["evDuration"] = float(traci.vehicle.getLastActionTime('EV_Main'))
-                outputs["evDuration"] -= 150
-                outputs["lastEdge"] = traci.vehicle.getRoadID('EV_Main')
-
-                if outputs["evBatteryCapacity"] <= 0:
-                    print('EV_MAIN battery out of charge')
-            except:
-                evMainErrorCount += 1
-                if evMainErrorCount >= 5:
-                    break
+            outputs[evName]["algRuntime"] = algRuntime
+            outputs[evName]["params"] = params
+            outputs[evName]["csStops"] = csStops
 
         step += 1
 
-    print('EV_Main Capacity at end: ', outputs["evBatteryCapacity"])
-    print('EV_Main Distance: ', outputs["evDistance"])
-    print('EV_Main Routing Duration: ', outputs["evDuration"])
-
-    outputVehicleEndInfo(outputs)
+    outputVehicleEndInfo(outputs, evs)
 
     traci.close()
     sys.stdout.flush()
 
 # Adds electric vehicle wish to route
 def add_ev(graph, fromEdge, toEdge, evName, options, startingCapacity):
-    vehicleID = 'EV_' + evName
+    vehicleID = evName
     params = buildHyperParams(startingCapacity)
     algRuntime = ""
     csStops = []
@@ -142,11 +124,11 @@ def add_ev_vtype():
 def buildHyperParams(startingCapacity):
     hyperParams = {}
 
-    hyperParams["DistanceFromStart"] = 0.15
-    hyperParams["DistanceFromDivider"] = 0.15
-    hyperParams["Price"] = 0.15
-    hyperParams["VehiclesCharging"] = 0.40
-    hyperParams["ChargePerStep"] = 0.15
+    hyperParams["DistanceFromStart"] = 0.2
+    hyperParams["DistanceFromDivider"] = 0.2
+    hyperParams["Price"] = 0.2
+    hyperParams["VehiclesCharging"] = 0.2
+    hyperParams["ChargePerStep"] = 0.20
 
     hyperParams["MinimumSoC"] = 10
     hyperParams["GoalCapacityAtEnd"] = 10
@@ -176,13 +158,9 @@ def getEVEdges(graph, otherEdge):
 
     return edge
 
-def outputVehicleEndInfo(outputs):
-    duration = [cs.Duration for cs in outputs["csStops"]]
-
-    csvRow = str(outputs["params"]).replace(",", "") + "," + str(outputs["evDistance"]) + ',' + \
-             str(outputs["evDuration"]) + ',' + str(len(outputs["csStops"])) + ','+ \
-             str(duration) + ','+ str(outputs["algRuntime"]) + ','+ \
-             str(outputs["evBatteryCapacity"]) + ',' + str(outputs["lastEdge"])
+def outputVehicleEndInfo(outputs, evs):
+    trip_content = getXmlContent("data/tripinfo.xml")
+    battery_content = getXmlContent("data/battery.out.xml")
 
     with open('data/EV_Outputs.csv', 'a+') as csv:
         # Get contents of the file to check if CSV headers should be added
@@ -191,9 +169,38 @@ def outputVehicleEndInfo(outputs):
         f.close()
 
         if len(contents) == 0:
-            csv.write('Weightings,Duration,Route distance,CS stops,CS stop duration,Alg runtime,Capacity at end, Last edge\n')
+            csv.write('Weightings,Route distance,Duration,CS stops,CS stop duration,Alg runtime,Capacity at end,EVs Charging\n')
 
-        csv.write(csvRow + '\n')
+        for e in evs:
+            duration = [cs.Duration for cs in outputs[e]["csStops"]]
+            evCharging = [cs.VehiclesCharging for cs in outputs[e]["csStops"]]
+
+            trip_EV = trip_content.find(id=e)
+            battery_EV = battery_content.findAll(id=e)
+
+            try:
+                batteryCap = battery_EV[-1]["actualbatterycapacity"]
+            except:
+                batteryCap = battery_EV[-2]["actualbatterycapacity"]
+
+            csvRow = str(outputs[e]["params"]).replace(",", "") + "," + trip_EV["routelength"] + ',' + \
+                     trip_EV["duration"] + ',' + str(len(outputs[e]["csStops"])) + ','+ \
+                     str(duration) + ','+ str(outputs[e]["algRuntime"]) + ','+ \
+                     batteryCap + ',' + str(evCharging)
+
+            csv.write(csvRow + '\n')
+
+def getXmlContent(file):
+    content = []
+    # Read the XML file
+    with open(file, "r") as file:
+        # Read each line in the file, readlines() returns a list of lines
+        content = file.readlines()
+        # Combine the lines in the list into a string
+        content = "".join(content)
+        out_content = BeautifulSoup(content, "lxml")
+
+    return out_content
 
 def getEVMainStartEnd(netFile):
     if "EVGrid" in netFile:

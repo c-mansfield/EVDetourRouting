@@ -31,6 +31,7 @@
 
     <output>
         <summary-output value="summary_100.xml"/>
+        <battery-output value="battery.out.xml"/>
     </output>
 
 </configuration>

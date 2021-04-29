@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 04/26/21 11:37:36 by Eclipse SUMO sumo Version v1_8_0+1742-ceeb7fe3f3
+<!-- generated on 04/29/21 21:45:38 by Eclipse SUMO sumo Version v1_8_0+1742-ceeb7fe3f3
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
@@ -11,10 +11,9 @@
 
     <output>
         <battery-output value="data/battery.out.xml"/>
-        <battery-output.precision value="4"/>
         <chargingstations-output value="data/EVGrid_chargingstations.xml"/>
         <summary-output value="data/summary-overview.xml"/>
-        <tripinfo-output value="tripinfo.xml"/>
+        <tripinfo-output value="data/tripinfo.xml"/>
     </output>
 
     <processing>
@@ -25,13 +24,13 @@
         <no-warnings value="true"/>
     </report>
 
-    <battery>
-        <device.battery.probability value="1"/>
-    </battery>
-
     <traci_server>
-        <remote-port value="52318"/>
+        <remote-port value="65452"/>
     </traci_server>
+
+    <random_number>
+        <seed value="4"/>
+    </random_number>
 
     <gui_only>
         <gui-settings-file value="data/gui-settings.cfg"/>
@@ -44,5 +43,11 @@
     <chargingStation id="chargingStationMID" totalEnergyCharged="0.00" chargingSteps="0"/>
     <chargingStation id="chargingStation_gneE123_0_2" totalEnergyCharged="0.00" chargingSteps="0"/>
     <chargingStation id="chargingStation_gneE132_0_3" totalEnergyCharged="0.00" chargingSteps="0"/>
-    <chargingStation id="chargingStation_gneE96_0_0" totalEnergyCharged="0.00" chargingSteps="0"/>
+    <chargingStation id="chargingStation_gneE96_0_0" totalEnergyCharged="13.33" chargingSteps="3">
+        <vehicle id="EV_350" type="electricvehicle" totalEnergyChargedIntoVehicle="13.33" chargingBegin="384.00" chargingEnd="386.00">
+            <step time="384.00" chargingStatus="chargingStopped" energyCharged="4.44" partialCharge="4.44" power="20000.00" efficiency="0.80" actualBatteryCapacity="2244.17" maximumBatteryCapacity="10000.00"/>
+            <step time="385.00" chargingStatus="chargingStopped" energyCharged="4.44" partialCharge="8.89" power="20000.00" efficiency="0.80" actualBatteryCapacity="2248.58" maximumBatteryCapacity="10000.00"/>
+            <step time="386.00" chargingStatus="chargingStopped" energyCharged="4.44" partialCharge="13.33" power="20000.00" efficiency="0.80" actualBatteryCapacity="2252.99" maximumBatteryCapacity="10000.00"/>
+        </vehicle>
+    </chargingStation>
 </chargingstations-export>

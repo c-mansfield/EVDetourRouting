@@ -100,8 +100,6 @@ def rerouter(start, end, EVID, Graph, hyperParams):
 def routeViaCS(startNode, endNode, evRangeAtSearch, csSearchNode, evRange, hyperParams):
     closestCSs = getNeighbouringCS(csSearchNode, endNode, evRangeAtSearch)
 
-    print('closestCSs: ', closestCSs)
-
     if len(closestCSs) > 0:
         chargingStation = getBestCS(closestCSs, hyperParams)
         csStartNode = graph.Net.getEdge(chargingStation.Lane).getFromNode().getID()
