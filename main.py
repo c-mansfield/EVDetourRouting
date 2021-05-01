@@ -17,13 +17,17 @@ else:
 import traci
 import sumolib
 
-def run(netFile, additionalFile, options=None, batteryCapacity=None):
+globalSeed = 0
+
+def run(netFile, additionalFile, options=None, batteryCapacity=None, paramType=None, seed=None):
     """execute the TraCI control loop"""
     step = 0
     graph = Graph(netFile, additionalFile)
     mWhList = []
-    mainStart, mainEnd = getEVMainStartEnd(netFile)
     evMainErrorCount = 0
+
+    global globalSeed
+    globalSeed = seed
 
     # EV outputs
     params = {}
@@ -33,19 +37,24 @@ def run(netFile, additionalFile, options=None, batteryCapacity=None):
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
 
+        upperVehicleLimit = (options.v * 10) + 199
+        
         # Add random EV routes
-        if step >= 200 and step <= 700 and step % 10 == 0:
+        if step >= 200 and step <= upperVehicleLimit and step % 10 == 0:
             fromEdge = getEVEdges(graph, "")
             toEdge = getEVEdges(graph, fromEdge)
             evName = 'EV_' + str(step)
 
-            params, algRuntime, csStops = add_ev(graph, fromEdge, toEdge, evName, options, batteryCapacity)
+            algRuntime, csStops = add_ev(graph, fromEdge, toEdge, evName, options, batteryCapacity, paramType)
             evs.append(evName)
             outputs[evName] = {}
 
             outputs[evName]["algRuntime"] = algRuntime
-            outputs[evName]["params"] = params
+            outputs[evName]["paramType"] = paramType
+            outputs[evName]["startingBatteryCapacity"] = batteryCapacity
             outputs[evName]["csStops"] = csStops
+            outputs[evName]["Start"] = fromEdge
+            outputs[evName]["End"] = toEdge
 
         step += 1
 
@@ -55,9 +64,9 @@ def run(netFile, additionalFile, options=None, batteryCapacity=None):
     sys.stdout.flush()
 
 # Adds electric vehicle wish to route
-def add_ev(graph, fromEdge, toEdge, evName, options, startingCapacity):
+def add_ev(graph, fromEdge, toEdge, evName, options, startingCapacity, paramType):
     vehicleID = evName
-    params = buildHyperParams(startingCapacity)
+    params = buildHyperParams(startingCapacity, paramType)
     algRuntime = ""
     csStops = []
 
@@ -81,15 +90,14 @@ def add_ev(graph, fromEdge, toEdge, evName, options, startingCapacity):
 
     else:
         start_time = time.time()
-        print('fromEdge: ', fromEdge)
-        print('toEdge: ', toEdge)
+
         route = traci.simulation.findRoute(fromEdge, toEdge)
         traci.vehicle.setRoute(vehicleID, route.edges)
         algRuntime = str(time.time() - start_time)
 
         print("No algorithm runtime ", vehicleID, ": ", algRuntime)
 
-    return params, algRuntime, csStops
+    return algRuntime, csStops
 
 # Adds vehicle type electric vehicle
 def add_ev_vtype():
@@ -121,20 +129,17 @@ def add_ev_vtype():
         print("</routes>")
         sys.stdout = original_stdout
 
-def buildHyperParams(startingCapacity):
+# Get hyper parameters used in the simualation
+def buildHyperParams(startingCapacity, paramType):
     hyperParams = {}
 
-    hyperParams["DistanceFromStart"] = 0.2
-    hyperParams["DistanceFromDivider"] = 0.2
-    hyperParams["Price"] = 0.2
-    hyperParams["VehiclesCharging"] = 0.2
-    hyperParams["ChargePerStep"] = 0.20
+    hyperParams["A"] = {"DistanceFromStart": 0.35, "DistanceFromDivider": 0.35, "Price": 0.10, "VehiclesCharging": 0.10, "ChargePerStep": 0.10, "MinimumSoC": 10, "GoalCapacityAtEnd": 10, "batteryCapacity": startingCapacity}
+    hyperParams["B"] = {"DistanceFromStart": 0.10, "DistanceFromDivider": 0.10, "Price": 0.6, "VehiclesCharging": 0.10, "ChargePerStep": 0.10, "MinimumSoC": 10, "GoalCapacityAtEnd": 10, "batteryCapacity": startingCapacity}
+    hyperParams["C"] = {"DistanceFromStart": 0.10, "DistanceFromDivider": 0.10, "Price": 0.10, "VehiclesCharging": 0.6, "ChargePerStep": 0.10, "MinimumSoC": 10, "GoalCapacityAtEnd": 10, "batteryCapacity": startingCapacity}
+    hyperParams["D"] = {"DistanceFromStart": 0.10, "DistanceFromDivider": 0.10, "Price": 0.10, "VehiclesCharging": 0.10, "ChargePerStep": 0.6, "MinimumSoC": 10, "GoalCapacityAtEnd": 10, "batteryCapacity": startingCapacity}
+    hyperParams["E"] = {"DistanceFromStart": 0.2, "DistanceFromDivider": 0.2, "Price": 0.2, "VehiclesCharging": 0.2, "ChargePerStep": 0.2, "MinimumSoC": 10, "GoalCapacityAtEnd": 10, "batteryCapacity": startingCapacity}
 
-    hyperParams["MinimumSoC"] = 10
-    hyperParams["GoalCapacityAtEnd"] = 10
-    hyperParams["batteryCapacity"] = startingCapacity
-
-    return hyperParams
+    return hyperParams[paramType]
 
 # Get run parameters
 def get_options():
@@ -145,19 +150,35 @@ def get_options():
                          default=False, help="Do not run algorithm on simulation")
     optParser.add_option("--c", action="store", type="int",
                          default=1, help="Simulation run cycles")
+    optParser.add_option("--v", action="store", type="int",
+                         default=50, help="EVs injected into simualation")
     options, args = optParser.parse_args()
     return options
 
 # Utility function to get random edges on network that allows EV vehicles
 def getEVEdges(graph, otherEdge):
     while True:
-        edge = random.choice(graph.Edges).getID()
+        global globalSeed
+        globalSeed += 1
+        random.seed(globalSeed)
 
-        if graph.Net.getEdge(edge).allows('evehicle') and otherEdge != edge:
+        edge = random.choice(graph.Edges).getID()
+        startNode = graph.Net.getEdge(edge).getToNode().getID()
+
+        try:
+            endNode = graph.Net.getEdge(otherEdge).getFromNode().getID()
+        except:
+            endNode = ""
+
+        if graph.Net.getEdge(edge).allows('evehicle') and otherEdge != edge \
+            and startNode != endNode:
             break
+        else:
+            globalSeed += 1
 
     return edge
 
+# Outputs data for all EVs in simulation
 def outputVehicleEndInfo(outputs, evs):
     trip_content = getXmlContent("data/tripinfo.xml")
     battery_content = getXmlContent("data/battery.out.xml")
@@ -169,7 +190,7 @@ def outputVehicleEndInfo(outputs, evs):
         f.close()
 
         if len(contents) == 0:
-            csv.write('Weightings,Route distance,Duration,CS stops,CS stop duration,Alg runtime,Capacity at end,EVs Charging\n')
+            csv.write('Weighting,Starting Battery Capacity (Wh),Route Distance (m),Travel Time (s),CS stops,CS Stop Duration (s),Algorithm Runtime (s),Remaining Battery Capacity At End (Wh),Number of EVs Charging,Start Edge,End Edge\n')
 
         for e in evs:
             duration = [cs.Duration for cs in outputs[e]["csStops"]]
@@ -183,13 +204,20 @@ def outputVehicleEndInfo(outputs, evs):
             except:
                 batteryCap = battery_EV[-2]["actualbatterycapacity"]
 
-            csvRow = str(outputs[e]["params"]).replace(",", "") + "," + trip_EV["routelength"] + ',' + \
+            csvRow = str(outputs[e]["paramType"]) + "," + str(outputs[e]["startingBatteryCapacity"]) + "," + trip_EV["routelength"] + ',' + \
                      trip_EV["duration"] + ',' + str(len(outputs[e]["csStops"])) + ','+ \
                      str(duration) + ','+ str(outputs[e]["algRuntime"]) + ','+ \
-                     batteryCap + ',' + str(evCharging)
+                     batteryCap + ',' + str(evCharging) + ',' + str(outputs[e]["Start"]) + ',' + str(outputs[e]["End"])
 
             csv.write(csvRow + '\n')
 
+# Clear the EV output file
+def clearOutput():
+    f = open("data/EV_Outputs.csv", "r+")
+    f.truncate(0)
+    f.close()
+
+# Get contents of an XML file
 def getXmlContent(file):
     content = []
     # Read the XML file
@@ -201,9 +229,3 @@ def getXmlContent(file):
         out_content = BeautifulSoup(content, "lxml")
 
     return out_content
-
-def getEVMainStartEnd(netFile):
-    if "EVGrid" in netFile:
-        return "gneE53", "-gneE64"
-
-    return "122066614#0", "167121171#7"

@@ -17,7 +17,7 @@ from sumolib import checkBinary  # noqa
 import traci  # noqa
 import randomTrips  # noqa
 
-def generate_trips():
+def generate_trips(seed):
     randomTrips.main(randomTrips.get_options([
         '-n', 'data/EVGrid.net.xml',
         '--route-file', 'data/randroutes.rou.xml',
@@ -26,34 +26,38 @@ def generate_trips():
         '-p', '100',
         '--flows', '100',
         '--random',
-        '--binomial', '4'
+        '--binomial', '4',
+        '--seed', str(x)
     ]))
 
 # Script entry point
 if __name__ == "__main__":
     options = main.get_options()
     batterys = [500, 1250, 2250]
+    paramTypes = ["A", "B", "C", "D", "E"]
 
     if options.nogui:
         sumoBinary = checkBinary('sumo')
     else:
         sumoBinary = checkBinary('sumo-gui')
 
+    main.clearOutput()
     main.add_ev_vtype()
 
-    for b in batterys:
-        print('Evaluating for battery capacity: ', str(b))
-        for x in range(options.c):
-            # Generates electric vehicle route and random trips
-            generate_trips()
+    for p in paramTypes:
+        for b in batterys:
+            print('Evaluating for battery capacity: ', str(b))
+            for x in range(options.c):
+                # Generates electric vehicle route and random trips
+                generate_trips(x)
 
-            # this is the normal way of using traci. sumo is started as a
-            # subprocess and then the python script connects and runs
-            traci.start([sumoBinary, "-c", "data/EVGrid.sumocfg",
-                                     "--tripinfo-output", "data/tripinfo.xml", "--additional-files", "data/EVGrid_additionals.add.xml",
-                                     "--chargingstations-output", "data/EVGrid_chargingstations.xml", "--no-warnings",
-                                     "--seed", str(x)])
+                # this is the normal way of using traci. sumo is started as a
+                # subprocess and then the python script connects and runs
+                traci.start([sumoBinary, "-c", "data/EVGrid.sumocfg",
+                                         "--tripinfo-output", "data/tripinfo.xml", "--additional-files", "data/EVGrid_additionals.add.xml",
+                                         "--chargingstations-output", "data/EVGrid_chargingstations.xml", "--no-warnings",
+                                         "--seed", str(x)])
 
-            main.run(netFile='data/EVGrid.net.xml',
-                     additionalFile='data/EVGrid_additionals.add.xml',
-                     options=options, batteryCapacity=b)
+                main.run(netFile='data/EVGrid.net.xml',
+                         additionalFile='data/EVGrid_additionals.add.xml',
+                         options=options, batteryCapacity=b, paramType=p, seed=x)

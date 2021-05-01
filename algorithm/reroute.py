@@ -144,6 +144,7 @@ def getBestCS(closestCSs, hyperParams):
 
     return max(closestCSs, key=lambda item: item.Score)
 
+# Utility function to catch 0 value errors on division
 def catchZeroDivision(x, y):
     try:
         return x / y
@@ -176,6 +177,8 @@ def calculateCSRefuel(evRange, chargingStations, routeLength, goalPercentage):
 
     return evRange, chargingStations
 
+# Finds route from start to end nodes using A* searching pathfinding Algorithm
+# Considers EV current vehicle battery and whether will suffice in making the journey
 def aStarSearch(start, end, evRange, csRouting):
     openList = set([start])
     closedList = set([])
@@ -312,6 +315,7 @@ def getMetersPerWatt():
     mWh = 3.3101451138736278
     return mWh
 
+# Get all the neighboring charging stations from within the range of the EVs current battery capacity
 def getNeighbouringCS(mainNode, endNode, radius):
     nodeCoords = graph.Net.getNode(mainNode).getCoord()
     endCoords = graph.Net.getNode(endNode).getCoord()

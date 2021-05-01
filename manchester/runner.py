@@ -33,24 +33,28 @@ def generate_trips():
 if __name__ == "__main__":
     options = main.get_options()
     batterys = [500, 1250, 2250]
+    paramTypes = ["A", "B", "C", "D", "E"]
 
     if options.nogui:
         sumoBinary = checkBinary('sumo')
     else:
         sumoBinary = checkBinary('sumo-gui')
 
+
+    main.clearOutput()
     main.add_ev_vtype()
 
-    for b in batterys:
-        print('Evaluating for starting battery capacity: ', str(b))
-        for x in range(options.c):
-            # this is the normal way of using traci. sumo is started as a
-            # subprocess and then the python script connects and runs
-            traci.start([sumoBinary, "-c", "data/osm.sumocfg",
-                                     "--tripinfo-output", "data/tripinfo.xml", "--additional-files", "data/Manchester_additionals.add.xml",
-                                     "--chargingstations-output", "data/Manchester_chargingstations.xml", "--no-warnings",
-                                     "--seed", str(x)])
+    for p in paramTypes:
+        for b in batterys:
+            print('Evaluating for starting battery capacity: ', str(b))
+            for x in range(options.c):
+                # this is the normal way of using traci. sumo is started as a
+                # subprocess and then the python script connects and runs
+                traci.start([sumoBinary, "-c", "data/osm.sumocfg",
+                                         "--tripinfo-output", "data/tripinfo.xml", "--additional-files", "data/Manchester_additionals.add.xml",
+                                         "--chargingstations-output", "data/Manchester_chargingstations.xml", "--no-warnings",
+                                         "--seed", str(x)])
 
-            main.run(netFile='data/osm.net.xml',
-                     additionalFile='data/Manchester_additionals.add.xml',
-                     options=options, batteryCapacity=b)
+                main.run(netFile='data/osm.net.xml',
+                         additionalFile='data/Manchester_additionals.add.xml',
+                         options=options, batteryCapacity=b, paramType=p, seed=x)

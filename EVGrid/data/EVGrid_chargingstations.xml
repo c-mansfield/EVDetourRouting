@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 04/29/21 21:45:38 by Eclipse SUMO sumo Version v1_8_0+1742-ceeb7fe3f3
+<!-- generated on 05/01/21 09:28:26 by Eclipse SUMO sumo Version v1_8_0+1742-ceeb7fe3f3
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
@@ -25,11 +25,11 @@
     </report>
 
     <traci_server>
-        <remote-port value="65452"/>
+        <remote-port value="50021"/>
     </traci_server>
 
     <random_number>
-        <seed value="4"/>
+        <seed value="0"/>
     </random_number>
 
     <gui_only>
@@ -40,14 +40,4 @@
 -->
 
 <chargingstations-export>
-    <chargingStation id="chargingStationMID" totalEnergyCharged="0.00" chargingSteps="0"/>
-    <chargingStation id="chargingStation_gneE123_0_2" totalEnergyCharged="0.00" chargingSteps="0"/>
-    <chargingStation id="chargingStation_gneE132_0_3" totalEnergyCharged="0.00" chargingSteps="0"/>
-    <chargingStation id="chargingStation_gneE96_0_0" totalEnergyCharged="13.33" chargingSteps="3">
-        <vehicle id="EV_350" type="electricvehicle" totalEnergyChargedIntoVehicle="13.33" chargingBegin="384.00" chargingEnd="386.00">
-            <step time="384.00" chargingStatus="chargingStopped" energyCharged="4.44" partialCharge="4.44" power="20000.00" efficiency="0.80" actualBatteryCapacity="2244.17" maximumBatteryCapacity="10000.00"/>
-            <step time="385.00" chargingStatus="chargingStopped" energyCharged="4.44" partialCharge="8.89" power="20000.00" efficiency="0.80" actualBatteryCapacity="2248.58" maximumBatteryCapacity="10000.00"/>
-            <step time="386.00" chargingStatus="chargingStopped" energyCharged="4.44" partialCharge="13.33" power="20000.00" efficiency="0.80" actualBatteryCapacity="2252.99" maximumBatteryCapacity="10000.00"/>
-        </vehicle>
-    </chargingStation>
 </chargingstations-export>
