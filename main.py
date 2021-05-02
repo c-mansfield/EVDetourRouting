@@ -27,7 +27,7 @@ def run(netFile, additionalFile, options=None, batteryCapacity=None, paramType=N
     evMainErrorCount = 0
 
     global globalSeed
-    globalSeed = seed
+    globalSeed = seed * 10000
 
     # EV outputs
     params = {}
@@ -38,7 +38,7 @@ def run(netFile, additionalFile, options=None, batteryCapacity=None, paramType=N
         traci.simulationStep()
 
         upperVehicleLimit = (options.v * 10) + 199
-        
+
         # Add random EV routes
         if step >= 200 and step <= upperVehicleLimit and step % 10 == 0:
             fromEdge = getEVEdges(graph, "")
@@ -69,6 +69,8 @@ def add_ev(graph, fromEdge, toEdge, evName, options, startingCapacity, paramType
     params = buildHyperParams(startingCapacity, paramType)
     algRuntime = ""
     csStops = []
+
+    print('params: ', params)
 
     # Generate vehicle
     traci.route.add('placeholder_trip_' + evName, [fromEdge])
@@ -190,7 +192,7 @@ def outputVehicleEndInfo(outputs, evs):
         f.close()
 
         if len(contents) == 0:
-            csv.write('Weighting,Starting Battery Capacity (Wh),Route Distance (m),Travel Time (s),CS stops,CS Stop Duration (s),Algorithm Runtime (s),Remaining Battery Capacity At End (Wh),Number of EVs Charging,Start Edge,End Edge\n')
+            csv.write('Weightings,Starting Battery Capacity (Wh),Route Distance (m),Travel Time (s),CS stops,CS Stop Duration (s),Algorithm Runtime (s),Remaining Battery Capacity At End (Wh),Number of EVs Charging,Start Edge,End Edge\n')
 
         for e in evs:
             duration = [cs.Duration for cs in outputs[e]["csStops"]]
@@ -202,12 +204,15 @@ def outputVehicleEndInfo(outputs, evs):
             try:
                 batteryCap = battery_EV[-1]["actualbatterycapacity"]
             except:
-                batteryCap = battery_EV[-2]["actualbatterycapacity"]
+                try:
+                    batteryCap = battery_EV[-2]["actualbatterycapacity"]
+                except:
+                    batteryCap = 0
 
-            csvRow = str(outputs[e]["paramType"]) + "," + str(outputs[e]["startingBatteryCapacity"]) + "," + trip_EV["routelength"] + ',' + \
-                     trip_EV["duration"] + ',' + str(len(outputs[e]["csStops"])) + ','+ \
+            csvRow = str(outputs[e]["paramType"]) + "," + str(outputs[e]["startingBatteryCapacity"]) + "," + str(trip_EV["routelength"]) + ',' + \
+                     str(trip_EV["duration"]) + ',' + str(len(outputs[e]["csStops"])) + ','+ \
                      str(duration) + ','+ str(outputs[e]["algRuntime"]) + ','+ \
-                     batteryCap + ',' + str(evCharging) + ',' + str(outputs[e]["Start"]) + ',' + str(outputs[e]["End"])
+                     str(batteryCap) + ',' + str(evCharging) + ',' + str(outputs[e]["Start"]) + ',' + str(outputs[e]["End"])
 
             csv.write(csvRow + '\n')
 

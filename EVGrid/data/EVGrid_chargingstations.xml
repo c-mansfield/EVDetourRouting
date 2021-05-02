@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 05/01/21 09:28:26 by Eclipse SUMO sumo Version v1_8_0+1742-ceeb7fe3f3
+<!-- generated on 02/05/2021 18:55:28 by Eclipse SUMO GUI Version 1.9.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
@@ -25,7 +25,7 @@
     </report>
 
     <traci_server>
-        <remote-port value="50021"/>
+        <remote-port value="55813"/>
     </traci_server>
 
     <random_number>
@@ -40,4 +40,8 @@
 -->
 
 <chargingstations-export>
+    <chargingStation id="chargingStationMID" totalEnergyCharged="0.00" chargingSteps="0"/>
+    <chargingStation id="chargingStation_gneE123_0_2" totalEnergyCharged="0.00" chargingSteps="0"/>
+    <chargingStation id="chargingStation_gneE132_0_3" totalEnergyCharged="0.00" chargingSteps="0"/>
+    <chargingStation id="chargingStation_gneE96_0_0" totalEnergyCharged="0.00" chargingSteps="0"/>
 </chargingstations-export>

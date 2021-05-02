@@ -33,7 +33,11 @@ def generate_trips(seed):
 # Script entry point
 if __name__ == "__main__":
     options = main.get_options()
+
+    # Define starting batterys wish EVs to have in simulation
     batterys = [500, 1250, 2250]
+
+    # Define weightings wish to run on EVs in simulation
     paramTypes = ["A", "B", "C", "D", "E"]
 
     if options.nogui:
