@@ -1,5 +1,6 @@
 # EVDetourRouting
 Efficient Detour Computation Scheme for Electric Vehicles
+[mdpi.com/2079-9292/11/5/803](mdpi.com/2079-9292/11/5/803)
 
 ## Usage (Tested on Windows 10 Pro V: 20H2)
 
